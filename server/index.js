@@ -69,6 +69,20 @@ app.get("/api/search/name/:name/", async (req, res) => {
   }
 });
 
+//update a projects
+
+app.put("/api/projects/:id", async (req, res) => {
+  try {
+   const { id } = req.params;
+   const {userId,edit_date,images,url,description,name } = req.body;
+   const updateProduct = await pool.query( "UPDATE projects SET user_id = $1,edit_date = $2,images = $3,url = $4,description = $5 ,name = $6 WHERE projectid = $7", [userId,edit_date,images,url,description,name,id]  );
+
+     res.json("projects was updated!");
+   } catch (err) {
+    console.error(err.message);
+  }
+ });
+
 //delete a projects
 
 app.delete("/api/projects/:id", async (req, res) => {
