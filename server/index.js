@@ -19,21 +19,41 @@ app.get("/", async (req, res) => {
 app.get("/api/users", async (req, res) => {
   try {
     const name = req.params.name || req.query.name;
-    const size = req.query.size || null;
     const order = req.query.order || 'username';
     const filter = req.query.filter || 'asc';
     let query;
-    if (size) {
-      if (order) query = `SELECT * FROM users ORDER BY ${order} ${filter} limit ${size}`;
-      else query = `SELECT * FROM users limit ${size}`;
+    if (name) {
+      if (order) query = `SELECT * FROM users ORDER BY ${order} ${filter}`;
+      else query = `SELECT * FROM users`;
     } else if (order) {
       query = `SELECT * FROM users ORDER BY ${order} ${filter}`;
     } else {
       query = `SELECT * FROM users`;
     }
-    const allProducts = await pool.query(query);
-    // const allProducts = await pool.query("SELECT COUNT(*) as count FROM public");
-    res.json(allProducts.rows);
+    const allusers = await pool.query(query);
+    res.json(allusers.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+//Get all users
+app.get("/api/allprojects", async (req, res) => {
+  try {
+    const name = req.params.name || req.query.name;
+    const order = req.query.order || 'name';
+    const filter = req.query.filter || 'asc';
+    let query;
+    if (name) {
+      if (order) query = `SELECT * FROM projects ORDER BY ${order} ${filter}`;
+      else query = `SELECT * FROM projects`;
+    } else if (order) {
+      query = `SELECT * FROM projects ORDER BY ${order} ${filter}`;
+    } else {
+      query = `SELECT * FROM projects`;
+    }
+    const allProjects = await pool.query(query);
+    res.json(allProjects.rows);
   } catch (err) {
     console.error(err.message);
   }
@@ -42,20 +62,14 @@ app.get("/api/users", async (req, res) => {
 //Get projects by name
 app.get("/api/search/projects/:name/", async (req, res) => {
   try {
-    const name = req.params.name || req.query.name;
+    const name = req.params.name || req.query.description;
     const order = req.query.order || 'name';
-    const description = req.query.description;
-    console.log("the description "+description)
     const filter = req.query.filter || 'asc';
     let query;
+
     if (name) {
-      if (order) query = `SELECT * FROM projects WHERE LOWER(name) LIKE LOWER($1) ORDER BY ${order} ${filter} `;
+      if (order) query = `SELECT * FROM projects WHERE LOWER(name) LIKE LOWER($1) ORDER BY ${order} ${filter}`;
       else query = `SELECT * FROM projects WHERE LOWER(name) LIKE LOWER($1)`;
-    } 
-     if (description) {
-      query = `SELECT * FROM projects WHERE LOWER(description) LIKE LOWER($1) ORDER BY ${order} ${filter}`;
-    } else {
-      query = `SELECT * FROM projects WHERE LOWER(name) LIKE LOWER($1)`;
     }
     await pool.query(query, [
       '%' + name + '%'
@@ -71,6 +85,7 @@ app.get("/api/search/projects/:name/", async (req, res) => {
 });
 
 //update a projects
+
 app.put("/api/projects/:id", async (req, res) => {
   try {
    const { id } = req.params;
@@ -86,18 +101,17 @@ app.put("/api/projects/:id", async (req, res) => {
 //delete a projects
 
 app.delete("/api/projects/:id", async (req, res) => {
-
   try {
     const { id } = req.params;
     const deleteProduct = await pool.query("DELETE FROM projects WHERE projectid = $1", [
       id
     ]);
-    res.json("Projects was deleted!");
+    res.json("Project was deleted!");
   } catch (err) {
     console.log(err.message);
   }
 })
 
-app.listen(process.env.PORT || 4000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("server has started on port 5000");
 });
