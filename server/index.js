@@ -40,21 +40,22 @@ app.get("/api/users", async (req, res) => {
 });
 
 //Get projects by name
-app.get("/api/search/name/:name/", async (req, res) => {
+app.get("/api/search/projects/:name/", async (req, res) => {
   try {
     const name = req.params.name || req.query.name;
     const order = req.query.order || 'name';
-    const description = req.query.description || req.query.description;
+    const description = req.query.description;
+    console.log("the description "+description)
     const filter = req.query.filter || 'asc';
     let query;
-
     if (name) {
-      if (order) query = `SELECT * FROM projects WHERE LOWER(product_name) LIKE LOWER($1) ORDER BY ${order} ${filter} limit ${size}`;
-      else query = `SELECT * FROM projects WHERE LOWER(product_name) LIKE LOWER($1) limit ${size}`;
-    } else if (description) {
+      if (order) query = `SELECT * FROM projects WHERE LOWER(name) LIKE LOWER($1) ORDER BY ${order} ${filter} `;
+      else query = `SELECT * FROM projects WHERE LOWER(name) LIKE LOWER($1)`;
+    } 
+     if (description) {
       query = `SELECT * FROM projects WHERE LOWER(description) LIKE LOWER($1) ORDER BY ${order} ${filter}`;
     } else {
-      query = `SELECT * FROM projects WHERE LOWER(product_name) LIKE LOWER($1)`;
+      query = `SELECT * FROM projects WHERE LOWER(name) LIKE LOWER($1)`;
     }
     await pool.query(query, [
       '%' + name + '%'
@@ -70,7 +71,6 @@ app.get("/api/search/name/:name/", async (req, res) => {
 });
 
 //update a projects
-
 app.put("/api/projects/:id", async (req, res) => {
   try {
    const { id } = req.params;
@@ -86,6 +86,7 @@ app.put("/api/projects/:id", async (req, res) => {
 //delete a projects
 
 app.delete("/api/projects/:id", async (req, res) => {
+
   try {
     const { id } = req.params;
     const deleteProduct = await pool.query("DELETE FROM projects WHERE projectid = $1", [
