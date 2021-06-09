@@ -1,44 +1,42 @@
 if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config();
+  require("dotenv").config();
 }
 
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 3000;
-const compression = require('compression');
+const compression = require("compression");
 const pool = require("./db/db");
-const flash = require('connect-flash');
-const session = require('express-session');
-const passport = require('passport');
-const { ensureAuthenticated } = require("./routes/auth/auth")
+const flash = require("connect-flash");
+const session = require("express-session");
+const passport = require("passport");
+const { ensureAuthenticated } = require("./routes/auth/auth");
 
+const login = require("./routes/auth/login");
+const register = require("./routes/auth/register");
+const logout = require("./routes/auth/logout");
 
-const login = require('./routes/auth/login');
-const register = require('./routes/auth/register');
-const logout = require('./routes/auth/logout');
+const createFw = require("./routes/final_work/create");
+const deleteFw = require("./routes/final_work/delete");
+const getAllFw = require("./routes/final_work/get-all");
+const getSingleFw = require("./routes/final_work/get-single");
+const updateFw = require("./routes/final_work/update");
 
-const createFw = require('./routes/final_work/create');
-const deleteFw = require('./routes/final_work/delete');
-const getAllFw = require('./routes/final_work/get-all');
-const getSingleFw = require('./routes/final_work/get-single');
-const updateFw = require('./routes/final_work/update');
-
-const addUser = require('./routes/users/add');
-const deleteUser = require('./routes/users/delete');
-const getAllUsers = require('./routes/users/get-all');
-const getSingleUser = require('./routes/users/get-single');
-const updateUser = require('./routes/users/update');
-
+const addUser = require("./routes/users/add");
+const deleteUser = require("./routes/users/delete");
+const getAllUsers = require("./routes/users/get-all");
+const getSingleUser = require("./routes/users/get-single");
+const updateUser = require("./routes/users/update");
 
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
 });
 
 app.use(compression());
@@ -46,35 +44,37 @@ app.use(cors());
 app.use(express.json());
 
 //express session
-app.use(session({
-    secret: 'secret',
+app.use(
+  session({
+    secret: "secret",
     resave: true,
-    saveUninitialized: true
-}));
+    saveUninitialized: true,
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
-require("./routes/auth/passport")(passport)
+require("./routes/auth/passport")(passport);
 
 app.get("/", async (req, res) => {
-    res.send('FP-IV-API');
-})
+  res.send("FP-IV-API");
+});
 
 app.get("/error", async (req, res) => {
-    res.send("error page");
-})
+  res.send("error page");
+});
 
 app.get("/please-connect", async (req, res) => {
-    res.send("please-connect");
-})
+  res.send("please-connect");
+});
 
 app.get("/logged-out", async (req, res) => {
-    res.send("you are logged out");
-})
+  res.send("you are logged out");
+});
 
 app.get("/logged-in", ensureAuthenticated, async (req, res) => {
-    res.send("you are logged in");
-})
+  res.send("you are logged in");
+});
 
 app.use("/login", login);
 app.use("/register", register);
@@ -93,5 +93,5 @@ app.use("/users/get-single", getSingleUser);
 app.use("/users/update", updateUser);
 
 app.listen(port, () => {
-    console.log(`http://localhost:${port}`);
+  console.log(`http://localhost:${port}`);
 });

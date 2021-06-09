@@ -3,7 +3,7 @@ const router = express.Router();
 const pool = require("../../db/db");
 
 router.post("/", async (req, res) => {
-    res.send('update-fw route!');
+  res.send("update-fw route!");
 });
 
 module.exports = router;

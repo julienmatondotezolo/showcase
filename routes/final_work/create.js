@@ -3,30 +3,16 @@ const router = express.Router();
 const pool = require("../../db/db");
 
 router.post("/", async (req, res) => {
-    console.log(req.user);
-    /* try {
-        const {
-            name,
-            description,
-            url,
-            images,
-            userId
-        } = req.body;
+  let { projectname, description, url, images } = req.body;
+  let userId = req.user.userid;
 
-        const values = [
-            email,
-            password,
-            username,
-        ]
-        const newUser = await pool.query(
-            'INSERT INTO users(email, password, username) VALUES($1, $2, $3) RETURNING *'
-            , values)
-        console.log(newUser.rows[0])
-
-        res.json(newUser.rows[0]);
-    } catch (err) {
-        console.error(err.message);
-    } */
+  let values = [projectname, description, url, images, userId];
+  const newProject = await pool.query(
+    "INSERT INTO projects(name, description, url, images, user_id) VALUES($1, $2, $3, $4, $5) RETURNING *",
+    values
+  );
+  console.log(newProject.rows[0]);
+  res.json(newProject.rows[0]);
 });
 
 module.exports = router;
