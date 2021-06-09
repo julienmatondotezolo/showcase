@@ -98,6 +98,6 @@ app.delete("/api/projects/:id", async (req, res) => {
   }
 })
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 4000, () => {
   console.log("server has started on port 5000");
 });
