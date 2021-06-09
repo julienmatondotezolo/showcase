@@ -69,23 +69,6 @@ app.get("/api/search/name/:name/", async (req, res) => {
   }
 });
 
-//update a projects
-
-// app.put("/api/products/:id", async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { description } = req.body;
-//     const updateProduct = await pool.query(
-//       "UPDATE projects SET description = $1 WHERE id = $2",
-//       [description, id]
-//     );
-
-//     res.json("projects was updated!");
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// });
-
 //delete a projects
 
 app.delete("/api/projects/:id", async (req, res) => {
