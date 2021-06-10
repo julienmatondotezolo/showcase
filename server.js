@@ -21,6 +21,7 @@ const createFw = require("./routes/final_work/create");
 const deleteFw = require("./routes/final_work/delete");
 const getAllFw = require("./routes/final_work/get-all");
 const getSingleFw = require("./routes/final_work/get-single");
+const getAllUserProjects = require("./routes/final_work/get-user-projects");
 const updateFw = require("./routes/final_work/update");
 
 const addUser = require("./routes/users/add");
@@ -84,13 +85,18 @@ app.use("/final-work/create", ensureAuthenticated, createFw);
 app.use("/final-work/delete", ensureAuthenticated, deleteFw);
 app.use("/final-work/get-all", getAllFw);
 app.use("/final-work/get-single", getSingleFw);
+app.use(
+  "/final-work/get-user-projects",
+  ensureAuthenticated,
+  getAllUserProjects
+);
 app.use("/final-work/update", ensureAuthenticated, updateFw);
 
 app.use("/users/add", addUser);
-app.use("/users/delete-", deleteUser);
+app.use("/users/delete", ensureAuthenticated, deleteUser);
 app.use("/users/get-all", getAllUsers);
 app.use("/users/get-single", getSingleUser);
-app.use("/users/update", updateUser);
+app.use("/users/update", ensureAuthenticated, updateUser);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
