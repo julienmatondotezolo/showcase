@@ -10,6 +10,18 @@
     },
     "tags": [
       {
+        "name": "Login",
+        "description": "login on user account"
+      },
+      {
+        "name": "Logout",
+        "description": "login on user account"
+      },
+      {
+        "name": "Register",
+        "description": "login on user account"
+      },
+      {
         "name": "user",
         "description": "Operations about user"
       }
@@ -50,6 +62,36 @@
             },
             "404": {
               "description": "User not found"
+            }
+          }
+        }
+      },
+      "/final-work/delete/{projectid}": {
+        "delete": {
+          "tags": [
+            "Projects"
+          ],
+          "summary": "Deletes a project",
+          "description": "",
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "projectid",
+              "in": "path",
+              "description": "name that need to be updated",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "400": {
+              "description": "Invalid ID supplied"
+            },
+            "404": {
+              "description": "user not found"
             }
           }
         }
@@ -157,7 +199,7 @@
             "user"
           ],
           "summary": "Create user",
-          "description": "This can only be done by the logged in user.",
+          "description": "This can only be done by the admin.",
           "operationId": "createUser",
           "produces": [
             "application/xml",
@@ -181,10 +223,76 @@
           }
         }
       },
-      "/user/login": {
+      "/Register": {
         "get": {
           "tags": [
-            "user"
+            "Register"
+          ],
+          "summary": "register user into the website",
+          "description": "",
+          "produces": [
+            "application/xml",
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "username",
+              "in": "query",
+              "description": "The user name for registration",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "email",
+              "in": "query",
+              "description": "The email for registration",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "password",
+              "in": "query",
+              "description": "The password for login",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "password2",
+              "in": "query",
+              "description": "The confirmation of the password for registration",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": {
+                "type": "string"
+              },
+              "headers": {
+                "X-Rate-Limit": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "calls per hour allowed by the user"
+                },
+                "X-Expires-After": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "date in UTC when token expires"
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid username/password supplied"
+            }
+          }
+        }
+      },
+      "/login": {
+        "get": {
+          "tags": [
+            "Login"
           ],
           "summary": "Logs user into the system",
           "description": "",
@@ -234,10 +342,10 @@
           }
         }
       },
-      "/user/logout": {
+      "/logout": {
         "get": {
           "tags": [
-            "user"
+            "Logout"
           ],
           "summary": "Logs out current logged in user session",
           "description": "",
@@ -275,10 +383,9 @@
             {
               "name": "userid",
               "in": "path",
-              "description": "user id to delete",
               "required": true,
               "type": "integer",
-              "format": "int64"
+              "description": "user id to delete"
             }
           ],
           "responses": {
@@ -286,7 +393,7 @@
               "description": "Invalid ID supplied"
             },
             "404": {
-              "description": "Pet not found"
+              "description": "user not found"
             }
           }
         }
@@ -390,27 +497,39 @@
           },
           "status": {
             "type": "boolean",
-            "format": "int32",
-            "description": "User Status"
+            "format": "int32"
           }
         },
         "xml": {
-          "name": "User"
+          "name": "Users"
         }
       },
       "Projects": {
         "type": "object",
         "properties": {
-          "id": {
+          "projectid": {
             "type": "integer",
             "format": "int64"
           },
           "name": {
             "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "userid": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string"
+          },
+          "images": {
+            "type": "string"
           }
         },
         "xml": {
-          "name": "Category"
+          "name": "Projects"
         }
       }
     },
