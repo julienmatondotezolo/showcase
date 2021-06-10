@@ -1,540 +1,507 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "description": "This is the developer documentation for the backend server showcase. ",
-      "version": "1.0.0",
-      "title": "Showcase API documentation",
-      "contact": {
-        "email": "apiteam@swagger.io"
-      }
-    },
-    "tags": [
-      {
-        "name": "Login",
-        "description": "login on user account"
-      },
-      {
-        "name": "Logout",
-        "description": "login on user account"
-      },
-      {
-        "name": "Register",
-        "description": "login on user account"
-      },
-      {
-        "name": "user",
-        "description": "Operations about user"
-      }
-    ],
-    "paths": {
-      "/final-work/{projectid}": {
-        "put": {
-          "tags": [
-            "Projects"
-          ],
-          "summary": "Updated finalwork",
-          "description": "Update a finalwork with projectid.",
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "projectid",
-              "in": "path",
-              "description": "name that need to be updated",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "in": "body",
-              "name": "body",
-              "description": "Updated user object",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/Projects"
-              }
-            }
-          ],
-          "responses": {
-            "400": {
-              "description": "Invalid user supplied"
-            },
-            "404": {
-              "description": "User not found"
-            }
-          }
-        }
-      },
-      "/final-work/delete/{projectid}": {
-        "delete": {
-          "tags": [
-            "Projects"
-          ],
-          "summary": "Deletes a project",
-          "description": "",
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "projectid",
-              "in": "path",
-              "description": "name that need to be updated",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "400": {
-              "description": "Invalid ID supplied"
-            },
-            "404": {
-              "description": "user not found"
-            }
-          }
-        }
-      },
-      "/final-work/create": {
-        "post": {
-          "tags": [
-            "Projects"
-          ],
-          "summary": "Add a project to the system",
-          "description": "",
-          "consumes": [
-            "application/json",
-            "application/xml"
-          ],
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "description": "project object that needs to be added",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/Projects"
-              }
-            }
-          ],
-          "responses": {
-            "405": {
-              "description": "Invalid input"
-            }
-          }
-        }
-      },
-      "/final-work/get-all": {
-        "get": {
-          "tags": [
-            "Projects"
-          ],
-          "summary": "Get all users",
-          "description": "",
-          "operationId": "getUserByName",
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/Users"
-              }
-            },
-            "400": {
-              "description": "Invalid username supplied"
-            },
-            "404": {
-              "description": "User not found"
-            }
-          }
-        }
-      },
-      "/final-work/get-single/{name}": {
-        "get": {
-          "tags": [
-            "Projects"
-          ],
-          "summary": "get finalwork with name",
-          "description": "",
-          "parameters": [
-            {
-              "name": "name",
-              "in": "path",
-              "description": "name that need to be updated",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/Users"
-              }
-            },
-            "400": {
-              "description": "Invalid username supplied"
-            },
-            "404": {
-              "description": "User not found"
-            }
-          }
-        }
-      },
-      "/user": {
-        "post": {
-          "tags": [
-            "user"
-          ],
-          "summary": "Create user",
-          "description": "This can only be done by the admin.",
-          "operationId": "createUser",
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "in": "body",
-              "name": "body",
-              "description": "Created user object",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/Users"
-              }
-            }
-          ],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        }
-      },
-      "/Register": {
-        "get": {
-          "tags": [
-            "Register"
-          ],
-          "summary": "register user into the website",
-          "description": "",
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "username",
-              "in": "query",
-              "description": "The user name for registration",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "email",
-              "in": "query",
-              "description": "The email for registration",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "password",
-              "in": "query",
-              "description": "The password for login",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "password2",
-              "in": "query",
-              "description": "The confirmation of the password for registration",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "type": "string"
-              },
-              "headers": {
-                "X-Rate-Limit": {
-                  "type": "integer",
-                  "format": "int32",
-                  "description": "calls per hour allowed by the user"
-                },
-                "X-Expires-After": {
-                  "type": "string",
-                  "format": "date-time",
-                  "description": "date in UTC when token expires"
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid username/password supplied"
-            }
-          }
-        }
-      },
-      "/login": {
-        "get": {
-          "tags": [
-            "Login"
-          ],
-          "summary": "Logs user into the system",
-          "description": "",
-          "operationId": "loginUser",
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "username",
-              "in": "query",
-              "description": "The user name for login",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "name": "password",
-              "in": "query",
-              "description": "The password for login in clear text",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "type": "string"
-              },
-              "headers": {
-                "X-Rate-Limit": {
-                  "type": "integer",
-                  "format": "int32",
-                  "description": "calls per hour allowed by the user"
-                },
-                "X-Expires-After": {
-                  "type": "string",
-                  "format": "date-time",
-                  "description": "date in UTC when token expires"
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid username/password supplied"
-            }
-          }
-        }
-      },
-      "/logout": {
-        "get": {
-          "tags": [
-            "Logout"
-          ],
-          "summary": "Logs out current logged in user session",
-          "description": "",
-          "operationId": "logoutUser",
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "parameters": [],
-          "responses": {
-            "default": {
-              "description": "successful operation"
-            }
-          }
-        }
-      },
-      "/user/delete/{userid}": {
-        "delete": {
-          "tags": [
-            "user"
-          ],
-          "summary": "Deletes a user",
-          "description": "",
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "userid",
-              "in": "header",
-              "required": false,
-              "type": "string"
-            },
-            {
-              "name": "userid",
-              "in": "path",
-              "required": true,
-              "type": "integer",
-              "description": "user id to delete"
-            }
-          ],
-          "responses": {
-            "400": {
-              "description": "Invalid ID supplied"
-            },
-            "404": {
-              "description": "user not found"
-            }
-          }
-        }
-      },
-      "/user/get-single/{username}": {
-        "get": {
-          "tags": [
-            "user"
-          ],
-          "summary": "Get user by user name",
-          "description": "",
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "username",
-              "in": "path",
-              "description": "The name that needs to be fetched. Use user1 for testing. ",
-              "required": true,
-              "type": "string"
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/Users"
-              }
-            },
-            "400": {
-              "description": "Invalid username supplied"
-            },
-            "404": {
-              "description": "User not found"
-            }
-          }
-        }
-      },
-      "/user/update/{userid}": {
-        "put": {
-          "tags": [
-            "user"
-          ],
-          "summary": "Updated user",
-          "description": "This can only be done by the logged in user.",
-          "operationId": "updateUser",
-          "produces": [
-            "application/xml",
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "userid",
-              "in": "path",
-              "description": "name that need to be updated",
-              "required": true,
-              "type": "string"
-            },
-            {
-              "in": "body",
-              "name": "body",
-              "description": "Updated user object",
-              "required": true,
-              "schema": {
-                "$ref": "#/definitions/Users"
-              }
-            }
-          ],
-          "responses": {
-            "400": {
-              "description": "Invalid user supplied"
-            },
-            "404": {
-              "description": "User not found"
-            }
-          }
-        }
-      }
-    },
-    "definitions": {
-      "Users": {
-        "type": "object",
-        "properties": {
-          "userid": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "username": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string"
-          },
-          "status": {
-            "type": "boolean",
-            "format": "int32"
-          }
-        },
-        "xml": {
-          "name": "Users"
-        }
-      },
-      "Projects": {
-        "type": "object",
-        "properties": {
-          "projectid": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "userid": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "url": {
-            "type": "string"
-          },
-          "images": {
-            "type": "string"
-          }
-        },
-        "xml": {
-          "name": "Projects"
-        }
-      }
-    },
-    "externalDocs": {
-      "description": "Find out more about Swagger",
-      "url": "http://swagger.io"
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the developer documentation for the backend server showcase. ",
+    "version": "1.0.0",
+    "title": "Showcase API documentation",
+    "contact": {
+      "email": "apiteam@swagger.io"
     }
+  },
+  "tags": [
+    {
+      "name": "Login",
+      "description": "login on user account"
+    },
+    {
+      "name": "Logout",
+      "description": "login on user account"
+    },
+    {
+      "name": "Register",
+      "description": "login on user account"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user"
+    }
+  ],
+  "paths": {
+    "/final-work/{projectid}": {
+      "put": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Updated finalwork",
+        "description": "Update a finalwork with projectid.",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "projectid",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/final-work/delete/{projectid}": {
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Deletes a project",
+        "description": "",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "projectid",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "user not found"
+          }
+        }
+      }
+    },
+    "/final-work/create": {
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Add a project to the system",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "project object that needs to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/final-work/get-all": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get all users",
+        "description": "",
+        "operationId": "getUserByName",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/final-work/get-single/{name}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "get finalwork with name",
+        "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "This can only be done by the admin.",
+        "operationId": "createUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/Register": {
+      "post": {
+        "tags": [
+          "Register"
+        ],
+        "summary": "register user into the website",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "project object that needs to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Logs user into the system",
+        "description": "",
+        "operationId": "loginUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "The user name for login",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The password for login in clear text",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            },
+            "headers": {
+              "X-Rate-Limit": {
+                "type": "integer",
+                "format": "int32",
+                "description": "calls per hour allowed by the user"
+              },
+              "X-Expires-After": {
+                "type": "string",
+                "format": "date-time",
+                "description": "date in UTC when token expires"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": [
+          "Logout"
+        ],
+        "summary": "Logs out current logged in user session",
+        "description": "",
+        "operationId": "logoutUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/user/delete/{userid}": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Deletes a user",
+        "description": "",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userid",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "user id to delete"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "user not found"
+          }
+        }
+      }
+    },
+    "/user/get-single/{username}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get user by user name",
+        "description": "",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user/update/{userid}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Updated user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "updateUser",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Users": {
+      "type": "object",
+      "properties": {
+        "userid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "status": {
+          "type": "boolean",
+          "format": "int32"
+        }
+      },
+      "xml": {
+        "name": "Users"
+      }
+    },
+    "Projects": {
+      "type": "object",
+      "properties": {
+        "projectid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "userid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "url": {
+          "type": "string"
+        },
+        "images": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Projects"
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
   }
+}
