@@ -534,7 +534,7 @@
       }
     },
     "externalDocs": {
-      "description": "Find out more about Swagger",
+      "description": "Check out the Showcase website API",
       "url": "http://swagger.io"
     }
   }
