@@ -13,6 +13,10 @@ const session = require("express-session");
 const passport = require("passport");
 const { ensureAuthenticated } = require("./routes/auth/auth");
 
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocs = require('./swagger.json')
+
 const login = require("./routes/auth/login");
 const register = require("./routes/auth/register");
 const logout = require("./routes/auth/logout");
@@ -77,6 +81,7 @@ app.get("/logged-in", ensureAuthenticated, async (req, res) => {
   res.send("you are logged in");
 });
 
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/login", login);
 app.use("/register", register);
 app.use("/logout", logout);
