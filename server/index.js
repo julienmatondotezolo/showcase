@@ -3,6 +3,11 @@ const compression = require('compression');
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+
+const swaggerDocs = require('../swagger.json')
+
 
 // Compress all HTTP responses
 app.use(compression());
@@ -111,6 +116,7 @@ app.delete("/api/projects/:id", async (req, res) => {
     console.log(err.message);
   }
 })
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.listen(process.env.PORT || 5000, () => {
   console.log("server has started on port 5000");
