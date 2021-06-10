@@ -29,7 +29,7 @@ router.put("/", async (req, res) => {
   }
 
   async function editUserInDb(username, email, password, role, avatar) {
-    let user_id = req.user?.userid;
+    let user_id = req.user.userid;
     let edit_date = new Date().toISOString().slice(0, 19).replace("T", " ");
 
     const updateUser = await pool.query(
