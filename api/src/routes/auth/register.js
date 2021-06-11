@@ -39,8 +39,8 @@ router.post("/", async (req, res) => {
         ]
         const newUser = await pool.query(
             'INSERT INTO users(email, password, username) VALUES($1, $2, $3) RETURNING *', values)
-        console.log(newUser.rows[0])
-        res.json(newUser.rows[0]);
+        console.log("Succesfully registered")
+        res.json("Succesfully registered");
     }
 
     function checkCredentials(username, email, password, password2) {
