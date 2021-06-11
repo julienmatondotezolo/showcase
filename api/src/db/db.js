@@ -8,4 +8,8 @@ const pool = new Pool({
   },
 });
 
+// const pool = new Pool({
+//   connectionString: process.env.PG_CONNECTION_STRING,
+// });
+
 module.exports = pool;
