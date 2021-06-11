@@ -104,11 +104,9 @@
         "summary": "Add a project to the system",
         "description": "",
         "consumes": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "parameters": [
@@ -123,6 +121,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Successfully added to db"
+          },
           "405": {
             "description": "Invalid input"
           }
@@ -295,7 +296,7 @@
         }
       }
     },
-    "/user/add": {
+    "/users/add": {
       "post": {
         "tags": [
           "user"
@@ -323,7 +324,7 @@
         }
       }
     },
-    "/user/delete/{userid}": {
+    "/users/delete/{userid}": {
       "delete": {
         "tags": [
           "user"
@@ -359,7 +360,7 @@
         }
       }
     },
-    "/user/get-all": {
+    "/users/get-all": {
       "get": {
         "tags": [
           "user"
@@ -382,7 +383,7 @@
         }
       }
     },
-    "/user/get-single/{username}": {
+    "/users/get-single/{username}": {
       "get": {
         "tags": [
           "user"
@@ -418,7 +419,7 @@
         }
       }
     },
-    "/user/update/{userid}": {
+    "/users/update/{userid}": {
       "put": {
         "tags": [
           "user"
