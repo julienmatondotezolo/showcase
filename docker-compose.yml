@@ -1,0 +1,26 @@
+version: "3.2"
+
+services:
+  api:
+    container_name: showcaseapi
+    build: ./api
+    environment:
+      PG_CONNECTION_STRING: postgres://skbfcfdhqpkrak:4dcd205939f05d533727f9d4e09de8ac8931dfc38ea715f74ce1bab9007dff60@ec2-63-32-7-190.eu-west-1.compute.amazonaws.com:5432/dc8a32fluj4f4i
+
+    ports:
+      - 3000:3000
+    volumes:
+      - ./api/src:/usr/app/api/src
+
+
+  db:
+    container_name: showcasedb 
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 4dcd205939f05d533727f9d4e09de8ac8931dfc38ea715f74ce1bab9007dff60
+      POSTGRES_USER: skbfcfdhqpkrak
+      POSTGRES_DB: dc8a32fluj4f4i
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - 5432:5432
