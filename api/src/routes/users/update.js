@@ -4,11 +4,18 @@ const pool = require("../../db/db");
 const bcrypt = require("bcrypt");
 
 router.put("/", async (req, res) => {
-  res.send("update-user route!");
+
 
   const { email, password, password2, username, role, avatar } = req.body;
   if (checkCredentials(username, email, password, password2)) {
     encryptPasswordAndEditUserInDb(username, email, password, role, avatar);
+  } else {
+
+    res
+    .status(400)
+    .send(
+      `Bad Request: wrong params or undefined problem. Code: ${res.statusCode} `
+    );
   }
 
   function encryptPasswordAndEditUserInDb(
@@ -35,6 +42,12 @@ router.put("/", async (req, res) => {
     const updateUser = await pool.query(
       "UPDATE users SET email = $1, password = $2, username = $3, role = $4, avatar = $5, edit_date = $6 WHERE userid = $7",
       [email, password, username, role, avatar, edit_date, user_id]
+    );
+
+    res
+    .status(200)
+    .send(
+      `The user with id ${user_id} is updated! Code: ${res.statusCode} `
     );
   }
 

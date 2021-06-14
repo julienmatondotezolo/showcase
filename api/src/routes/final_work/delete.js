@@ -12,7 +12,7 @@ router.delete("/:id", async (req, res) => {
     ); // Search the project that you want to delete
 
     // Check to see if the project that you want to delete is yours (you can't delete other people's projects)
-    if (selectedProjectSQL.rows[0].user_id == req.user.userid) {
+    if (selectedProjectSQL.rows[0]?.user_id == req.user.userid) {
       //  The project belongs to the logged user.
 
       const deleteProduct = await pool.query(
@@ -20,11 +20,15 @@ router.delete("/:id", async (req, res) => {
         [id]
       );
 
-      res.json(`The project with id ${id} is deleted!`);
+      res
+        .status(200)
+        .send(
+          `The project "${selectedProjectSQL.rows[0].name}" with id ${id} is deleted! Code: ${res.statusCode} `
+        );
     } else {
       //  The project does not exists or don't belongs to the logged user.
 
-      res.json(`The project with id ${id} does not exists or is not yours...`);
+      res.sendCustomStatus(400);
     }
   } catch (err) {
     console.log(err.message);

@@ -8,8 +8,6 @@ module.exports = async function (passport) {
       let user = pool
         .query(`SELECT * FROM users where email = '${email}'`)
         .then((user) => {
-          //   console.log(user);
-          //   console.log("here...", password, user.rows[0].password);
           if (!user.rows[0]) {
             return done(null, false, {
               message: "that email is not registered",
@@ -26,7 +24,6 @@ module.exports = async function (passport) {
             }
           });
         });
-      //match user
     })
   );
   passport.serializeUser(function (user, done) {
@@ -36,5 +33,4 @@ module.exports = async function (passport) {
   passport.deserializeUser(function (user, done) {
     done(null, user);
   });
-  // deserialize ?????????????????
 };
