@@ -21,6 +21,10 @@ const login = require("./routes/auth/login");
 const register = require("./routes/auth/register");
 const logout = require("./routes/auth/logout");
 
+const status = require("./routes/status/status");
+
+const dashboard = require("./routes/dashboard");
+
 const createFw = require("./routes/final_work/create");
 const deleteFw = require("./routes/final_work/delete");
 const getAllFw = require("./routes/final_work/get-all");
@@ -33,6 +37,7 @@ const deleteUser = require("./routes/users/delete");
 const getAllUsers = require("./routes/users/get-all");
 const getSingleUser = require("./routes/users/get-single");
 const updateUser = require("./routes/users/update");
+const router = require("./routes/users/add");
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -57,6 +62,7 @@ app.use(
   })
 );
 
+app.use(status);
 app.use(passport.initialize());
 app.use(passport.session());
 require("./routes/auth/passport")(passport);
@@ -65,22 +71,7 @@ app.get("/", async (req, res) => {
   res.send("FP-IV-API");
 });
 
-app.get("/error", async (req, res) => {
-  res.send("error page");
-});
-
-app.get("/please-connect", async (req, res) => {
-  res.send("please-connect");
-});
-
-app.get("/logged-out", async (req, res) => {
-  res.send("you are logged out");
-});
-
-app.get("/logged-in", ensureAuthenticated, async (req, res) => {
-  res.send("you are logged in");
-  // res.send(req.user)
-});
+app.use("/dashboard", ensureAuthenticated, dashboard);
 
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/login", login);
@@ -89,7 +80,7 @@ app.use("/logout", logout);
 
 app.use("/final-work/create", ensureAuthenticated, createFw);
 app.use("/final-work/delete", ensureAuthenticated, deleteFw);
-app.use("/final-work/get-all", getAllFw);
+app.use("/final-work/get-all", ensureAuthenticated, getAllFw); // REMOVE ensureAuthenticated
 app.use("/final-work/get-single", getSingleFw);
 app.use(
   "/final-work/get-user-projects",

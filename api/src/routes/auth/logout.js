@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../../db/db");
 
 router.post("/", async (req, res) => {
-    req.logout();
-    res.redirect('/logged-out');
+  req.logout();
+  res.sendCustomStatus(200, "Succesfully logged out");
 });
 
 module.exports = router;
