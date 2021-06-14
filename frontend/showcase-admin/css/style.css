@@ -1,0 +1,149 @@
+/*/////////////   ASIDE NAVIGATION  ////////////////*/
+
+aside {
+  color: #fff;
+  width: 30%;
+  height: 100%;
+  padding: 2em;
+  box-sizing: border-box;
+  float: left;
+}
+
+aside li {
+  padding: 1em 0;
+  box-sizing: border-box;
+  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+}
+
+aside li:hover {
+  background-color: rgb(240 248 255 / 10%);
+  padding: 1em;
+}
+
+/*/////////////   MAIN  ////////////////*/
+
+main {
+  width: 70%;
+  height: 100%;
+  padding: 2em;
+  box-sizing: border-box;
+  float: left;
+}
+
+/*/////////////   MAIN NAVIGATIE  ////////////////*/
+
+main .topnav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+main .topnav li:last-child i {
+  cursor: pointer;
+  margin-left: .5em;
+  float: left;
+  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+}
+
+main .topnav li:last-child i:hover {
+  font-size: 2em;
+}
+
+main .topnav li:last-child i:last-child {
+  margin-left: 2em;
+}
+
+main .topnav li:last-child i:last-child:hover {
+  font-size: 1.2em;
+  margin-left: 1em;
+}
+
+main .topnav li:last-child i:last-child span, main .topnav li:last-child i:last-child p {
+  float: left;
+}
+
+/*/////////////   MAIN TOGGLER  ////////////////*/
+
+main .nav-toggler {
+  cursor: pointer;
+}
+
+/*///////////// ITEMS ////////////////*/
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 1em 0;
+  box-sizing: border-box;
+  margin: 1em 0;
+}
+
+.item {
+  width: 30%;
+  background: #fff;
+}
+
+/*///////////// TABLE ////////////////*/
+
+.top-projects {
+  background: #fff;
+}
+
+.top-projects>article {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table-tr {
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 .5em;
+  box-sizing: border-box;
+  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+}
+
+.table-tr:nth-child(odd) {
+  background: rgb(103 144 157 / 10%);
+}
+
+.table-tr:hover {
+  background: rgb(103 144 157 / 25%);
+}
+
+.table-td {
+  text-align: left;
+}
+
+/*///////////// TOP PROJECT ////////////////*/
+
+.top-project {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  /* margin: auto; */
+  text-align: center;
+  height: 15vw;
+  background: #67909d;
+  box-sizing: border-box;
+}
