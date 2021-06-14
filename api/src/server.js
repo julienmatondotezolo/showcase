@@ -73,7 +73,7 @@ app.get("/", async (req, res) => {
   res.send("FP-IV-API");
 });
 
-app.use("/dashboard", ensureAuthenticated, dashboard);
+app.use("/dashboard", dashboard);
 
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/login", login);

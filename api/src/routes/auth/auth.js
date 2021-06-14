@@ -6,6 +6,7 @@ module.exports = {
       console.log(req.user);
       return next();
     } else {
+      console.log('Julien le jean-michel')
       res.sendCustomStatus(401);
     }
   },

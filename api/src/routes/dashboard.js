@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+  console.log(req.body)
+  console.log(req.user)
   res.send({
     userId: req.user.userid,
     email: req.user.email,
