@@ -49,7 +49,6 @@ app.use(function (req, res, next) {
   );
   next();
 });
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(compression());
 app.use(cors());
@@ -64,9 +63,11 @@ app.use(
   })
 );
 
-app.use(status);
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(status);
 require("./routes/auth/passport")(passport);
 
 app.get("/", async (req, res) => {

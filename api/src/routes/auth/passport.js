@@ -21,7 +21,7 @@ module.exports = async function (passport) {
             console.log(password);
             if (isMatch) {
               console.log("OUEEEEEEEE");
-              return done(null, user);
+              return done(null, user.rows[0]);
             } else {
               console.log("NEEEEEEEE");
               return done(null, false, { message: "pass incorrect" });
@@ -31,7 +31,7 @@ module.exports = async function (passport) {
     })
   );
   passport.serializeUser(function (user, done) {
-    done(null, user.rows[0]);
+    done(null, user);
   });
 
   passport.deserializeUser(function (user, done) {
