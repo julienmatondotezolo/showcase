@@ -4,16 +4,8 @@ const pool = require("../../db/db");
 const status = require("../status/status");
 
 router.post("/", async (req, res) => {
-  console.log(req.body)
-  let {
-    projectname,
-    description,
-    url,
-    images,
-    cluster
-  } = req.body;
-  // let userId = req.user.userid;
-  let userId = req.body.userId;
+  let { projectname, description, url, images, cluster } = req.body;
+  let userId = req.user.userid;
 
   let values = [projectname, description, url, images, cluster, userId];
 
@@ -34,19 +26,11 @@ router.post("/", async (req, res) => {
   }
 
   function check(cluster) {
-    let clusters = [
-      "web",
-      "mobile",
-      "motion",
-      "ar",
-      "digital-making",
-    ];
+    let clusters = ["web", "mobile", "motion", "ar", "digital-making"];
 
     if (clusters.includes(cluster)) {
-      console.log("Cluster present")
       return true;
     }
-    console.log("Cluster not present")
     return false;
   }
 });

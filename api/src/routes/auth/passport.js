@@ -17,9 +17,13 @@ module.exports = async function (passport) {
           bcrypt.compare(password, user.rows[0].password, (err, isMatch) => {
             if (err) throw err;
 
+            console.log(user.rows[0].password);
+            console.log(password);
             if (isMatch) {
+              console.log("OUEEEEEEEE");
               return done(null, user);
             } else {
+              console.log("NEEEEEEEE");
               return done(null, false, { message: "pass incorrect" });
             }
           });
