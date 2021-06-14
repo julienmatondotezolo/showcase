@@ -14,7 +14,7 @@ router.put("/:id", async (req, res) => {
     ); // Search the project that you want to update
 
     // Check to see if the project that you want to update is yours (you can't update other people's projects)
-    if (selectedProjectSQL.rows[0]?.user_id == req.user.userid) {
+    if (selectedProjectSQL.rows[0].user_id == req.user.userid) {
       //  The project belongs to the logged user.
 
       const updateProduct = await pool.query(

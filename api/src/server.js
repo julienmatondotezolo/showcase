@@ -11,6 +11,7 @@ const pool = require("./db/db");
 const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
+const bodyParser = require("body-parser");
 const { ensureAuthenticated } = require("./routes/auth/auth");
 
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -48,7 +49,7 @@ app.use(function (req, res, next) {
   );
   next();
 });
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(compression());
 app.use(cors());
 app.use(express.json());
@@ -78,7 +79,7 @@ app.use("/login", login);
 app.use("/register", register);
 app.use("/logout", logout);
 
-app.use("/final-work/create", ensureAuthenticated, createFw);
+app.use("/final-work/create", createFw);
 app.use("/final-work/delete", ensureAuthenticated, deleteFw);
 app.use("/final-work/get-all", ensureAuthenticated, getAllFw); // REMOVE ensureAuthenticated
 app.use("/final-work/get-single", getSingleFw);
