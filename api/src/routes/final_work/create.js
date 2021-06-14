@@ -15,28 +15,18 @@ router.post("/", async (req, res) => {
         "INSERT INTO projects(name, description, url, images, cluster, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
         values
       );
-      res
-        .status(200)
-        .send(
-          `The project "${newProject.rows[0].name}" is created! Code: ${res.statusCode}`
-        );
 
-        res.sendCustomStatus(200);
+      res.sendCustomStatus(200);
     } catch (err) {
       console.error(err.message);
       res.sendCustomStatus(500);
     }
   } else {
-      res.sendCustomStatus(400);
+    res.sendCustomStatus(400);
   }
 
   function check(cluster) {
-    let clusters = [
-      "Web",
-      "Digital Making",
-      "Motion Graphics",
-      "Mobile Appliance",
-    ];
+    let clusters = ["web", "mobile", "motion", "ar", "digital-making"];
 
     if (clusters.includes(cluster)) {
       return true;
