@@ -8,7 +8,6 @@ router.post("/", async (req, res) => {
   try {
     let { email, password, password2 } = req.body;
 
-
     if (checkCredentials(email, password, password2)) {
       let username = createUsername(email);
       encryptPasswordAndAddUserInDb(username, email, password);
@@ -49,8 +48,7 @@ router.post("/", async (req, res) => {
       }
     }
 
-   // res.sendCustomStatus(200, "Succesfully registered");
-    res.redirect('/dashboard')
+    res.sendCustomStatus(200, "Succesfully registered");
   }
 
   function checkCredentials(email, password, password2) {
@@ -68,7 +66,6 @@ router.post("/", async (req, res) => {
     if (password.length < 6) {
       errors.push(" Password atleast 6 characters");
     }
-
 
     if (!email.includes("@student.ehb") && !email.includes("@ehb")) {
       errors.push(" Not EHB mail");
