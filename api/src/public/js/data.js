@@ -69,13 +69,13 @@ function printAllProjects(allData) {
        
         <div class="table-tr">
             <figure class="table-td">
-                <img src="${data.images}" alt="project-logo">
+                <img src="" alt="project-logo">
             </figure>
             <article class="table-td">
                 <p class="bold">${data.name}</p>
             </article>
-            <a href="../page/detailproject.html?id=${data.name}">
-            <button>Visit Google</button>
+            <a href="../detailproject?id=${data.projectid}">
+            <button>detail project</button>
          </a>
     `);
     }

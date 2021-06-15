@@ -33,11 +33,13 @@ const getAllFw = require("./routes/final_work/get-all");
 const getSingleFw = require("./routes/final_work/get-single");
 const getAllUserProjects = require("./routes/final_work/get-user-projects");
 const updateFw = require("./routes/final_work/update");
+const getById = require("./routes/final_work/get-byid");
 
 const addUser = require("./routes/users/add");
 const deleteUser = require("./routes/users/delete");
 const getAllUsers = require("./routes/users/get-all");
 const getSingleUser = require("./routes/users/get-single");
+
 const updateUser = require("./routes/users/update");
 const router = require("./routes/users/add");
 
@@ -154,8 +156,13 @@ router.get("/error", function (req, res, next) {
 });
 
 app.get("/", (req, res) => {
-  res.send("here is our site claqué");
+  res.send("here is our site");
 });
+
+app.get("/detailproject", (req, res) => {
+  res.render("detailproject.ejs");
+});
+
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/login", login);
 app.use("/register", register);
@@ -170,6 +177,8 @@ app.use(
   ensureAuthenticated,
   getAllUserProjects
 );
+app.use("/final-work/get-byid", getById);
+
 app.use("/final-work/update", ensureAuthenticated, updateFw);
 
 app.use("/users/add", addUser);
