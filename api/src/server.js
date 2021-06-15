@@ -69,23 +69,27 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(status);
-app.use(flash())
+app.use(flash());
 require("./routes/auth/passport")(passport);
 
-app.get("/upload", ensureAuthenticated, (req, res) => {
+app.get("/upload", (req, res) => {
+  if (!req.isAuthenticated()) {
+    res.redirect("login");
+    return;
+  }
+
   res.render("project.ejs", { username: req.user.username });
 });
-
 
 app.get("/dashboard-docent", (req, res) => {
   res.render("index.ejs", { username: req.user.username });
 });
 
-router.get("/error", function(req, res, next) {
-    res.render("error", {
-        error: req.flash("error"),
-    });
+router.get("/error", function (req, res, next) {
+  res.render("error", {
+    error: req.flash("error"),
   });
+});
 
 app.get("/", (req, res) => {
   res.send("here is our site claqué");

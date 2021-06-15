@@ -100,6 +100,10 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.redirect("upload");
+    return;
+  }
   console.log("you are trying to get register");
   res.render("register.ejs");
 });
