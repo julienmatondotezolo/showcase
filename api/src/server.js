@@ -135,6 +135,11 @@ app.post("/upload", ensureAuthenticated, async (req, res) => {
 //*  ====== VOTING SYSTEM DOCENT ====== *//
 
 app.get("/dashboard-docent", (req, res) => {
+  if (!req.isAuthenticated()) {
+    res.redirect("/login");
+    return;
+  }
+
   res.render("index.ejs", {
     username: req.user.username,
   });
