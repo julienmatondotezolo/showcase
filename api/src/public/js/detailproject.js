@@ -1,3 +1,5 @@
+import * as CTB64 from "./convertTob64.js";
+
 $(document).ready(function () {
   console.log("entered detail");
   var url = window.location.search;
@@ -7,11 +9,18 @@ $(document).ready(function () {
   console.log(idDetail)
 async function runAll(idDetail) {
   const [ data] = await Promise.all([getProjectId(idDetail)]);
- console.log(data);
+  console.log(data);
+
+  let converted = CTB64.bytesToBase64(data[0].images.data);
 
  $(".item_details").append(`
-     
+
  <div>
+ <div class="images_detail">  
+ <img  alt="project-images" src="data:image/png;base64,${converted}">
+
+ </div>
+
  <div class="row_detail">Project name ${data[0].name}</div>
  <div class="row_detail">Name ${data[0].projectid}</div>
  <div class="row_detail">ID ${data[0].user_id}</div>
@@ -28,6 +37,8 @@ async function runAll(idDetail) {
 runAll(idDetail);
 
 });
+
+
 async function getProjectId(id) {
   let response = await fetch(`http://localhost:3000/final-work/get-byid/${id}`,
     { mode: "cors" }

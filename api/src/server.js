@@ -139,14 +139,19 @@ app.post("/upload", ensureAuthenticated, async (req, res) => {
 
 app.get("/dashboard-docent", (req, res) => {
   if (!req.isAuthenticated()) {
-    // || req.user.role == student (redirect if student and allow if docent)
+    // || (req.user.role == "student") (redirect if student and allow if docent)
     res.redirect("/login");
     return;
   }
 
+  /*   if (req.user.role == "admin") { */
+
   res.render("index.ejs", {
     username: req.user.username,
   });
+  /* } else {
+    res.redirect("/login");
+  } */
 });
 
 router.get("/error", function (req, res, next) {
