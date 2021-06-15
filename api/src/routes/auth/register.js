@@ -33,7 +33,8 @@ router.post("/", async (req, res) => {
     );
 
    // res.sendCustomStatus(200, "Succesfully registered");
-    res.redirect('/dashboard')
+    res.redirect('/dashboard',{username:username})
+    
   }
 
   function checkCredentials(username, email, password, password2) {
@@ -73,7 +74,7 @@ router.post("/", async (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  console.log('you are trying to get login');
+  console.log('you are trying to get register');
   res.render('register.ejs');
 })
 
