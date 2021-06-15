@@ -67,6 +67,13 @@ router.post("/", async (req, res) => {
     }
     return true;
   }
+
+  
 });
+
+router.get('/', (req, res) => {
+  console.log('you are trying to get login');
+  res.render('register.ejs');
+})
 
 module.exports = router;
