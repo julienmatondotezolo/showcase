@@ -32,7 +32,8 @@ router.post("/", async (req, res) => {
       values
     );
 
-    res.sendCustomStatus(200, "Succesfully registered");
+   // res.sendCustomStatus(200, "Succesfully registered");
+    res.redirect('/dashboard')
   }
 
   function checkCredentials(username, email, password, password2) {

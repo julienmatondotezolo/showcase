@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-const path = require('path');
+const path = require("path");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -13,10 +13,10 @@ const session = require("express-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const { ensureAuthenticated } = require("./routes/auth/auth");
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(__dirname + '/public'));
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(__dirname + "/public"));
 
-app.set('view-engine', 'ejs')
+app.set("view-engine", "ejs");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocs = require("./swagger.json");
@@ -26,8 +26,6 @@ const register = require("./routes/auth/register");
 const logout = require("./routes/auth/logout");
 
 const status = require("./routes/status/status");
-
-const dashboard = require("./routes/dashboard");
 
 const createFw = require("./routes/final_work/create");
 const deleteFw = require("./routes/final_work/delete");
@@ -71,15 +69,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(status);
+app.use(flash())
 require("./routes/auth/passport")(passport);
 
-app.get("/", ensureAuthenticated, (req, res) => {
-  res.render('index.ejs', { username: req.user.username })
-
+app.get("/dashboard", ensureAuthenticated, (req, res) => {
+  res.render("index.ejs", { username: req.user.username });
 });
 
-app.use("/dashboard", dashboard);
+router.get("/error", function(req, res, next) {
+    res.render("error", {
+        error: req.flash("error"),
+    });
+  });
 
+app.get("/", (req, res) => {
+  res.send("here is our site claqué");
+});
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/login", login);
 app.use("/register", register);
