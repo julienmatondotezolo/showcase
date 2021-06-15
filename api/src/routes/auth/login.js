@@ -5,7 +5,7 @@ const { ensureAuthenticated } = require("./auth");
 
 router.post('/', (req, res, next) => {
   passport.authenticate('local', {
-    successRedirect: '/dashboard-student',
+    successRedirect: '/upload',
     failureRedirect: '/login',
     failureFlash: req.flash('error_msg'),
   })(req, res, next);

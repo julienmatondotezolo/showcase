@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 const path = require("path");
 const express = require("express");
+const fileupload = require("express-fileupload");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 3000;
@@ -54,6 +55,7 @@ app.use(function (req, res, next) {
 app.use(compression());
 app.use(cors());
 app.use(express.json());
+app.use(fileupload);
 
 //express session
 app.use(
@@ -72,10 +74,19 @@ app.use(status);
 app.use(flash())
 require("./routes/auth/passport")(passport);
 
-app.get("/dashboard-student", ensureAuthenticated, (req, res) => {
+//* UPLOAD STUDENT PROJECTS ====== *//
+
+app.get("/upload", ensureAuthenticated, (req, res) => {
   res.render("project.ejs", { username: req.user.username });
 });
 
+app.post("/upload", ensureAuthenticated, async (req, res) => {
+  const {name, data} = req.files.image;
+  console.log(req.files)
+  console.log(req)
+});
+
+//* VOTING SYSTEM DOCENT ====== *//
 
 app.get("/dashboard-docent", (req, res) => {
   res.render("index.ejs", { username: req.user.username });
