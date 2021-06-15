@@ -115,13 +115,16 @@ app.post("/upload", ensureAuthenticated, async (req, res) => {
         values
       );
 
+      alert("noo");
       res.sendCustomStatus(200);
     } catch (err) {
       console.error(err.message);
+      alert("nooz");
       res.sendCustomStatus(500);
     }
   } else {
     res.sendCustomStatus(400);
+    alert("noo");
   }
 
   function check(cluster) {
@@ -138,6 +141,7 @@ app.post("/upload", ensureAuthenticated, async (req, res) => {
 
 app.get("/dashboard-docent", (req, res) => {
   if (!req.isAuthenticated()) {
+    // || req.user.role == student (redirect if student and allow if docent)
     res.redirect("/login");
     return;
   }
