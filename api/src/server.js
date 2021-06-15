@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 const path = require("path");
 const express = require("express");
-const fileUpload = require('express-fileupload');
+const fileUpload = require("express-fileupload");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 3000;
@@ -66,27 +66,36 @@ app.use(
   })
 );
 
-app.use(express.urlencoded({
-  extended: true
-}));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
-app.use(fileUpload({
-  limits: {
-    fileSize: 50 * 1024 * 1024
-  },
-}));
+app.use(
+  fileUpload({
+    limits: {
+      fileSize: 50 * 1024 * 1024,
+    },
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(status);
-app.use(flash())
+app.use(flash());
 require("./routes/auth/passport")(passport);
 
 //*  ====== UPLOAD STUDENT PROJECTS ====== *//
 
-app.get("/upload", ensureAuthenticated, (req, res) => {
+app.get("/upload", (req, res) => {
+  if (!req.isAuthenticated()) {
+    res.redirect("/login");
+    return;
+  }
+
   res.render("project.ejs", {
-    username: req.user.username
+    username: req.user.username,
   });
 });
 
@@ -94,10 +103,10 @@ app.post("/upload", ensureAuthenticated, async (req, res) => {
   const { name, data } = req.files.image;
 
   let images = data;
-  let {projectname, description, url, cluster } = req.body;
+  let { projectname, description, url, cluster } = req.body;
   let userId = req.user.userid;
 
-  let values = [ projectname, description, url, images, cluster, userId ];
+  let values = [projectname, description, url, images, cluster, userId];
 
   if (check(cluster)) {
     try {
@@ -123,14 +132,13 @@ app.post("/upload", ensureAuthenticated, async (req, res) => {
     }
     return false;
   }
-
 });
 
 //*  ====== VOTING SYSTEM DOCENT ====== *//
 
 app.get("/dashboard-docent", (req, res) => {
   res.render("index.ejs", {
-    username: req.user.username
+    username: req.user.username,
   });
 });
 
