@@ -2,7 +2,7 @@ allUsers()
 allprojects()
 
 async function allUsers() {
-    await fetch('http://193.191.183.48:3000/users/get-all', {
+    await fetch('http://localhost:3000/users/get-all', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -16,7 +16,7 @@ async function allUsers() {
 }
 
 async function allprojects() {
-    await fetch('http://193.191.183.48:3000/final-work/get-all', {
+    await fetch('http://localhost:3000/final-work/get-all', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -69,7 +69,7 @@ function printAllProjects(allData) {
        
         <div class="table-tr">
             <figure class="table-td">
-                <img src="" alt="project-logo">
+                <img src="${data.images}" alt="project-logo">
             </figure>
             <article class="table-td">
                 <p class="bold">${data.name}</p>
