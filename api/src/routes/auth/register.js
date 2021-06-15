@@ -8,9 +8,6 @@ router.post("/", async (req, res) => {
   try {
     let { email, password, password2 } = req.body;
 
-    if (!email.includes("@student.ehb") && !email.includes("@ehb")) {
-      console.log("include");
-    }
 
     if (checkCredentials(email, password, password2)) {
       let username = createUsername(email);
@@ -28,7 +25,6 @@ router.post("/", async (req, res) => {
         if (err) throw err;
         //save pass to hash
         password = hash;
-        console.log("here..", password);
         addUserInDb(username, email, password);
       })
     );
@@ -71,7 +67,7 @@ router.post("/", async (req, res) => {
     if (password.length < 6) {
       errors.push(" Password atleast 6 characters");
     }
-    console.log(email);
+
 
     if (!email.includes("@student.ehb") && !email.includes("@ehb")) {
       errors.push(" Not EHB mail");

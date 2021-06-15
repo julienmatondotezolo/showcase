@@ -13,14 +13,11 @@ router.post("/", (req, res, next) => {
 
 router.get("/", (req, res) => {
   if (req.isAuthenticated()) {
-    console.log("haha");
     res.redirect("upload");
     return;
   }
-  console.log("hoho");
-  console.log(req.user);
-  var message = req.flash("message");
-  console.log("you are trying to get login");
+
+  console.log("GET ROUTE LOGIN");
   res.render("login.ejs");
 });
 
