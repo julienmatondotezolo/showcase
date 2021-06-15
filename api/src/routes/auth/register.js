@@ -86,7 +86,7 @@ router.post("/", async (req, res) => {
       str.replace(/^(.)|\s+(.)/g, (c) => c.toUpperCase());
 
     let name = email.substr(0, email.indexOf("@"));
-    let lowercaseName = name.replaceAll(".", " ");
+    let lowercaseName = name.replace(/\./g, " ");
     let uppercaseName = uppercaseWords(lowercaseName);
 
     return uppercaseName;

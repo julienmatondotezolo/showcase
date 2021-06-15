@@ -139,6 +139,10 @@ em {
   text-align: right;
 }
 
+.flt-right {
+  float: right;
+}
+
 .txt-justify {
   text-align: justify;
 }
@@ -228,7 +232,7 @@ a:visited,
 a:active {
   color: #fff;
   text-decoration: none;
-  text-transform: capitalize;
+  text-transform: lowercase;
 }
 
 a:hover {

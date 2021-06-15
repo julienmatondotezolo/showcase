@@ -7,7 +7,7 @@ router.post("/", (req, res, next) => {
   passport.authenticate("local", {
     successRedirect: "/upload",
     failureRedirect: "/login/error",
-    failureFlash: req.flash("error_msg"),
+    failureFlash: true,
   })(req, res, next);
 });
 
@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
     return;
   }
 
-  console.log("GET ROUTE LOGIN");
+  console.log(req.flash("error"));
   res.render("login.ejs");
 });
 

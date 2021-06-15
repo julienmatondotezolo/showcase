@@ -10,7 +10,7 @@ module.exports = async function (passport) {
         .then((user) => {
           if (!user.rows[0]) {
             return done(null, false, {
-              message: "that email is not registered",
+              message: "Email is not registered",
             });
           }
           //match pass
