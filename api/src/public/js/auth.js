@@ -47,7 +47,7 @@ async function register(data) {
     body: JSON.stringify(data),
   }).then((res) => {
     if (res.status == 200) {
-      window.location.replace("/login/");
+      window.location.replace("/login");
     } else if (res.status == 403) {
       alert("E-mail already exists");
     } else if (res.status == 500) {
