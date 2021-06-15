@@ -13,9 +13,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
-const {
-  ensureAuthenticated
-} = require("./routes/auth/auth");
+const { ensureAuthenticated } = require("./routes/auth/auth");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(__dirname + "/public"));
 
@@ -115,16 +113,14 @@ app.post("/upload", ensureAuthenticated, async (req, res) => {
         values
       );
 
-      alert("noo");
       res.sendCustomStatus(200);
     } catch (err) {
       console.error(err.message);
-      alert("nooz");
+
       res.sendCustomStatus(500);
     }
   } else {
     res.sendCustomStatus(400);
-    alert("noo");
   }
 
   function check(cluster) {

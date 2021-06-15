@@ -13,8 +13,9 @@
   </head>
 
   <body>
-    <form class="box box-shadow cl2 pink login-form" method="POST">
-      <h3>Login</h3>
+    <form class="box box-shadow cl2 pink register-form" method="POST">
+      <h3>Register</h3>
+
       <section>
         <input
           type="email"
@@ -34,7 +35,16 @@
         />
       </section>
       <section>
-        <input class="btn bg-blue white" type="submit" value="login" />
+        <input
+          type="password"
+          name="password2"
+          placeholder="confirm-password"
+          class="input-user"
+          required
+        />
+      </section>
+      <section>
+        <input class="btn bg-blue white" type="submit" value="register" />
       </section>
     </form>
   </body>
