@@ -72,7 +72,12 @@ app.use(status);
 app.use(flash())
 require("./routes/auth/passport")(passport);
 
-app.get("/dashboard", ensureAuthenticated, (req, res) => {
+app.get("/dashboard-student", ensureAuthenticated, (req, res) => {
+  res.render("project.ejs", { username: req.user.username });
+});
+
+
+app.get("/dashboard-docent", (req, res) => {
   res.render("index.ejs", { username: req.user.username });
 });
 
