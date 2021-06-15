@@ -1,3 +1,6 @@
+
+import * as CTB64 from "./convertTob64.js";
+
 allUsers()
 allprojects()
 
@@ -63,13 +66,18 @@ function printProjects(allData) {
 function printAllProjects(allData) {
     for (const data of allData) {
         console.log(data.name);
+        console.log(data.images.data);
 
-    
+        let converted = CTB64.bytesToBase64(data.images.data);
+
+        console.log("here is your img" +converted)
+
+
         $(".table").append(`
        
         <div class="table-tr">
             <figure class="table-td">
-                <img src="" alt="project-logo">
+                <img src="data:image/png;base64,${converted}" alt="project-images">
             </figure>
             <article class="table-td">
                 <p class="bold">${data.name}</p>
