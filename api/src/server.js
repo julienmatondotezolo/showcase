@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 const path = require("path");
 const express = require("express");
+const fileUpload = require('express-fileupload');
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 3000;
@@ -12,7 +13,9 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
-const { ensureAuthenticated } = require("./routes/auth/auth");
+const {
+  ensureAuthenticated
+} = require("./routes/auth/auth");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(__dirname + "/public"));
 
@@ -27,6 +30,7 @@ const logout = require("./routes/auth/logout");
 
 const status = require("./routes/status/status");
 
+const createProject = require("./routes/final_work/createProj");
 const createFw = require("./routes/final_work/create");
 const deleteFw = require("./routes/final_work/delete");
 const getAllFw = require("./routes/final_work/get-all");
@@ -64,25 +68,72 @@ app.use(
   })
 );
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
+
+app.use(fileUpload({
+  limits: {
+    fileSize: 50 * 1024 * 1024
+  },
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(status);
-app.use(flash());
+app.use(flash())
 require("./routes/auth/passport")(passport);
 
-app.get("/upload", (req, res) => {
-  if (!req.isAuthenticated()) {
-    res.redirect("login");
-    return;
-  }
+//*  ====== UPLOAD STUDENT PROJECTS ====== *//
 
-  res.render("project.ejs", { username: req.user.username });
+app.get("/upload", ensureAuthenticated, (req, res) => {
+  res.render("project.ejs", {
+    username: req.user.username
+  });
 });
 
+app.post("/upload", ensureAuthenticated, async (req, res) => {
+  const { name, data } = req.files.image;
+
+  let images = data;
+  let {projectname, description, url, cluster } = req.body;
+  let userId = req.user.userid;
+
+  let values = [ projectname, description, url, images, cluster, userId ];
+
+  if (check(cluster)) {
+    try {
+      const newProject = await pool.query(
+        "INSERT INTO projects(name, description, url, images, cluster, user_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+        values
+      );
+
+      res.sendCustomStatus(200);
+    } catch (err) {
+      console.error(err.message);
+      res.sendCustomStatus(500);
+    }
+  } else {
+    res.sendCustomStatus(400);
+  }
+
+  function check(cluster) {
+    let clusters = ["web", "mobile", "motion", "ar", "digital-making"];
+
+    if (clusters.includes(cluster)) {
+      return true;
+    }
+    return false;
+  }
+
+});
+
+//*  ====== VOTING SYSTEM DOCENT ====== *//
+
 app.get("/dashboard-docent", (req, res) => {
-  res.render("index.ejs", { username: req.user.username });
+  res.render("index.ejs", {
+    username: req.user.username
+  });
 });
 
 router.get("/error", function (req, res, next) {
