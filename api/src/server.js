@@ -79,7 +79,7 @@ app.use(fileUpload({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(status);
-app.use(flash())
+app.use(flash());
 require("./routes/auth/passport")(passport);
 
 //*  ====== UPLOAD STUDENT PROJECTS ====== *//
