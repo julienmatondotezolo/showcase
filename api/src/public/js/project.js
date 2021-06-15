@@ -1,6 +1,12 @@
 import * as formTransform from './formToJSON.js';
 import * as User from './checkAuth.js';
 
+
+
+window.addEventListener("load", function(event) {
+    console.log("script page loaded !");
+  });
+
 $(".project-form").submit(function (e) {
     e.preventDefault();
     let formdata = formTransform.formJSON($(this))

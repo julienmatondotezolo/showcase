@@ -72,7 +72,7 @@ app.use(status);
 app.use(flash())
 require("./routes/auth/passport")(passport);
 
-app.get("/dashboard-student", ensureAuthenticated, (req, res) => {
+app.get("/upload", ensureAuthenticated, (req, res) => {
   res.render("project.ejs", { username: req.user.username });
 });
 

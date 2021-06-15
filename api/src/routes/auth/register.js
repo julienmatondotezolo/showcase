@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
     );
 
    // res.sendCustomStatus(200, "Succesfully registered");
-    res.redirect('/dashboard',{username:username})
+    res.redirect('/upload',{username:username})
     
   }
 
