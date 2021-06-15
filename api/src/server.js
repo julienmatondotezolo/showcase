@@ -29,8 +29,6 @@ const register = require("./routes/auth/register");
 const logout = require("./routes/auth/logout");
 
 const status = require("./routes/status/status");
-
-const createProject = require("./routes/final_work/createProj");
 const createFw = require("./routes/final_work/create");
 const deleteFw = require("./routes/final_work/delete");
 const getAllFw = require("./routes/final_work/get-all");

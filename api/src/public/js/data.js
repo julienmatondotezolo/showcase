@@ -69,7 +69,7 @@ function printAllProjects(allData) {
        
         <div class="table-tr">
             <figure class="table-td">
-                <img src="" alt="project-logo">
+                <img src="${data.images}" alt="project-logo">
             </figure>
             <article class="table-td">
                 <p class="bold">${data.name}</p>
