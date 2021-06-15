@@ -40,6 +40,7 @@ const getSingleUser = require("./routes/users/get-single");
 const updateUser = require("./routes/users/update");
 const router = require("./routes/users/add");
 
+app.set('view-engine', 'ejs')
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
@@ -54,6 +55,8 @@ app.use(compression());
 app.use(cors());
 app.use(express.json());
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 //express session
 app.use(
   session({
@@ -62,9 +65,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(status);
@@ -73,6 +73,15 @@ require("./routes/auth/passport")(passport);
 app.get("/", async (req, res) => {
   res.send("FP-IV-API");
 });
+
+app.get('/login', (req, res) => {
+  res.render('login.ejs')
+})
+
+app.get('/upload', (req, res) => {
+  // res.sendFile(__dirname + '/views/index.html');
+  res.sendFile(__dirname + '/views');
+})
 
 app.use("/dashboard", dashboard);
 

@@ -23,6 +23,7 @@ async function login(data) {
     }).then(res => {
         res.json().then(parsedRes => {
             console.log(parsedRes)
+            // window.location.replace("http://localhost:5500/frontend/showcase-admin/");
         })
     })
 }
