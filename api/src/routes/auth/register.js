@@ -4,10 +4,19 @@ const pool = require("../../db/db");
 const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res) => {
+  let errors = [];
   try {
-    let { username, email, password, password2 } = req.body;
-    if (checkCredentials(username, email, password, password2)) {
+    let { email, password, password2 } = req.body;
+
+    if (!email.includes("@student.ehb") && !email.includes("@ehb")) {
+      console.log("include");
+    }
+
+    if (checkCredentials(email, password, password2)) {
+      let username = createUsername(email);
       encryptPasswordAndAddUserInDb(username, email, password);
+    } else {
+      res.sendCustomStatus(500, errors);
     }
   } catch (err) {
     console.error(err.message);
@@ -27,55 +36,72 @@ router.post("/", async (req, res) => {
 
   async function addUserInDb(username, email, password) {
     let values = [email, password, username];
-    const newUser = await pool.query(
-      "INSERT INTO users(email, password, username) VALUES($1, $2, $3) RETURNING *",
-      values
-    );
 
-   // res.sendCustomStatus(200, "Succesfully registered");
-    res.redirect('/upload',{username:username})
-    
+    try {
+      const newUser = await pool.query(
+        "INSERT INTO users(email, password, username) VALUES($1, $2, $3) RETURNING *",
+        values
+      );
+    } catch (err) {
+      console.log(err.code);
+      if (err.code === "ER_DUP_ENTRY" || err.code === "23505") {
+        res.sendCustomStatus(403, "E-mail already exists");
+        return;
+      } else {
+        res.sendCustomStatus(500);
+        return;
+      }
+    }
+
+    res.sendCustomStatus(200, "Succesfully registered");
   }
 
-  function checkCredentials(username, email, password, password2) {
-    let errors = [];
-    console.log(
-      " username " + username + " email :" + email + " pass:" + password
-    );
-    if (!username || !email || !password || !password2) {
-      errors.push({
-        msg: "Please fill in all fields",
-      });
+  function checkCredentials(email, password, password2) {
+    console.log(" email :" + email + " pass:" + password);
+    if (!email || !password || !password2) {
+      errors.push(" Please fill in all fields");
     }
 
     //check if match
     if (password !== password2) {
-      errors.push({
-        msg: "passwords dont match",
-      });
+      errors.push(" Passwords don't match");
     }
 
     //check if password is more than 6 characters
     if (password.length < 6) {
-      errors.push({
-        msg: "password atleast 6 characters",
-      });
+      errors.push(" Password atleast 6 characters");
     }
+    console.log(email);
+
+    if (!email.includes("@student.ehb") && !email.includes("@ehb")) {
+      errors.push(" Not EHB mail");
+    }
+
     if (errors.length > 0) {
       //here code if not pass
-      console.log("errors, not passed!");
+      console.log(" Errors, not passed!");
       console.log(errors);
       return false;
     }
+
     return true;
   }
 
-  
+  function createUsername(email) {
+    const uppercaseWords = (str) =>
+      str.replace(/^(.)|\s+(.)/g, (c) => c.toUpperCase());
+
+    let name = email.substr(0, email.indexOf("@"));
+    let lowercaseName = name.replaceAll(".", " ");
+    let uppercaseName = uppercaseWords(lowercaseName);
+
+    return uppercaseName;
+  }
 });
 
-router.get('/', (req, res) => {
-  console.log('you are trying to get register');
-  res.render('register.ejs');
-})
+router.get("/", (req, res) => {
+  console.log("you are trying to get register");
+  res.render("register.ejs");
+});
 
 module.exports = router;
