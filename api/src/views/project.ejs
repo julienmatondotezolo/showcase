@@ -2,77 +2,98 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Showcase - Dashboard</title>
-    <link rel="stylesheet" href="../css/master.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Uploadzone</title>
+    <link rel="stylesheet" href="../css/upload.css" />
     <script
-      src="https://kit.fontawesome.com/2580541a59.js"
+      src="https://kit.fontawesome.com/3f2d033088.js"
       crossorigin="anonymous"
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- <script type="module" src="/js/project.js"></script> -->
+    <!--    <script type="module" src="/js/project.js"></script>  -->
   </head>
+  <body>
+    <div class="bg_img"></div>
+    <header>
+      <img
+        src="../assets/images/logo.png"
+        alt="final show logo"
+        class="logo"
+        width="18%"
+        height="auto"
+      />
+    </header>
+    <main>
+      <p>
+        Is je Final Work een meesterwerk?<br /><br />
+        Of ben je er gewoon ontzettend trots op? Aarzel dan niet en stuur het
+        via deze weg de wereld in en maak kans op een nominatie, of blaas gewoon
+        iedereen omver en neem een prijs mee naar huis!
+      </p>
 
-  <body class="project">
-    <form
-      action="/upload"
-      class="box box-shadow cl2 pink project-form"
-      enctype="multipart/form-data"
-      method="POST"
-    >
-      <h3>Hello, <%= username %>. Upload your project here!</h3>
-      <section>
-        <input
-          type="text"
-          name="projectname"
-          placeholder="project name"
-          class="input-user"
-          required
-        />
-      </section>
-      <section>
-        <input
-          type="text"
-          name="description"
-          placeholder="description"
-          maxlength="50"
-          class="input-user"
-          required
-        />
-      </section>
-      <section>
-        <input
-          type="text"
-          name="url"
-          placeholder="project URL"
-          class="input-user"
-          required
-        />
-      </section>
-      <section class="dropzone">
-        <div class="dropzone-content">
-          <i class="fas fa-upload fa-lg"></i>
-          <p>Choose an image file or drag it here.</p>
+      <form
+        action="/upload"
+        class="box box-shadow cl2 pink project-form"
+        enctype="multipart/form-data"
+        method="POST"
+        id="upload-form"
+      >
+        <div class="flex">
+          <div class="left">
+            <input
+              type="text"
+              name="projectname"
+              id="name"
+              placeholder="Naam"
+              required
+            />
+
+            <label for="cluster" class="cluster-label">Keuzecluster</label>
+            <select name="cluster" id="cluster" required>
+              <option value="web">Web</option>
+              <option value="mobile">Mobile Appliance</option>
+              <option value="motion">Interactive Motion</option>
+              <option value="ar">Alternate Reality</option>
+              <option value="digital-making">Digital Making</option>
+            </select>
+
+            <p class="image-p">Thumbnail / foto</p>
+            <label for="image" class="image-label" id="image-label"></label>
+            <input
+              id="image"
+              type="file"
+              accept="image/png, image/jpeg"
+              name="image"
+              class="input-user"
+              required
+            />
+          </div>
+
+          <div class="right">
+            <input
+              type="text"
+              name="url"
+              id="link"
+              placeholder="Link naar video (youtube)"
+              required
+            />
+            <textarea
+              name="description"
+              id="description"
+              cols="30"
+              rows="10"
+              placeholder="Beschrijving"
+              required
+            ></textarea>
+          </div>
         </div>
-        <input
-          type="file"
-          accept="image/png, image/jpeg"
-          name="image"
-          class="input-user"
-          required
-        />
-      </section>
-      <section>
-        <select name="cluster" class="input-user" required>
-          <option value="web">Web</option>
-          <option value="mobile">Mobile Appliance</option>
-          <option value="motion">Interactive Motion</option>
-          <option value="ar">Alternate Reality</option>
-          <option value="digital-making">Digital Making</option>
-        </select>
-      </section>
-      <section>
-        <input class="btn bg-blue white" type="submit" value="Upload" />
-      </section>
-    </form>
+
+        <div class="submit-div">
+          <input type="submit" name="submit" value="Indienen" />
+          <i class="fas fa-chevron-right" style="font-size: large"></i>
+        </div>
+      </form>
+    </main>
   </body>
 </html>

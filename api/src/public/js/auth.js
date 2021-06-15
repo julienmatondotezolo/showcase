@@ -13,7 +13,7 @@ $(".register-form").submit(function (e) {
 });
 
 async function login(data) {
-  await fetch("http://localhost:3000/login", {
+  await fetch("login", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -22,7 +22,7 @@ async function login(data) {
     body: JSON.stringify(data),
   }).then((res) => {
     if (res.status == 200) {
-      window.location.replace("http://localhost:3000/upload/");
+      window.location.replace("/upload/");
     } else if (res.status == 400) {
       alert("E-mail or password problem.");
     } else {
@@ -32,12 +32,13 @@ async function login(data) {
     /*     res.json().then((parsedRes) => {
       console.log(parsedRes);
     }); */
+
     //window.location.replace("http://localhost:3000/upload/");
   });
 }
 
 async function register(data) {
-  await fetch("http://localhost:3000/register", {
+  await fetch("/register", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -46,7 +47,7 @@ async function register(data) {
     body: JSON.stringify(data),
   }).then((res) => {
     if (res.status == 200) {
-      window.location.replace("http://localhost:3000/login/");
+      window.location.replace("/login/");
     } else if (res.status == 403) {
       alert("E-mail already exists");
     } else if (res.status == 500) {
