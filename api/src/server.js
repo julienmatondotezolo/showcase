@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-
+const path = require('path');
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -13,7 +13,10 @@ const session = require("express-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const { ensureAuthenticated } = require("./routes/auth/auth");
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(__dirname + '/public'));
 
+app.set('view-engine', 'ejs')
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocs = require("./swagger.json");
@@ -70,8 +73,9 @@ app.use(passport.session());
 app.use(status);
 require("./routes/auth/passport")(passport);
 
-app.get("/", async (req, res) => {
-  res.send("FP-IV-API");
+app.get("/", ensureAuthenticated, (req, res) => {
+  res.render('index.ejs', { username: req.user.username })
+
 });
 
 app.use("/dashboard", dashboard);

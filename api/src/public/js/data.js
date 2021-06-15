@@ -24,7 +24,9 @@ async function allprojects() {
         }
     }).then(res => {
         res.json().then(parsedRes => {
+            printProjects(parsedRes)
             printAllProjects(parsedRes)
+
         })
     })
 }
@@ -50,9 +52,21 @@ function printAllUsers(allData) {
     }
 }
 
+
+function printProjects(allData) {
+    for (const data in allData) {
+        $(".projects-count").text("Total projects: "+ data)
+    }
+
+}
+
 function printAllProjects(allData) {
     for (const data of allData) {
+        console.log(data.name);
+
+    
         $(".table").append(`
+       
         <div class="table-tr">
             <figure class="table-td">
                 <img src="" alt="project-logo">
@@ -60,10 +74,9 @@ function printAllProjects(allData) {
             <article class="table-td">
                 <p class="bold">${data.name}</p>
             </article>
-            <section class="table-td">
-                <p>0 <span>views</span></p>
-                <p>0 <span>likes</span></p>
-            </section>
-        </div>`);
+            <a href="../page/detailproject.html?id=${data.name}">
+            <button>Visit Google</button>
+         </a>
+    `);
     }
 }

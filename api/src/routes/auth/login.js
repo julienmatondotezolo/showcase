@@ -21,4 +21,9 @@ router.post("/", async (req, res, next) => {
     });
   })(req, res, next);
 });
+
+router.get('/', (req, res) => {
+  console.log('you are trying to get login');
+  res.render('login.ejs');
+})
 module.exports = router;
