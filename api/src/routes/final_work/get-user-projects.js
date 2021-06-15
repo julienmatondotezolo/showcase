@@ -10,9 +10,11 @@ router.get("/", async (req, res) => {
       `SELECT * FROM projects where user_id = $1`,
       [userid]
     );
-    res.json(selectedProjectsSQL.rows);
+
+    res.status(200).json(selectedProjectsSQL.rows);
   } catch (err) {
     console.error(err.message);
+    res.sendCustomStatus(500);
   }
 });
 

@@ -1,5 +1,6 @@
 @import url(reset.css);
 @import url(style.css);
+@import url(project.css);
 
 /*////////////////  COLORS  ///////////*/
 
@@ -46,6 +47,7 @@
 /*/////////////    BODY   ////////////////*/
 
 body {
+    display: flex;
     font-size: 12px;
     font-family: 'Gotham Pro', sans-serif;
     line-height: 1.4;

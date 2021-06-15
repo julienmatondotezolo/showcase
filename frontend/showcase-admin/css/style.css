@@ -147,3 +147,17 @@ main .nav-toggler {
   background: #67909d;
   box-sizing: border-box;
 }
+
+/*///////////// FORM & INPUTS ////////////////*/
+
+body > form {
+  margin: auto;
+}
+
+form > section {
+  margin: 1em 0;
+}
+
+form select {
+  border: none;
+}

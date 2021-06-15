@@ -13,7 +13,7 @@ $(".register-form").submit(function (e) {
 });
 
 async function login(data) {
-    await fetch('http://193.191.183.48:3000/login', {
+    await fetch('http://localhost:3000/login', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -28,7 +28,7 @@ async function login(data) {
 }
 
 async function register(data) {
-    await fetch('http://193.191.183.48:3000/register', {
+    await fetch('http://localhost:3000/register', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
