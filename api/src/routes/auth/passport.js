@@ -20,10 +20,8 @@ module.exports = async function (passport) {
             console.log(user.rows[0].password);
             console.log(password);
             if (isMatch) {
-              console.log("OUEEEEEEEE");
               return done(null, user.rows[0]);
             } else {
-                 
               return done(null, false, { message: "pass incorrect" });
             }
           });
