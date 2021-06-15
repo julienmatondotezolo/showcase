@@ -1,3 +1,4 @@
+const passport = require("passport");
 const send = require("../status/status");
 
 module.exports = {
@@ -5,7 +6,7 @@ module.exports = {
     if (req.isAuthenticated()) {
       return next();
     } else {
-      console.log('Julien le jean-michel')
+      console.log('Your are not logged in')
       res.sendCustomStatus(401);
     }
   },
