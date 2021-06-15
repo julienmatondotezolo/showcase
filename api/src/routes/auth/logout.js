@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.get('/', function(req, res){
   req.logout();
-  res.sendCustomStatus(200, "Succesfully logged out");
   res.redirect('/login');
-
+  console.log('you have succesfully logged out')
 });
-
 module.exports = router;
