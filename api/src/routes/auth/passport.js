@@ -23,7 +23,7 @@ module.exports = async function (passport) {
               console.log("OUEEEEEEEE");
               return done(null, user.rows[0]);
             } else {
-              console.log("NEEEEEEEE");
+                 
               return done(null, false, { message: "pass incorrect" });
             }
           });

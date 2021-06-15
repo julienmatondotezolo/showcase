@@ -1,29 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const { ensureAuthenticated } = require("./auth");
 
-router.post("/", async (req, res, next) => {
-  passport.authenticate("local", function (err, user, info) {
-    if (err) {
-      console.log("here");
-      return next(err);
-    }
-    if (!user) {
-      console.log("here2");
-      return res.redirect("/login");
-    }
-    req.logIn(user, function (err) {
-      if (err) {
-        return next(err);
-      }
-      console.log(user);
-      return res.send(user);
-    });
+router.post('/', (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/login',
+    failureFlash: req.flash('error_msg'),
   })(req, res, next);
 });
 
+
 router.get('/', (req, res) => {
+  var message = req.flash('message')
   console.log('you are trying to get login');
-  res.render('login.ejs');
+  res.render('login.ejs',{ message });
 })
 module.exports = router;
