@@ -1,6 +1,5 @@
 
 export function bytesToBase64(bytes) {
-
 	const base64abc = [
 		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
 		"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
@@ -8,7 +7,6 @@ export function bytesToBase64(bytes) {
 		"n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
 		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "/"
 	];
-
 	
 	let result = '', i, l = bytes.length;
 	for (i = 2; i < l; i += 3) {
@@ -28,5 +26,5 @@ export function bytesToBase64(bytes) {
 		result += base64abc[(bytes[i - 1] & 0x0F) << 2];
 		result += "=";
 	}
-	return result;
+	return "data:image/png;base64," + result;
 }

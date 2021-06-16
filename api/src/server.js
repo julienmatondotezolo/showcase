@@ -149,6 +149,7 @@ app.get("/dashboard-docent", (req, res) => {
   res.render("index.ejs", {
     username: req.user.username,
   });
+  
   /* } else {
     res.redirect("/login");
   } */
@@ -161,7 +162,20 @@ router.get("/error", function (req, res, next) {
 });
 
 app.get("/", (req, res) => {
-  res.send("here is our site");
+  if (!req.isAuthenticated()) {
+    // || (req.user.role == "student") (redirect if student and allow if docent)
+    res.redirect("/login");
+    return;
+  }
+
+  /*   if (req.user.role == "admin") { */
+
+  res.render("index.ejs", {
+    username: req.user.username,
+  });
+  /* } else {
+    res.redirect("/login");
+  } */
 });
 
 app.get("/detailproject", (req, res) => {
@@ -175,7 +189,7 @@ app.use("/logout", logout);
 
 app.use("/final-work/create", ensureAuthenticated, createFw);
 app.use("/final-work/delete", ensureAuthenticated, deleteFw);
-app.use("/final-work/get-all", ensureAuthenticated, getAllFw); // REMOVE ensureAuthenticated
+app.use("/final-work/get-all", getAllFw); // REMOVE ensureAuthenticated
 app.use("/final-work/get-single", getSingleFw);
 app.use(
   "/final-work/get-user-projects",
