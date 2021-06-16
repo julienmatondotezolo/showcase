@@ -3,18 +3,17 @@ if (process.env.NODE_ENV !== "production") {
 }
 const path = require("path");
 const express = require("express");
-const fileUpload = require("express-fileupload");
-const cloudinary = require('cloudinary').v2
-// cloudinary.config({
-//   cloud_name: process.env.CLOUD_NAME, 
-//   api_key: process.env.API_KEY, 
-//   api_secret: process.env.API_SECRET 
-// });
-cloudinary.config({
-  cloud_name: "hjigicb0f", 
-  api_key: "486356238441661", 
-  api_secret: "i1DwEM0kgv55Q-_1xtG6RpoKKhw"
+const multer  = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, __dirname + '/public/uploads/')
+  },
+  filename: function (req, file, cb) { 
+    cb(null, req.body.cluster + Date.now() + '.' + file.mimetype.replace("image/", ""))
+  }
 });
+const upload = multer({ storage: storage });
+const fileUpload = require("express-fileupload");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 3000;
@@ -84,13 +83,13 @@ app.use(
   })
 );
 
-app.use(
-  fileUpload({
-    limits: {
-      fileSize: 50 * 1024 * 1024,
-    },
-  })
-);
+// app.use(
+//   fileUpload({
+//     limits: {
+//       fileSize: 50 * 1024 * 1024,
+//     },
+//   })
+// );
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -100,7 +99,7 @@ require("./routes/auth/passport")(passport);
 
 //*  ====== UPLOAD STUDENT PROJECTS ====== *//
 
-app.get("/upload", (req, res) => {
+app.get("/upload", ensureAuthenticated, (req, res) => {
   if (!req.isAuthenticated()) {
     res.redirect("/login");
     return;
@@ -111,16 +110,15 @@ app.get("/upload", (req, res) => {
   });
 });
 
-app.post("/upload", ensureAuthenticated, async (req, res) => {
-  const { name, data } = req.files.image;
+app.post("/upload", upload.single('image'), async (req, res) => {
+  const PUBLIC_URL = "http://193.191.183.48:3000/";
+  const { originalname, path } = req.file;
+  let images = PUBLIC_URL + path.split("/public/").pop();
 
   let { projectname, description, url, cluster } = req.body;
   let userId = req.user.userid;
 
   if (check(cluster)) {
-    // let images = await imgCloudinaryURL(data);
-    let images = bytesToBase64(data)
-    // console.log(images);
     let values = [projectname, description, url, images, cluster, userId];
     try {
       const newProject = await pool.query(
