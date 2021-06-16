@@ -51,6 +51,9 @@ const getAllUsers = require("./routes/users/get-all");
 const getSingleUser = require("./routes/users/get-single");
 
 const updateUser = require("./routes/users/update");
+
+const vote = require("./routes/admin/vote");
+
 const router = require("./routes/users/add");
 const { compareSync } = require("bcrypt");
 
@@ -153,7 +156,6 @@ app.post("/upload", upload.single('image'), async (req, res) => {
   //   });
   //   return result.url
   // }
-
 });
 
 //*  ====== VOTING SYSTEM DOCENT ====== *//
@@ -170,7 +172,7 @@ app.get("/dashboard-docent", (req, res) => {
   res.render("index.ejs", {
     username: req.user.username,
   });
-  
+
   /* } else {
     res.redirect("/login");
   } */
@@ -183,7 +185,7 @@ router.get("/error", function (req, res, next) {
 });
 
 app.get("/", (req, res) => {
-  res.redirect("login")
+  res.redirect("login");
 });
 
 app.get("/detailproject", (req, res) => {
@@ -216,36 +218,101 @@ app.use("/users/get-all", getAllUsers);
 app.use("/users/get-single", getSingleUser);
 app.use("/users/update", ensureAuthenticated, updateUser);
 
+app.use("/admin/vote", vote);
+
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 });
 
 function bytesToBase64(bytes) {
-	const base64abc = [
-		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-		"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-		"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-		"n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "/"
-	];
-	
-	let result = '', i, l = bytes.length;
-	for (i = 2; i < l; i += 3) {
-		result += base64abc[bytes[i - 2] >> 2];
-		result += base64abc[((bytes[i - 2] & 0x03) << 4) | (bytes[i - 1] >> 4)];
-		result += base64abc[((bytes[i - 1] & 0x0F) << 2) | (bytes[i] >> 6)];
-		result += base64abc[bytes[i] & 0x3F];
-	}
-	if (i === l + 1) { // 1 octet yet to write
-		result += base64abc[bytes[i - 2] >> 2];
-		result += base64abc[(bytes[i - 2] & 0x03) << 4];
-		result += "==";
-	}
-	if (i === l) { // 2 octets yet to write
-		result += base64abc[bytes[i - 2] >> 2];
-		result += base64abc[((bytes[i - 2] & 0x03) << 4) | (bytes[i - 1] >> 4)];
-		result += base64abc[(bytes[i - 1] & 0x0F) << 2];
-		result += "=";
-	}
-	return "data:image/jpeg;base64," + result;
+  const base64abc = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "+",
+    "/",
+  ];
+
+  let result = "",
+    i,
+    l = bytes.length;
+  for (i = 2; i < l; i += 3) {
+    result += base64abc[bytes[i - 2] >> 2];
+    result += base64abc[((bytes[i - 2] & 0x03) << 4) | (bytes[i - 1] >> 4)];
+    result += base64abc[((bytes[i - 1] & 0x0f) << 2) | (bytes[i] >> 6)];
+    result += base64abc[bytes[i] & 0x3f];
+  }
+  if (i === l + 1) {
+    // 1 octet yet to write
+    result += base64abc[bytes[i - 2] >> 2];
+    result += base64abc[(bytes[i - 2] & 0x03) << 4];
+    result += "==";
+  }
+  if (i === l) {
+    // 2 octets yet to write
+    result += base64abc[bytes[i - 2] >> 2];
+    result += base64abc[((bytes[i - 2] & 0x03) << 4) | (bytes[i - 1] >> 4)];
+    result += base64abc[(bytes[i - 1] & 0x0f) << 2];
+    result += "=";
+  }
+  return "data:image/jpeg;base64," + result;
 }
