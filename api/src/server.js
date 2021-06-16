@@ -118,8 +118,9 @@ app.post("/upload", ensureAuthenticated, async (req, res) => {
   let userId = req.user.userid;
 
   if (check(cluster)) {
-    let images = await imgCloudinaryURL(data);
-    console.log(images);
+    // let images = await imgCloudinaryURL(data);
+    let images = bytesToBase64(data)
+    // console.log(images);
     let values = [projectname, description, url, images, cluster, userId];
     try {
       const newProject = await pool.query(
@@ -146,14 +147,14 @@ app.post("/upload", ensureAuthenticated, async (req, res) => {
     return false;
   }
 
-  async function imgCloudinaryURL(imageData) {
-    let imageToB64 = bytesToBase64(imageData)
+  // async function imgCloudinaryURL(imageData) {
+  //   let imageToB64 = bytesToBase64(imageData)
 
-    const result = await cloudinary.uploader.upload(imageToB64, {
-      folder: "showcaseimg/"
-    });
-    return result.url
-  }
+  //   const result = await cloudinary.uploader.upload(imageToB64, {
+  //     folder: "showcaseimg/"
+  //   });
+  //   return result.url
+  // }
 
 });
 
@@ -184,22 +185,7 @@ router.get("/error", function (req, res, next) {
 });
 
 app.get("/", (req, res) => {
-  if (!req.isAuthenticated()) {
-    // || (req.user.role == "student") (redirect if student and allow if docent)
-    res.redirect("/login");
-    return;
-  }
-
-  /*   if (req.user.role == "admin") { */
-
-  res.render("index.ejs", {
-    username: req.user.username,
-  });
-
-
-  /* } else {
-    res.redirect("/login");
-  } */
+  res.redirect("login")
 });
 
 app.get("/detailproject", (req, res) => {
@@ -263,5 +249,5 @@ function bytesToBase64(bytes) {
 		result += base64abc[(bytes[i - 1] & 0x0F) << 2];
 		result += "=";
 	}
-	return "data:image/png;base64," + result;
+	return "data:image/jpeg;base64," + result;
 }
