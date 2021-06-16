@@ -11,12 +11,12 @@ $(document).ready(function () {
   async function runAll(idDetail) {
     const [data] = await Promise.all([getProjectId(idDetail)]);
     console.log(data);
-    let converted = CTB64.bytesToBase64(data[0].images.data);
+    // let converted = CTB64.bytesToBase64(data[0].images.data);
 
     $(".item_details").append(`
         <div>
           <figure class="cl1 images_detail">  
-            <img src="${converted}" alt="project-images">
+            <img src="${data[0].images}" alt="project-images">
           </figure>
 
           <div class="row_detail">

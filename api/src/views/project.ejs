@@ -11,7 +11,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!--    <script type="module" src="/js/project.js"></script>  -->
+    <script src="/js/script.js" defer></script>
   </head>
   <body>
     <div class="bg_img"></div>
@@ -32,22 +32,10 @@
         iedereen omver en neem een prijs mee naar huis!
       </p>
 
-      <form
-        action="/upload"
-        class="box box-shadow cl2 pink project-form"
-        enctype="multipart/form-data"
-        method="POST"
-        id="upload-form"
-      >
+      <form action="/upload" class="box box-shadow cl2 pink project-form" enctype="multipart/form-data" method="POST" id="upload-form">
         <div class="flex">
           <div class="left">
-            <input
-              type="text"
-              name="projectname"
-              id="name"
-              placeholder="Naam"
-              required
-            />
+            <input type="text" name="projectname" id="name" placeholder="Naam" required />
 
             <label for="cluster" class="cluster-label">Keuzecluster</label>
             <select name="cluster" id="cluster" required>
@@ -60,14 +48,7 @@
 
             <p class="image-p">Thumbnail / foto</p>
             <label for="image" class="image-label" id="image-label"></label>
-            <input
-              id="image"
-              type="file"
-              accept="image/png, image/jpeg"
-              name="image"
-              class="input-user"
-              required
-            />
+            <input id="image" type="file" accept="image/png, image/jpeg" name="image" class="image-upload" required />
           </div>
 
           <div class="right">
@@ -75,7 +56,7 @@
               type="text"
               name="url"
               id="link"
-              placeholder="Link naar video (youtube)"
+              placeholder="Link naar video (youtube/vimeo/dailymotion)"
               required
             />
             <textarea

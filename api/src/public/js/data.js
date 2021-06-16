@@ -64,12 +64,12 @@ function printProjects(allData) {
 function printAllProjects(allData) {
     for (const data of allData) {
 
-        let convertedImg = CTB64.bytesToBase64(data.images.data);
+        // let convertedImg = CTB64.bytesToBase64(data.images.data);
 
         $(".table-content").append(`
             <div class="table-tr">
                 <figure class="table-td">
-                    <img src="${convertedImg}" alt="project-images">
+                    <img src="${data.images}" alt="project-images">
                 </figure>
                 <article class="table-td">
                     <p class="bold">${data.name}</p>

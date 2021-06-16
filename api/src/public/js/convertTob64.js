@@ -1,4 +1,3 @@
-
 export function bytesToBase64(bytes) {
 	const base64abc = [
 		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",

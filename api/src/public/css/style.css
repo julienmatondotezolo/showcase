@@ -73,6 +73,7 @@ main .topnav li:last-child i:last-child:hover {
 
 main .topnav li:last-child i:last-child span,
 main .topnav li:last-child i:last-child p {
+  margin-left: .5em;
   float: left;
 }
 
@@ -89,8 +90,8 @@ main .nav-toggler {
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 1em 0;
-  box-sizing: border-box;
   margin: 1em 0;
+  box-sizing: border-box;
 }
 
 .item {
@@ -102,6 +103,7 @@ main .nav-toggler {
 
 .top-projects {
   background: #fff;
+  margin: 1em 0;
 }
 
 .top-projects>article {
