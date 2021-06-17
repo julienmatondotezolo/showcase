@@ -3,14 +3,17 @@ if (process.env.NODE_ENV !== "production") {
 }
 const path = require("path");
 const express = require("express");
-const multer  = require('multer');
+const multer = require("multer");
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, __dirname + '/public/uploads/')
+    cb(null, __dirname + "/public/uploads/");
   },
-  filename: function (req, file, cb) { 
-    cb(null, req.body.cluster + Date.now() + '.' + file.mimetype.replace("image/", ""))
-  }
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      req.body.cluster + Date.now() + "." + file.mimetype.replace("image/", "")
+    );
+  },
 });
 const upload = multer({ storage: storage });
 const fileUpload = require("express-fileupload");
@@ -115,7 +118,7 @@ app.get("/upload", (req, res) => {
   });
 });
 
-app.post("/upload", upload.single('image'), async (req, res) => {
+app.post("/upload", upload.single("image"), async (req, res) => {
   const PUBLIC_URL = "http://193.191.183.48:3000/";
   const { originalname, path } = req.file;
   let images = PUBLIC_URL + path.split("/public/").pop();
@@ -208,7 +211,7 @@ app.use("/logout", logout);
 app.use("/final-work/create", ensureAuthenticated, createFw);
 app.use("/final-work/delete", ensureAuthenticated, deleteFw);
 app.use("/final-work/get-all", getAllFw); // REMOVE ensureAuthenticated
-app.use("/final-work/filter-cluster", filterCluster); 
+app.use("/final-work/filter-cluster", filterCluster);
 app.use("/final-work/get-single", getSingleFw);
 app.use(
   "/final-work/get-user-projects",
