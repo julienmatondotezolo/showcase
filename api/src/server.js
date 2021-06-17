@@ -44,6 +44,7 @@ const getSingleFw = require("./routes/final_work/get-single");
 const getAllUserProjects = require("./routes/final_work/get-user-projects");
 const updateFw = require("./routes/final_work/update");
 const getById = require("./routes/final_work/get-byid");
+const searchName = require("./routes/final_work/search-name");
 
 const addUser = require("./routes/users/add");
 const deleteUser = require("./routes/users/delete");
@@ -213,6 +214,7 @@ app.use(
   getAllUserProjects
 );
 app.use("/final-work/get-byid", getById);
+app.use("/final-work/search-name", searchName);
 
 app.use("/final-work/update", ensureAuthenticated, updateFw);
 
