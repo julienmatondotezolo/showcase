@@ -1,5 +1,12 @@
-allprojects()
-getUrl()
+const url_string = window.location.href;
+const url = new URL(url_string);
+const query = url.searchParams.get("cluster");
+
+if(query) {
+    filterProject(query)
+} else {
+    allProjects()
+}
 
 $("#search").on("keyup", function () {
     let valueText = $("input").val();
@@ -7,28 +14,27 @@ $("#search").on("keyup", function () {
     if (valueText !== '') {
         searchProject(valueText)
     } else {
-        allprojects()
+        allProjects()
     }
 });
 
-$(".dropdown-content a").click(function (e) { 
-    // e.preventDefault();
-    let url = window.location.href;
-    console.log("URL: ", url)
-    const urlParams = new URLSearchParams(url);
-    const clusterQuery = urlParams.get("cluster");
-
-    console.log(urlParams)
-});
-
-function getUrl() {
-    let url = window.location.href;
-    console.log("URL: ", url)
-    const urlParams = new URLSearchParams(url);
-    console.log(urlParams)
+async function filterProject(sort) {
+    await fetch('/final-work/filter-cluster/' + sort, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then(res => {
+        res.json().then(parsedRes => {
+            console.log(parsedRes)
+            printProjects(parsedRes)
+            printAllProjects(parsedRes)
+        })
+    })
 }
 
-async function allprojects() {
+async function allProjects() {
     await fetch('/final-work/get-all/', {
         method: 'GET',
         headers: {
