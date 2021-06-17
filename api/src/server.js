@@ -52,6 +52,7 @@ const searchName = require("./routes/final_work/search-name");
 const filterCluster = require("./routes/final_work/filter-cluster");
 const dashboardDocent = require("./routes/dashboard/dashboard-docent");
 const detailProject = require("./routes/final_work/detail-project");
+const addEmail = require("./routes/mail/add-email");
 const addUser = require("./routes/users/add");
 const deleteUser = require("./routes/users/delete");
 const getAllUsers = require("./routes/users/get-all");
@@ -131,6 +132,7 @@ app.use("/upload", uploadGet);
 app.use("/upload", upload.single("image"), uploadPost);
 app.use("/dashboard-docent", ensureAuthenticated, dashboardDocent);
 app.use("/detailproject", ensureAuthenticated, detailProject);
+app.use("/add-email", addEmail);
 app.use("/admin/vote", vote);
 
 app.listen(port, () => {
