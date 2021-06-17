@@ -1,4 +1,5 @@
 allprojects()
+getUrl()
 
 $("#search").on("keyup", function () {
     let valueText = $("input").val();
@@ -19,6 +20,13 @@ $(".dropdown-content a").click(function (e) {
 
     console.log(urlParams)
 });
+
+function getUrl() {
+    let url = window.location.href;
+    console.log("URL: ", url)
+    const urlParams = new URLSearchParams(url);
+    console.log(urlParams)
+}
 
 async function allprojects() {
     await fetch('/final-work/get-all/', {
