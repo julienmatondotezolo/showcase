@@ -102,7 +102,7 @@ require("./routes/auth/passport")(passport);
 
 //*  ====== UPLOAD STUDENT PROJECTS ====== *//
 
-app.get("/upload", ensureAuthenticated, (req, res) => {
+app.get("/upload", (req, res) => {
   if (!req.isAuthenticated()) {
     res.redirect("/login");
     return;
@@ -189,6 +189,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/detailproject", (req, res) => {
+  if (!req.isAuthenticated()) {
+    res.redirect("/login");
+    return;
+  }
   res.render("detailproject.ejs", {
     username: req.user.username,
   });

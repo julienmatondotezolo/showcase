@@ -14,6 +14,8 @@ router.post("/", async (req, res) => {
     }
   }
 
+  console.log(req.body)
+
   let { project_id } = req.body;
   let docentId = req.user.userid;
 
