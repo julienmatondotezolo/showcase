@@ -27,6 +27,8 @@ const session = require("express-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const { ensureAuthenticated } = require("./routes/auth/auth");
+const { ensureDocent } = require("./routes/auth/ensureDocent");
+const { ensureStudent } = require("./routes/auth/ensureStudent");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(__dirname + "/public"));
 
@@ -123,11 +125,11 @@ app.use("/users/delete", ensureAuthenticated, deleteUser);
 app.use("/users/get-all", getAllUsers);
 app.use("/users/get-single", getSingleUser);
 app.use("/users/update", ensureAuthenticated, updateUser);
-app.use("/upload", uploadGet);
-app.use("/upload", upload.single("image"), uploadPost);
-app.use("/dashboard-docent", ensureAuthenticated, dashboardDocent);
-app.use("/detailproject", ensureAuthenticated, detailProject);
-app.use("/admin/vote", vote);
+app.use("/upload", ensureStudent, uploadGet);
+app.use("/upload", ensureStudent, upload.single("image"), uploadPost);
+app.use("/dashboard-docent", ensureDocent, dashboardDocent);
+app.use("/detailproject", ensureDocent, detailProject);
+app.use("/admin/vote", ensureDocent, vote);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
