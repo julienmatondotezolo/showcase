@@ -45,6 +45,7 @@ const getAllUserProjects = require("./routes/final_work/get-user-projects");
 const updateFw = require("./routes/final_work/update");
 const getById = require("./routes/final_work/get-byid");
 const searchName = require("./routes/final_work/search-name");
+const filterCluster = require("./routes/final_work/filter-cluster");
 
 const addUser = require("./routes/users/add");
 const deleteUser = require("./routes/users/delete");
@@ -207,6 +208,7 @@ app.use("/logout", logout);
 app.use("/final-work/create", ensureAuthenticated, createFw);
 app.use("/final-work/delete", ensureAuthenticated, deleteFw);
 app.use("/final-work/get-all", getAllFw); // REMOVE ensureAuthenticated
+app.use("/final-work/filter-cluster", filterCluster); 
 app.use("/final-work/get-single", getSingleFw);
 app.use(
   "/final-work/get-user-projects",
