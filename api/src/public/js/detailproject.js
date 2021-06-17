@@ -6,7 +6,6 @@ $(document).ready(function () {
   const urlParams = new URLSearchParams(url);
 
   const idDetail = urlParams.get("id");
-  console.log(idDetail);
 
   async function runAll(idDetail) {
     const [data] = await Promise.all([getProjectId(idDetail)]);
@@ -23,7 +22,7 @@ $(document).ready(function () {
             <h3>Project name: <span class="blue">${data[0].name}</span></h3>
           </div>
           <div class="row_detail">
-            <p>Project video: <a class="pink" href="${data[0].url}">${data[0].url}</a></p>
+            <p>Project video: <a class="pink" href="${data[0].url}" target="_blank">${data[0].url}</a></p>
           </div>
           <div class="row_detail">
             <p>Description: <span class="blue">${data[0].description}</span></p>
@@ -31,12 +30,14 @@ $(document).ready(function () {
         </div>
     `);
 
+    $(".project-form").prepend(`
+      <input type="number" name="project_id" value="${idDetail}" hidden>
+    `);
   }
 
   runAll(idDetail);
 
 });
-
 
 async function getProjectId(id) {
   let response = await fetch(`final-work/get-byid/${id}`, {
@@ -51,7 +52,6 @@ async function getUserId(id) {
   });
   return await response.json();
 }
-
 
 async function deleteProject(id) {
   let response = await fetch(`http://localhost:3000/final-work/get-single/${id}`, {
