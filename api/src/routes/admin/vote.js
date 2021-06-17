@@ -52,7 +52,7 @@ router.post("/", async (req, res) => {
         `SELECT cluster FROM projects where projectid = ${project_id}`
       );
       const projectToVoteCluster = wantedVoteProject.rows[0].cluster;
-
+      
       // Look if docent already voted to the cluster from wanted vote project
       allVotedProjects.rows.forEach((alreadyVotedProject) => {
         console.log(alreadyVotedProject);
