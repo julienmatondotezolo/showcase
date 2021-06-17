@@ -407,14 +407,20 @@ button {
 }
 
 .btn-inverse {
-  color: var(--darkgrey);
-  border: 3px solid var(--darkgrey);
+  color: #68909e;
+  border: 2px solid #68909e;
+  border-radius: 10px;
   background: transparent;
   transition: 0.2s all ease-in;
   -webkit-transition: 0.2s all ease-in;
   -moz-transition: 0.2s all ease-in;
   -ms-transition: 0.2s all ease-in;
   -o-transition: 0.2s all ease-in;
+}
+
+.btn-inverse:hover {
+  color: #fff !important;
+  background: #68909e;
 }
 
 input {
