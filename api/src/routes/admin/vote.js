@@ -3,18 +3,7 @@ const router = express.Router();
 const pool = require("../../db/db");
 
 router.post("/", async (req, res) => {
-  if (!req.isAuthenticated()) {
-    res.redirect("/login");
-    return;
-  } else {
-    if (req.user.role === "student") {
-      res.redirect("/login");
-      console.log("Not allowed");
-      return;
-    }
-  }
-
-  console.log(req.body)
+  console.log(req.body);
 
   let { project_id } = req.body;
   let docentId = req.user.userid;
@@ -52,7 +41,7 @@ router.post("/", async (req, res) => {
         `SELECT cluster FROM projects where projectid = ${project_id}`
       );
       const projectToVoteCluster = wantedVoteProject.rows[0].cluster;
-      
+
       // Look if docent already voted to the cluster from wanted vote project
       allVotedProjects.rows.forEach((alreadyVotedProject) => {
         console.log(alreadyVotedProject);
