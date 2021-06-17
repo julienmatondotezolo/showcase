@@ -4,7 +4,6 @@ $(document).ready(function () {
   console.log("entered detail");
   var url = window.location.search;
   const urlParams = new URLSearchParams(url);
-
   const idDetail = urlParams.get("id");
 
   async function runAll(idDetail) {

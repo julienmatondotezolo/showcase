@@ -5,11 +5,23 @@ $("#search").on("keyup", function () {
 
     if (valueText !== '') {
         searchProject(valueText)
+    } else {
+        allprojects()
     }
 });
 
+$(".dropdown-content a").click(function (e) { 
+    // e.preventDefault();
+    let url = window.location.href;
+    console.log("URL: ", url)
+    const urlParams = new URLSearchParams(url);
+    const clusterQuery = urlParams.get("cluster");
+
+    console.log(urlParams)
+});
+
 async function allprojects() {
-    await fetch('/final-work/get-all', {
+    await fetch('/final-work/get-all/', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -19,13 +31,12 @@ async function allprojects() {
         res.json().then(parsedRes => {
             printProjects(parsedRes)
             printAllProjects(parsedRes)
-
         })
     })
 }
 
 async function searchProject(query) {
-    await fetch('/final-work/' + query, {
+    await fetch('/final-work/search-name/' + query, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -33,19 +44,18 @@ async function searchProject(query) {
         }
     }).then(res => {
         res.json().then(parsedRes => {
-            console.log(parsedRes)
+            printProjects(parsedRes)
+            printAllProjects(parsedRes)
         })
     })
 }
 
 function printProjects(allData) {
-    for (const data in allData) {
-        $(".projects-count").text("Total projects: " + data)
-    }
-
+    $(".projects-count").text("Found projects: " + allData.length)
 }
 
 function printAllProjects(allData) {
+    $(".table-content").empty();
     for (const data of allData) {
 
         // let convertedImg = CTB64.bytesToBase64(data.images.data);
