@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "title": "Showcase API documentation",
     "contact": {
-      "email": "apiteam@swagger.io"
+      "email": "julien.matondo-tezolo@student.ehb.be"
     }
   },
   "tags": [
@@ -29,20 +29,15 @@
   "paths": {
     "/final-work/{projectid}": {
       "put": {
-        "tags": [
-          "Projects"
-        ],
+        "tags": ["Projects"],
         "summary": "Updated finalwork",
         "description": "Update a finalwork with projectid.",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
+        "produces": ["application/xml", "application/json"],
         "parameters": [
           {
             "name": "projectid",
             "in": "path",
-            "description": "name that need to be updated",
+            "description": "finalwork that needs to be modifiied",
             "required": true,
             "type": "string"
           },
@@ -71,17 +66,14 @@
         "tags": [
           "Projects"
         ],
-        "summary": "Deletes a project",
+        "summary": "Deletes a project by id",
         "description": "",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
+        "produces": ["application/xml", "application/json"],
         "parameters": [
           {
             "name": "projectid",
             "in": "path",
-            "description": "name that need to be updated",
+            "description": "deletes project by id",
             "required": true,
             "type": "string"
           }
@@ -98,17 +90,11 @@
     },
     "/final-work/create": {
       "post": {
-        "tags": [
-          "Projects"
-        ],
+        "tags": ["Projects"],
         "summary": "Add a project to the system",
         "description": "",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -135,18 +121,15 @@
         "tags": [
           "Projects"
         ],
-        "summary": "Get all users",
+        "summary": "Get all users from the",
         "description": "",
         "operationId": "getUserByName",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
+        "produces": ["application/xml", "application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/Users"
+              "$ref": "#/definitions/Projects"
             }
           },
           "400": {
@@ -163,11 +146,83 @@
         "tags": [
           "Projects"
         ],
-        "summary": "get finalwork with name",
+        "summary": "get one finalwork by name",
         "description": "",
         "parameters": [
           {
             "name": "name",
+            "in": "path",
+            "description": "name that needs to be updated",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/final-work/filter-cluster/{clustername}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "filter all finalwork by cluster",
+        "description": "",
+        "parameters": [
+          {
+            "name": "clustername",
+            "in": "path",
+            "description": "filter all projects by clusters",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/final-work/get-byid/{id}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "get one finalwork by id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
             "in": "path",
             "description": "name that need to be updated",
             "required": true,
@@ -182,7 +237,133 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/Users"
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/final-work/search-name/{name}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "filter all finalwork by name",
+        "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "name that needs to be updated",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/xml", "application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/final-work/filter-cluster/{clustername}": {
+      "get": {
+        "tags": ["Projects"],
+        "summary": "filter all finalwork by cluster",
+        "description": "",
+        "parameters": [
+          {
+            "name": "clustername",
+            "in": "path",
+            "description": "filter all projects by clusters",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/xml", "application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/final-work/get-byid/{id}": {
+      "get": {
+        "tags": ["Projects"],
+        "summary": "get one finalwork by id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/xml", "application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/final-work/search-name/{name}": {
+      "get": {
+        "tags": ["Projects"],
+        "summary": "filter all finalwork by name",
+        "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": ["application/xml", "application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Projects"
             }
           },
           "400": {
@@ -196,19 +377,11 @@
     },
     "/Register": {
       "post": {
-        "tags": [
-          "Register"
-        ],
+        "tags": ["Register"],
         "summary": "register user into the website",
         "description": "",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
+        "consumes": ["application/json", "application/xml"],
+        "produces": ["application/xml", "application/json"],
         "parameters": [
           {
             "in": "body",
@@ -229,14 +402,10 @@
     },
     "/login": {
       "post": {
-        "tags": [
-          "Login"
-        ],
+        "tags": ["Login"],
         "summary": "Logs user into the system",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "email",
@@ -280,14 +449,10 @@
     },
     "/logout": {
       "post": {
-        "tags": [
-          "Logout"
-        ],
+        "tags": ["Logout"],
         "summary": "Logs out current logged in user session",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "default": {
@@ -298,14 +463,10 @@
     },
     "/users/add": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Create user",
         "description": "This can only be done by the admin.",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -326,15 +487,10 @@
     },
     "/users/delete/{userid}": {
       "delete": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Deletes a user",
         "description": "",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
+        "produces": ["application/xml", "application/json"],
         "parameters": [
           {
             "name": "userid",
@@ -362,14 +518,10 @@
     },
     "/users/get-all": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Get all users",
         "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -385,15 +537,10 @@
     },
     "/users/get-single/{username}": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Get user by user name",
         "description": "",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
+        "produces": ["application/xml", "application/json"],
         "parameters": [
           {
             "name": "username",
@@ -421,16 +568,11 @@
     },
     "/users/update/{userid}": {
       "put": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "Updated user",
         "description": "This can only be done by the logged in user.",
         "operationId": "updateUser",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
+        "produces": ["application/xml", "application/json"],
         "parameters": [
           {
             "name": "userid",
@@ -479,6 +621,20 @@
       },
       "xml": {
         "name": "Registers"
+      }
+    },
+    "votes": {
+      "type": "object",
+      "properties": {
+        "projectid": {
+          "type": "integer"
+        },
+        "userid": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "votes"
       }
     },
     "Users": {

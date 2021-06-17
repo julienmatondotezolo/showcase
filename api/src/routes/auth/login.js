@@ -12,7 +12,7 @@ router.post("/", (req, res, next) => {
 });
 
 router.get("/", (req, res) => {
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated() ) {
     res.redirect("upload");
     return;
   }
