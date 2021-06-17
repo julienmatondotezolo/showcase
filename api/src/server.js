@@ -50,6 +50,8 @@ const updateFw = require("./routes/final_work/update");
 const getById = require("./routes/final_work/get-byid");
 const uploadGet = require("./routes/final_work/upload-get");
 const uploadPost = require("./routes/final_work/upload-post");
+const searchName = require("./routes/final_work/search-name");
+const filterCluster = require("./routes/final_work/filter-cluster");
 const dashboardDocent = require("./routes/dashboard/dashboard-docent");
 const detailProject = require("./routes/final_work/detail-project");
 const addUser = require("./routes/users/add");
@@ -110,6 +112,7 @@ app.use("/logout", logout);
 app.use("/final-work/create", ensureAuthenticated, createFw);
 app.use("/final-work/delete", ensureAuthenticated, deleteFw);
 app.use("/final-work/get-all", getAllFw); // REMOVE ensureAuthenticated
+app.use("/final-work/filter-cluster", filterCluster);
 app.use("/final-work/get-single", getSingleFw);
 app.use(
   "/final-work/get-user-projects",
@@ -117,6 +120,7 @@ app.use(
   getAllUserProjects
 );
 app.use("/final-work/get-byid", getById);
+app.use("/final-work/search-name", searchName);
 
 app.use("/final-work/update", ensureAuthenticated, updateFw);
 
