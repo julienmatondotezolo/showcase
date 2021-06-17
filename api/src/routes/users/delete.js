@@ -12,7 +12,7 @@ router.delete("/:id", async (req, res) => {
       [id]
     ); // Search the project that you want to delete
 
-    if (selectedUserSQL.rows[0]?.userid == id) {
+    if (selectedUserSQL.rows[0].userid == id) {
       // TODO:  // Check for admin rights
       const deleteUser = await pool.query("DELETE FROM users WHERE id = $1", [
         id,

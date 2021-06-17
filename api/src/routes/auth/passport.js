@@ -10,20 +10,19 @@ module.exports = async function (passport) {
         .then((user) => {
           if (!user.rows[0]) {
             return done(null, false, {
-              message: "that email is not registered",
+              message: "Email is not registered",
             });
           }
           //match pass
           bcrypt.compare(password, user.rows[0].password, (err, isMatch) => {
             if (err) throw err;
 
-            console.log(user.rows[0].password);
-            console.log(password);
+
             if (isMatch) {
-              console.log("OUEEEEEEEE");
-              return done(null, user);
+ 
+              return done(null, user.rows[0]);
             } else {
-              console.log("NEEEEEEEE");
+            
               return done(null, false, { message: "pass incorrect" });
             }
           });
@@ -31,7 +30,7 @@ module.exports = async function (passport) {
     })
   );
   passport.serializeUser(function (user, done) {
-    done(null, user.rows[0]);
+    done(null, user);
   });
 
   passport.deserializeUser(function (user, done) {

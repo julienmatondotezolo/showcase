@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Showcase - Dashboard</title>
+  <link rel="stylesheet" href="../css/master.css" type="text/css">
+  <script src="https://kit.fontawesome.com/2580541a59.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="module" src="/js/detailproject.js"></script>
+</head>
+<body>
+  <aside class="bg-blue">
+    <section>
+      <h1>Showcase Teacher Dashboard</h1>
+    </section>
+    <nav>
+      <ul class="sidenav">
+        <li><a href="/dashboard-docent">projects</a></li>
+      </ul>
+
+      <ul class="sidenav">
+        <li><a href="/logout" class="pink">logout</a></li>
+      </ul>
+
+    </ul>
+    </nav>
+  </aside>
+
+  <main>
+    <header>
+      <nav>
+        <ul class="topnav">
+          <li>
+            <!-- <div class="search">
+              <i class="fas fa-search"></i>
+              <input type="search" name="" id="search" placeholder="Search">
+            </div> -->
+          </li>
+          <li>
+            <i class="fas fa-cog fa-lg"></i>
+            <i class="fas fa-bell fa-lg"></i>
+            <i>
+              <span class="fas fa-user-circle dark-blue fa-lg"></span>
+              <p><%= username %></p>
+            </i>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div class="cl1 box box-shadow top-projects">
+      <article class="cl1">
+        <h3 class="item-name">Project detail</h3>
+      </article>
+      <div class="item_details"></div>
+      <form action="/admin/vote" class="cl2 pink project-form" method="POST">
+        <input class="btn bg-blue white" type="submit" value="vote">
+      </form>
+    </div>
+  </main>
+</body>
+
+</html>
