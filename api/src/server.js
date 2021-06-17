@@ -62,6 +62,7 @@ const getSingleUser = require("./routes/users/get-single");
 const updateUser = require("./routes/users/update");
 
 const vote = require("./routes/admin/vote");
+const myVotes = require("./routes/admin/my-votes");
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -134,6 +135,7 @@ app.use("/upload", ensureStudent, upload.single("image"), uploadPost);
 app.use("/dashboard-docent", ensureDocent, dashboardDocent);
 app.use("/detailproject", ensureDocent, detailProject);
 app.use("/admin/vote", ensureDocent, vote);
+app.use("/admin/my-votes", ensureDocent, myVotes);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
