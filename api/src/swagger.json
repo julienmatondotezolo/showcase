@@ -63,7 +63,9 @@
     },
     "/final-work/delete/{projectid}": {
       "delete": {
-        "tags": ["Projects"],
+        "tags": [
+          "Projects"
+        ],
         "summary": "Deletes a project by id",
         "description": "",
         "produces": ["application/xml", "application/json"],
@@ -116,7 +118,9 @@
     },
     "/final-work/get-all": {
       "get": {
-        "tags": ["Projects"],
+        "tags": [
+          "Projects"
+        ],
         "summary": "Get all users from the",
         "description": "",
         "operationId": "getUserByName",
@@ -139,8 +143,118 @@
     },
     "/final-work/get-single/{name}": {
       "get": {
-        "tags": ["Projects"],
+        "tags": [
+          "Projects"
+        ],
         "summary": "get one finalwork by name",
+        "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "name that needs to be updated",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/final-work/filter-cluster/{clustername}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "filter all finalwork by cluster",
+        "description": "",
+        "parameters": [
+          {
+            "name": "clustername",
+            "in": "path",
+            "description": "filter all projects by clusters",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/final-work/get-byid/{id}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "get one finalwork by id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Projects"
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/final-work/search-name/{name}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "filter all finalwork by name",
         "description": "",
         "parameters": [
           {

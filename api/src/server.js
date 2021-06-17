@@ -108,6 +108,7 @@ app.use("/logout", logout);
 app.use("/final-work/create", ensureAuthenticated, createFw);
 app.use("/final-work/delete", ensureAuthenticated, deleteFw);
 app.use("/final-work/get-all", getAllFw); // REMOVE ensureAuthenticated
+app.use("/final-work/filter-cluster", filterCluster);
 app.use("/final-work/get-single", getSingleFw);
 app.use(
   "/final-work/get-user-projects",
@@ -115,6 +116,7 @@ app.use(
   getAllUserProjects
 );
 app.use("/final-work/get-byid", getById);
+app.use("/final-work/search-name", searchName);
 
 app.use("/final-work/update", ensureAuthenticated, updateFw);
 
