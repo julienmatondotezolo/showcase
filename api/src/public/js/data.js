@@ -1,17 +1,25 @@
 const url_string = window.location.href;
 const url = new URL(url_string);
-const query = url.searchParams.get("cluster") ? url.searchParams.get("cluster") : url.searchParams.get("order");
+const query = url.searchParams.get("cluster")
+  ? url.searchParams.get("cluster")
+  : url.searchParams.get("order");
 
-allVotes()
+allVotes();
 
 if (query) {
-  if(query == "web" || query == "mobile" || query == "motion" || query == "ar" || query == "digital-making") {
+  if (
+    query == "web" ||
+    query == "mobile" ||
+    query == "motion" ||
+    query == "ar" ||
+    query == "digital-making"
+  ) {
     clusterFilter(query);
-  } else if(query == "asc" || query == "desc") {
-    orderFilter(query)
+  } else if (query == "asc" || query == "desc") {
+    orderFilter(query);
   }
 } else {
-    allProjects()
+  allProjects();
 }
 
 $("#search").on("keyup", function () {
@@ -25,7 +33,7 @@ $("#search").on("keyup", function () {
 });
 
 async function orderFilter(sort) {
-  console.log(sort)
+  console.log(sort);
   await fetch("/final-work/get-all/" + sort, {
     method: "GET",
     headers: {
@@ -57,18 +65,18 @@ async function clusterFilter(sort) {
 }
 
 async function allVotes() {
-    await fetch('/admin/my-votes', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }).then(res => {
-        res.json().then(parsedRes => {
-            voteCount(parsedRes)
-        })
-    })
-  }
+  await fetch("/admin/my-votes", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    res.json().then((parsedRes) => {
+      voteCount(parsedRes);
+    });
+  });
+}
 
 async function allProjects() {
   await fetch("/final-work/get-all/", {
@@ -100,12 +108,41 @@ async function searchProject(query) {
   });
 }
 
+let votedClusterArr = [];
 function voteCount(allData) {
-    $(".votes-count").text("Voted projects: " + allData.length);
+  console.log(allData);
+  allData.forEach((element) => {
+    votedClusterArr.push(getTheCluster(element.cluster));
+  });
+  $(".votes-count").html(
+    "Voted projects: " + allData.length + " <br> " + votedClusterArr
+  );
 }
-
 function printProjects(allData) {
   $(".projects-count").text("Found projects: " + allData.length);
+}
+
+function getTheCluster(cluster) {
+  let data = "";
+  switch (cluster) {
+    case "web":
+      data = " Web";
+      break;
+    case "motion":
+      data = " Motion";
+      break;
+    case "digital-making":
+      data = " Digital Making";
+      break;
+    case "ar":
+      data = " Alternative Reality";
+      break;
+    case "mobile":
+      data = " Mobile Application";
+      break;
+  }
+
+  return data;
 }
 
 function printAllProjects(allData) {
@@ -122,7 +159,7 @@ function printAllProjects(allData) {
                     <p class="bold">${data.name}</p>
                 </article>
                 <article class="table-td">
-                    <p class="bold">${data.cluster}</p>
+                    <p class="bold">${getTheCluster(data.cluster)}</p>
                 </article>
                 <a href="../detailproject?id=${data.projectid}">
                     <button class="btn bg-blue white">See project</button>
