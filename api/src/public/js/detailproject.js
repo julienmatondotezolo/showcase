@@ -1,10 +1,9 @@
 $(document).ready(function () {
-  
   var url = window.location.search;
   const urlParams = new URLSearchParams(url);
   const idDetail = urlParams.get("id");
 
-  allVotes(idDetail);
+  allVotes();
 
   async function runAll(idDetail) {
     const [data] = await Promise.all([getProjectId(idDetail)]);
@@ -35,50 +34,62 @@ $(document).ready(function () {
 
   runAll(idDetail);
 
-});
-
-async function allVotes(projectId) {
-  await fetch('/admin/my-votes', {
-      method: 'POST',
+  async function allVotes() {
+    await fetch("/admin/my-votes", {
+      method: "POST",
       headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-      }
-  }).then(res => {
-      res.json().then(parsedRes => {
-          console.log(parsedRes)
-          verifyVote(parsedRes, projectId)
-      })
-  })
-}
-
-function verifyVote(data, projectId) {
-  for (const allData of data) {
-    if (allData.project_id = projectId) {
-      console.log(`You have already voted for ${allData.name} in the cluster  ${allData.cluster}`);
-      $(`.project-form > #${$projectId}`).next().val('Already voted')
-      // $('#' + projectId).next().val('Already voted').disabled.css("background", "#b0bfc3 !important");
-    } 
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      res.json().then((parsedRes) => {
+        console.log(parsedRes);
+        verifyVote(parsedRes);
+      });
+    });
   }
-}
 
-async function getProjectId(id) {
-  let response = await fetch(`final-work/get-byid/${id}`, {
-    mode: "cors"
-  });
-  return await response.json();
-}
+  function verifyVote(data) {
+    console.log(data);
+    console.log("allData");
 
-async function getUserId(id) {
-  let response = await fetch(`final-work/get-single/${id}`, {
-    mode: "cors"
-  });
-  return await response.json();
-}
+    for (const allData of data) {
+      if (allData.project_id === parseInt(idDetail)) {
+        console.log(
+          `You have already voted for ${allData.name} in the cluster ${allData.cluster}`
+        );
+        //  document.getElementById('voteButton').v
+        $(`#voteButton`)
+          .val("Already voted")
+          .attr("disabled", true)
+          .removeClass("bg-blue")
+          .addClass("bg-darkgrey");
+        // $('#' + projectId).next().val('Already voted').disabled.css("background", "#b0bfc3 !important");
+      }
+    }
+  }
 
-async function deleteProject(id) {
-  let response = await fetch(`http://localhost:3000/final-work/get-single/${id}`, {
-    mode: "cors"
-  });
-  return await response.json();
-}
+  async function getProjectId(id) {
+    let response = await fetch(`final-work/get-byid/${id}`, {
+      mode: "cors",
+    });
+    return await response.json();
+  }
+
+  async function getUserId(id) {
+    let response = await fetch(`final-work/get-single/${id}`, {
+      mode: "cors",
+    });
+    return await response.json();
+  }
+
+  async function deleteProject(id) {
+    let response = await fetch(
+      `http://localhost:3000/final-work/get-single/${id}`,
+      {
+        mode: "cors",
+      }
+    );
+    return await response.json();
+  }
+});
