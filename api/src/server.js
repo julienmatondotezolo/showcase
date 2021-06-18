@@ -137,6 +137,7 @@ app.use("/dashboard-docent", ensureAuthenticated, dashboardDocent);
 app.use("/detailproject", ensureAuthenticated, detailProject);
 app.use("/add-email", addEmail);
 app.use("/admin/vote", vote);
+app.use("/admin/my-votes", myVotes);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);

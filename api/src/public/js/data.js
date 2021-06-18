@@ -6,6 +6,7 @@ if(query) {
     filterProject(query)
 } else {
     allProjects()
+    allVotes()
 }
 
 $("#search").on("keyup", function () {
@@ -33,6 +34,21 @@ async function filterProject(sort) {
         })
     })
 }
+
+async function allVotes() {
+    await fetch('/admin/my-votes', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }).then(res => {
+        res.json().then(parsedRes => {
+            console.log(parsedRes)
+            voteCount(parsedRes)
+        })
+    })
+  }
 
 async function allProjects() {
     await fetch('/final-work/get-all/', {
@@ -62,6 +78,10 @@ async function searchProject(query) {
             printAllProjects(parsedRes)
         })
     })
+}
+
+function voteCount(allData) {
+    $(".votes-count").text("Voted projects: " + allData.length)
 }
 
 function printProjects(allData) {

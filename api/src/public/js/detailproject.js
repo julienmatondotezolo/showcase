@@ -1,14 +1,13 @@
-import * as CTB64 from "./convertTob64.js";
-
 $(document).ready(function () {
-  console.log("entered detail");
+  
   var url = window.location.search;
   const urlParams = new URLSearchParams(url);
   const idDetail = urlParams.get("id");
 
+  allVotes(idDetail);
+
   async function runAll(idDetail) {
     const [data] = await Promise.all([getProjectId(idDetail)]);
-    console.log(data);
     // let converted = CTB64.bytesToBase64(data[0].images.data);
 
     $(".item_details").append(`
@@ -30,13 +29,38 @@ $(document).ready(function () {
     `);
 
     $(".project-form").prepend(`
-      <input type="number" name="project_id" value="${idDetail}" hidden>
+      <input type="number" name="project_id" id="${idDetail}" value="${idDetail}" hidden>
     `);
   }
 
   runAll(idDetail);
 
 });
+
+async function allVotes(projectId) {
+  await fetch('/admin/my-votes', {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+      }
+  }).then(res => {
+      res.json().then(parsedRes => {
+          console.log(parsedRes)
+          verifyVote(parsedRes, projectId)
+      })
+  })
+}
+
+function verifyVote(data, projectId) {
+  for (const allData of data) {
+    if (allData.project_id = projectId) {
+      console.log(`You have already voted for ${allData.name} in the cluster  ${allData.cluster}`);
+      $(`.project-form > #${$projectId}`).next().val('Already voted')
+      // $('#' + projectId).next().val('Already voted').disabled.css("background", "#b0bfc3 !important");
+    } 
+  }
+}
 
 async function getProjectId(id) {
   let response = await fetch(`final-work/get-byid/${id}`, {
