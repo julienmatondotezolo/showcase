@@ -381,8 +381,8 @@ button {
 .btn {
   position: relative;
   cursor: pointer;
-  width: 130px;
-  padding: 12px 0;
+  width: max-content;
+  padding: 12px 40px;
   text-align: center;
   font-weight: 700;
   border-radius: 30px;

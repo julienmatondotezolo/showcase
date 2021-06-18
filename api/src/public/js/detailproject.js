@@ -3,12 +3,12 @@ $(document).ready(function () {
   const urlParams = new URLSearchParams(url);
   const idDetail = urlParams.get("id");
 
-  allVotes();
-  
+  let cluster = "";
+
   async function runAll(idDetail) {
     const [data] = await Promise.all([getProjectId(idDetail)]);
     // let converted = CTB64.bytesToBase64(data[0].images.data);
-
+    cluster = data[0].cluster;
     $(".item_details").append(`
         <div>
           <figure class="cl1 images_detail">  
@@ -32,7 +32,9 @@ $(document).ready(function () {
     `);
   }
 
-  runAll(idDetail);
+  runAll(idDetail).then(() => {
+    allVotes();
+  });
 
   async function allVotes() {
     await fetch("/admin/my-votes", {
@@ -50,8 +52,6 @@ $(document).ready(function () {
   }
 
   function verifyVote(data) {
-    console.log(data);
-    console.log("allData");
 
     for (const allData of data) {
       if (allData.project_id === parseInt(idDetail)) {
@@ -60,11 +60,19 @@ $(document).ready(function () {
         );
         //  document.getElementById('voteButton').v
         $(`#voteButton`)
-          .val("Already voted")
+          .val("Already voted for this project")
           .attr("disabled", true)
           .removeClass("bg-blue")
           .addClass("bg-darkgrey");
         // $('#' + projectId).next().val('Already voted').disabled.css("background", "#b0bfc3 !important");
+      } else {
+        if (allData.cluster === cluster) {
+          $(`#voteButton`)
+            .val("Already voted for this cluster")
+            .attr("disabled", true)
+            .removeClass("bg-blue")
+            .addClass("bg-darkgrey");
+        }
       }
     }
   }

@@ -55,7 +55,7 @@
       </article>
       <div class="item_details"></div>
       <form action="/admin/vote" class="cl2 pink project-form" method="POST">
-        <input id="voteButton" class="btn bg-blue white" type="submit" value="vote">
+        <input id="voteButton" onclick="return confirm('Ben je zeker om voor deze project te voten?')" class="btn bg-blue white" type="submit" value="Vote!">
       </form>
     </div>
   </main>
