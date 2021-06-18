@@ -109,6 +109,7 @@ require("./routes/auth/passport")(passport);
 //*  ====== UPLOAD STUDENT PROJECTS ====== *//
 
 app.get("/", (req, res) => {
+  console.log("GET")
   res.redirect("login");
 });
 
