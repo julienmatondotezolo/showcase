@@ -1,12 +1,17 @@
 const url_string = window.location.href;
 const url = new URL(url_string);
-const query = url.searchParams.get("cluster");
+const query = url.searchParams.get("cluster") ? url.searchParams.get("cluster") : url.searchParams.get("order");
+
+allVotes()
 
 if (query) {
-  filterProject(query);
+  if(query == "web" || query == "mobile" || query == "motion" || query == "ar" || query == "digital-making") {
+    clusterFilter(query);
+  } else if(query == "asc" || query == "desc") {
+    orderFilter(query)
+  }
 } else {
     allProjects()
-    allVotes()
 }
 
 $("#search").on("keyup", function () {
@@ -19,7 +24,23 @@ $("#search").on("keyup", function () {
   }
 });
 
-async function filterProject(sort) {
+async function orderFilter(sort) {
+  console.log(sort)
+  await fetch("/final-work/get-all/" + sort, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    res.json().then((parsedRes) => {
+      printProjects(parsedRes);
+      printAllProjects(parsedRes);
+    });
+  });
+}
+
+async function clusterFilter(sort) {
   await fetch("/final-work/filter-cluster/" + sort, {
     method: "GET",
     headers: {
@@ -44,7 +65,6 @@ async function allVotes() {
         }
     }).then(res => {
         res.json().then(parsedRes => {
-            console.log(parsedRes)
             voteCount(parsedRes)
         })
     })
@@ -81,11 +101,11 @@ async function searchProject(query) {
 }
 
 function voteCount(allData) {
-    $(".votes-count").text("Voted projects: " + allData.length)
+    $(".votes-count").text("Voted projects: " + allData.length);
 }
 
 function printProjects(allData) {
-  $(".projects-count").text("Found projects: " + (allData.length + 1));
+  $(".projects-count").text("Found projects: " + allData.length);
 }
 
 function printAllProjects(allData) {
