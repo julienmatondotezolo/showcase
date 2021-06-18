@@ -19,12 +19,6 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const app = express();
 const cors = require("cors");
-const https = require('https');
-const fs = require('fs');
-const options = {
-  key: fs.readFileSync('../key.pem'),
-  cert: fs.readFileSync('../cert.pem')
-};
 const port = process.env.PORT || 3000;
 const compression = require("compression");
 const pool = require("./db/db");
@@ -149,9 +143,3 @@ app.use("/admin/my-votes", ensureDocent, myVotes);
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 });
-
-// let server = https.createServer(options, app);
-
-// server.listen(port, () => {
-//   console.log("Server starting on port: " + port)
-// });
