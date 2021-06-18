@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../../db/db");
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const PUBLIC_URL = "http://193.191.183.48:3000/";
   const { originalname, path } = req.file;
   let images = PUBLIC_URL + path.split("/public/").pop();

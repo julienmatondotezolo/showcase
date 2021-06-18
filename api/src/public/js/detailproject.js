@@ -4,7 +4,7 @@ $(document).ready(function () {
   const idDetail = urlParams.get("id");
 
   allVotes();
-
+  
   async function runAll(idDetail) {
     const [data] = await Promise.all([getProjectId(idDetail)]);
     // let converted = CTB64.bytesToBase64(data[0].images.data);
