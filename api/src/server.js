@@ -131,13 +131,13 @@ app.use("/users/delete", ensureAuthenticated, deleteUser);
 app.use("/users/get-all", getAllUsers);
 app.use("/users/get-single", getSingleUser);
 app.use("/users/update", ensureAuthenticated, updateUser);
-app.use("/upload", uploadGet);
+app.use("/upload", ensureStudent, uploadGet);
 app.use("/upload", upload.single("image"), uploadPost);
-app.use("/dashboard-docent", ensureAuthenticated, dashboardDocent);
-app.use("/detailproject", ensureAuthenticated, detailProject);
+app.use("/dashboard-docent", ensureDocent, dashboardDocent);
+app.use("/detailproject", ensureDocent, detailProject);
 app.use("/add-email", addEmail);
-app.use("/admin/vote", vote);
-app.use("/admin/my-votes", myVotes);
+app.use("/admin/vote", ensureDocent, vote);
+app.use("/admin/my-votes", ensureDocent, myVotes);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
