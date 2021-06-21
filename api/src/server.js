@@ -59,6 +59,7 @@ const addUser = require("./routes/users/add");
 const deleteUser = require("./routes/users/delete");
 const getAllUsers = require("./routes/users/get-all");
 const getSingleUser = require("./routes/users/get-single");
+const forgotPass = require("./routes/auth/forgot");
 
 const updateUser = require("./routes/users/update");
 
@@ -111,6 +112,7 @@ app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/login", login);
 app.use("/register", register);
 app.use("/logout", logout);
+app.use("/forgot", forgotPass);
 
 app.use("/final-work/create", ensureAuthenticated, createFw);
 app.use("/final-work/delete", ensureAuthenticated, deleteFw);
