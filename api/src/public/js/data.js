@@ -79,7 +79,7 @@ async function allVotes() {
 }
 
 async function allProjects() {
-  await fetch("https://193.191.183.48/final-work/get-all/", {
+  await fetch("/final-work/get-all/", {
     method: "GET",
     headers: {
       Accept: "application/json",
