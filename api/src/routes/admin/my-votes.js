@@ -7,7 +7,16 @@ router.post("/", async (req, res) => {
 
   try {
     const allVotedProjects = await pool.query(
-      `SELECT name, project_id, cluster FROM votes INNER JOIN projects ON votes.project_id = projects.projectid AND votes.user_id = ${docentId}`
+      `SELECT
+      projects.name,
+      projects.projectid,
+      projects.cluster,
+      users.username
+  FROM
+      votes
+      INNER JOIN projects ON projects.projectid = votes.project_id
+      AND votes.user_id = ${docentId}
+      INNER JOIN users ON users.userid = projects.user_id `
     );
 
     res.send(allVotedProjects.rows);
