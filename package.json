@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/julienmatondotezolo/showcase#readme",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.5",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
@@ -31,6 +32,8 @@
     "express-fileupload": "^1.2.1",
     "express-session": "^1.17.2",
     "multer": "^1.4.2",
+    "nodemailer": "^6.6.2",
+    "nodemailer-sendgrid": "^1.0.3",
     "nodemon": "^2.0.7",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
