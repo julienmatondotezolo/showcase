@@ -54,8 +54,12 @@
         <h3 class="item-name">Project detail</h3>
       </article>
       <div class="item_details"></div>
-      <form action="/admin/vote" class="cl2 pink project-form" method="POST">
+      <form onsubmit="return redirect()" id='voteForm' action="/admin/vote" class="cl2 pink project-form" method="POST">
         <input id="voteButton" onclick="return confirm('Ben je zeker om voor deze project te voten?')" class="btn bg-blue white" type="submit" value="Vote!">
+      </form>
+  
+      <form onsubmit="return redirect()" hidden id='unvoteForm' action="/admin/unvote" class="cl2 pink project-form" method="POST">
+        <input id="unvoteButton" onclick="return confirm('Wil je echt deze project unvoten?')" class="btn bg-blue white" type="submit" value="Unvote!">
       </form>
     </div>
   </main>

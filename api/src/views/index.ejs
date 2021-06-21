@@ -1,110 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Showcase - Dashboard</title>
+    <link rel="stylesheet" href="../css/master.css" type="text/css" />
+    <script
+      src="https://kit.fontawesome.com/2580541a59.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="module" src="/js/data.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>Showcase - Dashboard</title>
-  <link rel="stylesheet" href="../css/master.css" type="text/css">
-  <script src="https://kit.fontawesome.com/2580541a59.js" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script type="module" src="/js/data.js"></script>
-</head>
-
-<body>
-  <aside class="bg-blue">
-    <section>
-      <h1>Showcase Teacher Dashboard</h1>
-    </section>
-    <nav>
-      <ul class="sidenav">
-        <li><a href="/dashboard-docent">projects</a></li>
-      </ul>
-      <ul class="sidenav">
-        <li><a href="/logout" class="pink">logout</a></li>
-      </ul>
-    </nav>
-  </aside>
-
-  <main>
-    <header>
+  <body>
+    <aside class="bg-blue">
+      <section>
+        <h1>Showcase Teacher Dashboard</h1>
+      </section>
       <nav>
-        <ul class="topnav">
-          <li>
-            <div class="search">
-              <i class="fas fa-search"></i>
-              <input type="search" name="" id="search" placeholder="Search">
-            </div>
-          </li>
-          <li>
-            <i class="fas fa-cog fa-lg"></i>
-            <i class="fas fa-bell fa-lg"></i>
-            <i>
-              <span class="fas fa-user-circle dark-blue fa-lg"></span>
-              <p><%= username %></p>
-            </i>
-          </li>
+        <ul class="sidenav">
+          <li><a href="/dashboard-docent">projects</a></li>
+        </ul>
+        <ul class="sidenav">
+          <li><a href="/logout" class="pink">logout</a></li>
         </ul>
       </nav>
-    </header>
-    <div class="cl1 items">
-      <div class="item box box-shadow">
-        <h3 class="item-name">Projects</h3>
-        <p class="projects-count">Project count</p>
-      </div>
+    </aside>
 
-      <div class="item box box-shadow">
-        <h3 class="item-name">Votes</h3>
-        <p class="votes-count"></p>
-      </div>
-    </div>
-    <div class="cl1 box box-shadow top-projects">
-      <article class="cl1">
-        <h3 class="item-name">All projects</h3>
-        <div class="option">
-          <i class="fas fa-sync-alt"></i>
-          <i class="fas fa-ellipsis-v"></i>
+    <main>
+      <header>
+        <nav>
+          <ul class="topnav">
+            <li>
+              <div class="search">
+                <i class="fas fa-search"></i>
+                <input type="search" name="" id="search" placeholder="Search" />
+              </div>
+            </li>
+            <li>
+              <i class="fas fa-cog fa-lg"></i>
+              <i class="fas fa-bell fa-lg"></i>
+              <i>
+                <span class="fas fa-user-circle dark-blue fa-lg"></span>
+                <p><%= username %></p>
+              </i>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <div class="cl1 items">
+        <div class="item box box-shadow">
+          <h3 class="item-name">Projects</h3>
+          <p class="projects-count">Project count</p>
         </div>
-      </article>
-      <section class="cl1 filter">
-        <div class="dropdown">
-          <button class="btn btn-inverse dropbtn blue">Filter <i class="fas fa-sort-down"></i></button>
-          <div class="dropdown-content">
-            <a href="?order=asc">Aflopend</a>
-            <a href="?order=desc">Oplopend</a>
+
+        <div class="item box box-shadow">
+          <h3 class="item-name">Votes</h3>
+          <p class="votes-count"></p>
+        </div>
+      </div>
+      <div class="cl1 box box-shadow top-projects">
+        <article class="cl1">
+          <h3 class="item-name">All projects</h3>
+          <div class="option">
+            <i class="fas fa-sync-alt"></i>
+            <i class="fas fa-ellipsis-v"></i>
           </div>
-        </div>
-        <div class="dropdown">
-          <button class="btn btn-inverse dropbtn blue">Cluster <i class="fas fa-sort-down"></i></button>
-          <div class="dropdown-content">
-            <a href="?cluster=web">Web</a>
-            <a href="?cluster=mobile">Mobile Appliance</a>
-            <a href="?cluster=motion">Interactive Motion</a>
-            <a href="?cluster=ar">Alternate Reality</a>
-            <a href="?cluster=digital-making">Digital Making</a>
+        </article>
+        <section class="cl1 filter">
+          <div class="dropdown">
+            <button class="btn btn-inverse dropbtn blue">
+              Filter <i class="fas fa-sort-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="?order=asc">Aflopend</a>
+              <a href="?order=desc">Oplopend</a>
+            </div>
           </div>
-        </div>
-      </section>
-      <div class="cl1 table">
-        <div class="table-head-tr">
-          <article class="table-td">
-            <p class="bold">Project image</p>
-          </article>
-          <article class="table-td">
-            <p class="bold">Project name</p>
-          </article>
-          <article class="table-td">
-            <p class="bold">Cluster vak</p>
-          </article>
-          <article class="table-td">
-          </article>
-        </div>
-        <div class="cl1 table-content">
-
+          <div class="dropdown">
+            <button class="btn btn-inverse dropbtn blue">
+              Cluster <i class="fas fa-sort-down"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="?cluster=web">Web</a>
+              <a href="?cluster=mobile">Mobile Appliance</a>
+              <a href="?cluster=motion">Interactive Motion</a>
+              <a href="?cluster=ar">Alternate Reality</a>
+              <a href="?cluster=digital-making">Digital Making</a>
+            </div>
+          </div>
+        </section>
+        <div class="cl1 table">
+          <div class="table-head-tr">
+            <article class="table-td">
+              <p class="bold">Project image</p>
+            </article>
+            <article class="table-td">
+              <p class="bold">Project name</p>
+            </article>
+            <article class="table-td">
+              <p class="bold">Cluster vak</p>
+            </article>
+            <article class="table-td"></article>
+          </div>
+          <div class="cl1 table-content"></div>
         </div>
       </div>
-
-    </div>
-  </main>
-</body>
-
+    </main>
+  </body>
 </html>
