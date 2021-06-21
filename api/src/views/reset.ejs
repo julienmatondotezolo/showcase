@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Showcase - Dashboard</title>
+    <link rel="stylesheet" href="../css/master.css" type="text/css" />
+    <script
+      src="https://kit.fontawesome.com/2580541a59.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <form class="box box-shadow cl2 pink register-form" method="POST">
+      <h3>Reset your password<h3>
+
+      <section>
+        <input
+          type="password"
+          name="newPassword"
+          placeholder="new password"
+          class="input-user"
+          required
+        />
+      </section>
+      <section>
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="confirm password"
+          class="input-user"
+          required
+        />
+      </section>
+      <section>
+        <input class="btn bg-blue white" type="submit" value="change password" />
+        <a class="pink flt-right" href="/Login">Already an account? Login</a>
+      </section>
+    </form>
+  </body>
+</html>
