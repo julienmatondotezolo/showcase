@@ -143,7 +143,7 @@ app.use("/detailproject", ensureDocent, detailProject);
 app.use("/add-email", addEmail);
 app.use("/admin/vote", ensureDocent, vote);
 app.use("/admin/my-votes", ensureDocent, myVotes);
-app.use("/admin/all-votes", ensureDocent, allVotes);
+app.use("/admin/all-votes", allVotes);
 app.use("/admin/unvote", ensureDocent, unvote);
 app.use("/admin/favorite", ensureDocent, favorite);
 app.use("/admin/my-favorites", ensureDocent, myFavorites);
