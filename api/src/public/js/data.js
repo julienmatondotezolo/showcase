@@ -79,7 +79,7 @@ async function allVotes() {
 }
 
 async function allProjects() {
-  await fetch("/final-work/get-all/", {
+  await fetch("https://193.191.183.48/final-work/get-all/", {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -110,7 +110,6 @@ async function searchProject(query) {
 
 let votedClusterArr = [];
 function voteCount(allData) {
-  console.log(allData);
   allData.forEach((element) => {
     votedClusterArr.push(getTheCluster(element.cluster));
   });
