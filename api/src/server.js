@@ -66,6 +66,7 @@ const vote = require("./routes/admin/vote");
 const unvote = require("./routes/admin/unvote");
 const myVotes = require("./routes/admin/my-votes");
 const allVotes = require("./routes/admin/all-votes");
+const votesByProject = require("./routes/admin/votes-project");
 const favorite = require("./routes/admin/favorite");
 const myFavorites = require("./routes/admin/my-favorites");
 
@@ -143,7 +144,8 @@ app.use("/detailproject", ensureDocent, detailProject);
 app.use("/add-email", addEmail);
 app.use("/admin/vote", ensureDocent, vote);
 app.use("/admin/my-votes", ensureDocent, myVotes);
-app.use("/admin/all-votes", allVotes);
+app.use("/admin/all-votes", ensureDocent, allVotes);
+app.use("/admin/votes-project", ensureDocent, votesByProject);
 app.use("/admin/unvote", ensureDocent, unvote);
 app.use("/admin/favorite", ensureDocent, favorite);
 app.use("/admin/my-favorites", ensureDocent, myFavorites);
