@@ -52,25 +52,24 @@ $(document).ready(function () {
   }
 
   function verifyVote(data) {
-
     for (const allData of data) {
       if (allData.project_id === parseInt(idDetail)) {
         console.log(
           `You have already voted for ${allData.name} in the cluster ${allData.cluster}`
         );
         //  document.getElementById('voteButton').v
-        $(`#voteButton`)
-          .val("Already voted for this project")
-          .attr("disabled", true)
-          .removeClass("bg-blue")
-          .addClass("bg-darkgrey");
+        $(`#voteForm`).attr("hidden", true);
+
+        $(`#unvoteForm`).attr("hidden", false);
+        $(`#unvoteButton`).removeClass("bg-blue").addClass("bg-darkgrey");
         // $('#' + projectId).next().val('Already voted').disabled.css("background", "#b0bfc3 !important");
       } else {
         if (allData.cluster === cluster) {
           $(`#voteButton`)
-            .val("Already voted for this cluster")
+            .val("Already voted for this cluster.")
+            .removeClass("bg-blue") //.
             .attr("disabled", true)
-            .removeClass("bg-blue")
+            //  $(`#voteForm`).
             .addClass("bg-darkgrey");
         }
       }

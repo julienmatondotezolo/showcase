@@ -63,7 +63,11 @@ const getSingleUser = require("./routes/users/get-single");
 const updateUser = require("./routes/users/update");
 
 const vote = require("./routes/admin/vote");
+const unvote = require("./routes/admin/unvote");
 const myVotes = require("./routes/admin/my-votes");
+const allVotes = require("./routes/admin/all-votes");
+const favorite = require("./routes/admin/favorite");
+const myFavorites = require("./routes/admin/my-favorites");
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -103,7 +107,7 @@ require("./routes/auth/passport")(passport);
 //*  ====== UPLOAD STUDENT PROJECTS ====== *//
 
 app.get("/", (req, res) => {
-  console.log("GET")
+  console.log("GET");
   res.redirect("login");
 });
 
@@ -139,6 +143,10 @@ app.use("/detailproject", ensureDocent, detailProject);
 app.use("/add-email", addEmail);
 app.use("/admin/vote", ensureDocent, vote);
 app.use("/admin/my-votes", ensureDocent, myVotes);
+app.use("/admin/all-votes", ensureDocent, allVotes);
+app.use("/admin/unvote", ensureDocent, unvote);
+app.use("/admin/favorite", ensureDocent, favorite);
+app.use("/admin/my-favorites", ensureDocent, myFavorites);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);

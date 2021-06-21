@@ -10,6 +10,7 @@ router.post("/", async (req, res) => {
 
   let values = [project_id, docentId];
 
+  console.log(values);
   if (await check()) {
     console.log("CHECKED");
     try {
@@ -26,17 +27,13 @@ router.post("/", async (req, res) => {
 
   async function check() {
     try {
-      let alreadyVoted = true;
+      let alreadyVotedCluster = false;
+      let alreadyVotedClusterId = 0;
+
       const allVotedProjects = await pool.query(
-        `SELECT votes.user_id, project_id, cluster FROM votes INNER JOIN projects ON votes.project_id = projects.projectid AND votes.user_id = ${docentId}`
+        `SELECT votes.id, votes.user_id, project_id, cluster FROM votes INNER JOIN projects ON votes.project_id = projects.projectid AND votes.user_id = ${docentId}`
       );
-      if (allVotedProjects.rows.length >= 5) {
-        // Already 5 votes
-        console.log("Already 5 votes");
-        res.sendCustomStatus(400, "Already 5 votes");
-        alreadyVoted = false;
-        return false;
-      }
+
       const wantedVoteProject = await pool.query(
         `SELECT cluster FROM projects where projectid = ${project_id}`
       );
@@ -44,19 +41,29 @@ router.post("/", async (req, res) => {
 
       // Look if docent already voted to the cluster from wanted vote project
       allVotedProjects.rows.forEach((alreadyVotedProject) => {
-        console.log(alreadyVotedProject);
         if (alreadyVotedProject.cluster == projectToVoteCluster) {
+          alreadyVotedCluster = true;
+          alreadyVotedClusterId = alreadyVotedProject.id;
           console.log("Already voted for the cluster " + projectToVoteCluster);
-          res.sendCustomStatus(400, "Already voted for this cluster.");
-          alreadyVoted = false;
-          return false;
         }
       });
 
-      if (alreadyVoted) {
+      if (alreadyVotedCluster) {
+        try {
+          const deleteVotedProject = await pool.query(
+            "DELETE FROM votes WHERE id = $1",
+            [alreadyVotedClusterId]
+          );
+        } catch (err) {
+          res.sendCustomStatus(500);
+          return false;
+        }
+        return true;
+      } else {
         return true;
       }
     } catch (err) {
+      console.log(err);
       res.sendCustomStatus(500);
       return false;
     }
