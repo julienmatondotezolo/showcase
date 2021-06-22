@@ -72,7 +72,7 @@ async function allVotes() {
     },
   }).then((res) => {
     res.json().then((parsedRes) => {
-      nominates(parsedRes)
+      nominates(parsedRes);
     });
   });
 }
@@ -122,7 +122,36 @@ async function searchProject(query) {
 }
 
 function nominates(data) {
-  console.log(data)
+  console.log(data);
+
+  var result = data.reduce((unique, o) => {
+    if (!unique.some((obj) => obj.name === o.name)) {
+      unique.push(o);
+    }
+    return unique;
+  }, []);
+
+  result.sort((a, b) =>
+    a.totalVotes < b.totalVotes ? 1 : b.totalVotes < a.totalVotes ? -1 : 0
+  );
+
+  $(".vote-slider").empty();
+  for (const item of result) {
+    $(".vote-slider").append(`
+    <div class="project-item" data-projectid="${item.id}">
+    <figure class="project-img" style="background: url('${
+      item.images
+    }') center center / 100% no-repeat;"></figure>
+    <article class="project-info">
+      <p class="bold project-name">${item.name}</p>
+      <p class="project-cluster-name">${getTheCluster(item.cluster)}</p>
+    </article>
+    <div class="vote-count">
+      <p>Votes: ${item.totalVotes}  </p>
+    </div>
+  </div>
+    `);
+  }
 }
 
 let votedClusterArr = [];
@@ -131,7 +160,9 @@ function printVotes(allData) {
   for (const data of allData) {
     $(".all-voted .table-content").append(`
       <div class="table-tr">
-          <figure class="table-td bg-dark-blue" style="background: url('${data.images}') center center / 100% no-repeat;">
+          <figure class="table-td bg-dark-blue" style="background: url('${
+            data.images
+          }') center center / 100% no-repeat;">
           </figure>
           <article class="table-td">
               <p class="bold">${data.name}</p>
@@ -152,11 +183,13 @@ function printVotes(allData) {
   allData.forEach((element) => {
     votedClusterArr.push(getTheCluster(element.cluster));
   });
-  $(".all-voted .item-name").append(`(${allData.length})`);
+  $(".top-projects .item-name").empty();
+  $(".all-voted .item-name").append(`Projects (${allData.length})`);
 }
 
 function printProjects(allData) {
-  $(".top-projects .item-name").append(`(${allData.length})`);
+  $(".top-projects .item-name").empty();
+  $(".top-projects .item-name").append(`Projects (${allData.length})`);
 }
 
 function getTheCluster(cluster) {
@@ -187,7 +220,9 @@ function printAllProjects(allData) {
   for (const data of allData) {
     $(".top-projects .table-content").append(`
             <div class="table-tr">
-                <figure class="table-td bg-dark-blue" style="background: url('${data.images}') center center / 100% no-repeat;">
+                <figure class="table-td bg-dark-blue" style="background: url('${
+                  data.images
+                }') center center / 100% no-repeat;">
                 </figure>
                 <article class="table-td">
                     <p class="bold">${data.name}</p>

@@ -15,17 +15,37 @@
   <body>
     <aside class="bg-blue">
       <section class="cl1">
-        <img src="../assets/images/logo.png" lt="final show logo" class="logo"/>
+        <img
+          src="../assets/images/logo.png"
+          lt="final show logo"
+          class="logo"
+        />
       </section>
       <nav>
         <ul class="sidenav">
-          <li class="active"><a href="/dashboard-docent"><i class="fas fa-th-large"></i> Dashboard</a></li>
-          <li><a href=""><i class="fas fa-award"></i> Nominations</a></li>
-          <li><a href=""><i class="fas fa-columns"></i> Projects</a></li>
-          <li><a href=""><i class="fas fa-poll-h"></i> My Votes</a></li>
-          <li><a href=""><i class="far fa-heart"></i> favorites</a></li>
-          <li><a href=""><i class="fas fa-cog"></i> Settings</a></li>
-          <li class="bg-pink"><a href="/logout"><i class="fas fa-sign-out-alt"></i> sign-out</a></li>
+          <li class="active">
+            <a href="/dashboard-docent"
+              ><i class="fas fa-th-large"></i> Dashboard</a
+            >
+          </li>
+          <li>
+            <a href=""><i class="fas fa-award"></i> Nominations</a>
+          </li>
+          <li>
+            <a href=""><i class="fas fa-columns"></i> Projects</a>
+          </li>
+          <li>
+            <a href=""><i class="fas fa-poll-h"></i> My Votes</a>
+          </li>
+          <li>
+            <a href=""><i class="far fa-heart"></i> favorites</a>
+          </li>
+          <li>
+            <a href=""><i class="fas fa-cog"></i> Settings</a>
+          </li>
+          <li class="bg-pink">
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> sign-out</a>
+          </li>
         </ul>
       </nav>
     </aside>
@@ -59,20 +79,24 @@
         <div class="slider-wrap">
           <section class="slider">
             <article class="slider-content bg-blue white">
-              <h3>Hello user !</h3>
-              <p>But this won't work long-term. Heroku's filesystem is ephemeral:
-                any changes you make will be lost the next time your dyno restarts,
-                which happens frequently (at least once per day).</p>
+              <h3>Hello <%= username %> !</h3>
+              <p>
+                But this won't work long-term. Heroku's filesystem is ephemeral:
+                any changes you make will be lost the next time your dyno
+                restarts, which happens frequently (at least once per day).
+              </p>
               <button class="btn bg-pink white">See more</button>
             </article>
 
-            <article class="slider-content bg-blue white">
+            <!--             <article class="slider-content bg-blue white">
               <h3>Hello user !</h3>
-              <p>But this won't work long-term. Heroku's filesystem is ephemeral:
-                any changes you make will be lost the next time your dyno restarts,
-                which happens frequently (at least once per day).</p>
+              <p>
+                But this won't work long-term. Heroku's filesystem is ephemeral:
+                any changes you make will be lost the next time your dyno
+                restarts, which happens frequently (at least once per day).
+              </p>
               <button class="btn bg-pink white">See more</button>
-            </article>
+            </article> -->
           </section>
         </div>
       </figure>
@@ -99,9 +123,8 @@
 
       <div class="cl1 top-projects">
         <section class="wrap box-shadow">
-
           <article class="cl1">
-            <h3 class="item-name">Projects </h3>
+            <h3 class="item-name">Projects</h3>
             <div class="option">
               <i class="fas fa-sync-alt"></i>
               <i class="fas fa-ellipsis-v"></i>
@@ -150,15 +173,13 @@
             </div>
             <div class="cl1 table-content"></div>
           </div>
-
         </section>
       </div>
 
       <div class="cl1 all-voted">
         <section class="cl1 wrap box-shadow">
-
           <article class="cl1">
-            <h3 class="item-name">My Votes </h3>
+            <h3 class="item-name">My Votes</h3>
             <div class="option">
               <i class="fas fa-sync-alt"></i>
               <i class="fas fa-ellipsis-v"></i>
@@ -183,10 +204,8 @@
             </div>
             <div class="cl1 table-content"></div>
           </div>
-
         </section>
       </div>
-
     </main>
   </body>
 </html>

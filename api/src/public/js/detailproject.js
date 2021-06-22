@@ -34,6 +34,7 @@ $(document).ready(function () {
 
   runAll(idDetail).then(() => {
     allVotes();
+    //  allFavorites();
   });
 
   async function allVotes() {
@@ -99,4 +100,44 @@ $(document).ready(function () {
     );
     return await response.json();
   }
+
+  /*   async function allFavorites() {
+    await fetch("/admin/my-favorites", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then((res) => {
+      res.json().then((parsedRes) => {
+        verifyFavorite(parsedRes);
+      });
+    });
+  }
+
+  function verifyFavorite(data) {
+    console.log(data);
+      for (const item of data) {
+    if (item.project_id === parseInt(idDetail)) {
+      console.log(
+        `You have already voted for ${item.name} in the cluster ${item.cluster}`
+      );
+      //  document.getElementById('voteButton').v
+      $(`#voteForm`).attr("hidden", true);
+
+      $(`#unvoteForm`).attr("hidden", false);
+      $(`#unvoteButton`).removeClass("bg-blue").addClass("bg-darkgrey");
+      // $('#' + projectId).next().val('Already voted').disabled.css("background", "#b0bfc3 !important");
+    } else {
+      if (item.cluster === cluster) {
+        $(`#voteButton`)
+          .val("Already voted for this cluster.")
+          .removeClass("bg-blue") //.
+          .attr("disabled", true)
+          //  $(`#voteForm`).
+          .addClass("bg-darkgrey");
+      }
+    }
+  } 
+  } */
 });
