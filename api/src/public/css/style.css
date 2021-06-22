@@ -1,44 +1,81 @@
 /*/////////////   ASIDE NAVIGATION  ////////////////*/
 
+.logo {
+  max-width: 100px;
+  width: 100%;
+}
+
 aside {
   position: absolute;
   z-index: 1;
   color: #fff;
-  width: 30%;
+  width: 20%;
   height: 100%;
   padding: 2em;
   box-sizing: border-box;
   float: left;
 }
 
+aside nav {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 2em;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.sidenav {
+  display: inline-block;
+}
+
 aside li {
-  padding: 1em 0;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+  float: left;
+}
+
+aside li:last-child {
+  margin-top: 20em;
+}
+
+aside a {
+  display: block;
+  padding: 1em;
   box-sizing: border-box;
   transition: all .2s ease-in-out;
   -webkit-transition: all .2s ease-in-out;
   -moz-transition: all .2s ease-in-out;
   -ms-transition: all .2s ease-in-out;
   -o-transition: all .2s ease-in-out;
+  text-decoration: none !important;
 }
 
-aside li:hover {
+aside a:hover {
   background-color: rgb(240 248 255 / 10%);
-  padding: 1em;
+  padding: 1em 2em;
 }
 
 /*/////////////   MAIN  ////////////////*/
 
 main {
   position: absolute;
-  left: 30%;
-  width: 70%;
+  left: 20%;
+  width: 80%;
   height: 100%;
-  padding: 2em;
-  box-sizing: border-box;
   overflow-y: scroll;
 }
 
-/*/////////////   MAIN NAVIGATIE  ////////////////*/
+/*/////////////   HEADER  ////////////////*/
+
+header {
+  left: 20%;
+  padding: 2em 2em 0;
+  box-sizing: border-box;
+  float: left;
+}
 
 main .topnav {
   display: flex;
@@ -99,14 +136,123 @@ main .nav-toggler {
   background: #fff;
 }
 
-/*///////////// TABLE ////////////////*/
+/*/////////////   BANNER & SLIDER  ////////////////*/
 
-.top-projects {
-  background: #fff;
-  margin: 1em 0;
+.banner {
+  display: inline-block;
+  padding: 2em;
+  width: 65%;
+  box-sizing: border-box;
+  float: left;
 }
 
-.top-projects .filter {
+.slider-wrap {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.slider {
+  display: inline-block;
+  position: relative;
+  left: 0%;
+  width: 200%;
+}
+
+.slider-content {
+  position: relative;
+  float: left;
+  width: 50%;
+  padding: 2em;
+  box-sizing: border-box;
+  height: 250px;
+  border-radius: 10px;
+}
+
+.slider-content p {
+  width: 60%;
+}
+
+.slider-content button {
+  position: absolute;
+  bottom: 2em;
+}
+
+/*///////////// VOTES ////////////////*/
+
+.votes {
+  width: 35%;
+  padding: 2em 0;
+  padding-right: 2em;
+  box-sizing: border-box;
+  float: left;
+}
+
+.vote-wrap {
+  position: relative;
+  height: 150px;
+  overflow-y: scroll;
+}
+
+.vote-slider {
+  position: absolute;
+  top: 0;
+  height: 600px;
+}
+
+.votes > article {
+  display: inline-block;
+  padding: 2em;
+  box-sizing: border-box;
+  border-radius: 10px;
+  width: 100%;
+  height: 250px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.project-item {
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: .5em 0;
+  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+}
+
+.project-item:hover {
+  padding: .5em 1em;
+  background-color: rgb(240 248 255 / 10%);
+}
+
+.project-item figure {
+  width: 30px;
+  height: 30px;
+  background: url('http://193.191.183.48:3000/uploads/ar1623919517869.png') center center / 100% no-repeat;
+}
+
+.project-info {
+  width: 60%;
+}
+
+.vote-count {
+  display: flex;
+  align-items: center;
+}
+
+/*///////////// TABLE ////////////////*/
+
+.top-projects, .all-voted {
+  padding: 2em;
+  box-sizing: border-box;
+}
+
+.top-projects .filter, .all-voted .filter {
   padding: 2em 0;
 }
 
@@ -116,6 +262,7 @@ main .nav-toggler {
 }
 
 .dropdown {
+  margin-right: 1em;
   position: relative;
   display: inline-block;
 }
@@ -141,11 +288,11 @@ main .nav-toggler {
 
 /*///////////// OPTIONS ////////////////*/
 
-.top-projects .option .fa-ellipsis-v {
+.top-projects .option .fa-ellipsis-v, .all-voted .option .fa-ellipsis-v {
   margin-left: 1em;
 }
 
-.top-projects .option .fa-sync-alt {
+.top-projects .option .fa-sync-alt, .all-voted .option .fa-sync-alt {
   cursor: pointer;
   transition: all .2s ease-in-out;
   -webkit-transition: all .2s ease-in-out;
@@ -154,7 +301,7 @@ main .nav-toggler {
   -o-transition: all .2s ease-in-out;
 }
 
-.top-projects .option .fa-sync-alt:hover {
+.top-projects .option .fa-sync-alt:hover, .all-voted .option .fa-sync-alt:hover {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
@@ -162,7 +309,15 @@ main .nav-toggler {
   -o-transform: rotate(45deg);
 }
 
-.top-projects>article {
+.top-projects>.wrap, .all-voted>.wrap {
+  padding: 2em;
+  box-sizing: border-box;
+  background: #fff;
+  display: inline-block;
+  border-radius: 10px;
+}
+
+.top-projects>.wrap>article, .all-voted>.wrap>article {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -181,7 +336,7 @@ main .nav-toggler {
 }
 
 .table-head-tr .table-td:last-child {
-  width: 130px;
+  width: 150px;
 }
 .table-tr {
   cursor: pointer;

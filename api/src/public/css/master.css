@@ -243,6 +243,15 @@ a:hover {
   text-decoration: underline;
 }
 
+.active {
+  color: #68909e !important;
+  background-color: #fff;
+}
+
+.active a {
+  color: #68909e !important;
+}
+
 nav ol,
 nav ul {
   list-style: none;
@@ -451,9 +460,14 @@ input {
   display: flex;
   align-items: flex-end;
   padding: 1em;
+  border-radius: 5px;
   background: #fff;
   width: 100%;
   box-sizing: border-box;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
 .search i {

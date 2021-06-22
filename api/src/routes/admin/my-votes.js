@@ -10,6 +10,7 @@ router.post("/", async (req, res) => {
       `SELECT
       projects.name,
       projects.projectid,
+      projects.images,
       projects.cluster,
       users.username
   FROM
@@ -23,6 +24,7 @@ router.post("/", async (req, res) => {
   } catch (err) {
     res.sendCustomStatus(500);
   }
+  
 });
 
 module.exports = router;

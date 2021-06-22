@@ -5,6 +5,7 @@ const query = url.searchParams.get("cluster")
   : url.searchParams.get("order");
 
 allVotes();
+myVotes();
 
 if (query) {
   if (
@@ -33,7 +34,6 @@ $("#search").on("keyup", function () {
 });
 
 async function orderFilter(sort) {
-  console.log(sort);
   await fetch("/final-work/get-all/" + sort, {
     method: "GET",
     headers: {
@@ -57,7 +57,6 @@ async function clusterFilter(sort) {
     },
   }).then((res) => {
     res.json().then((parsedRes) => {
-      console.log(parsedRes);
       printProjects(parsedRes);
       printAllProjects(parsedRes);
     });
@@ -65,6 +64,20 @@ async function clusterFilter(sort) {
 }
 
 async function allVotes() {
+  await fetch("/admin/all-votes", {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    res.json().then((parsedRes) => {
+      nominates(parsedRes)
+    });
+  });
+}
+
+async function myVotes() {
   await fetch("/admin/my-votes", {
     method: "POST",
     headers: {
@@ -73,7 +86,7 @@ async function allVotes() {
     },
   }).then((res) => {
     res.json().then((parsedRes) => {
-      voteCount(parsedRes);
+      printVotes(parsedRes);
     });
   });
 }
@@ -108,17 +121,42 @@ async function searchProject(query) {
   });
 }
 
+function nominates(data) {
+  console.log(data)
+}
+
 let votedClusterArr = [];
-function voteCount(allData) {
+function printVotes(allData) {
+  $(".all-voted .table-content").empty();
+  for (const data of allData) {
+    $(".all-voted .table-content").append(`
+      <div class="table-tr">
+          <figure class="table-td bg-dark-blue" style="background: url('${data.images}') center center / 100% no-repeat;">
+          </figure>
+          <article class="table-td">
+              <p class="bold">${data.name}</p>
+          </article>
+          <article class="table-td">
+              <p class="bold">${data.username}</p>
+          </article>
+          <article class="table-td">
+              <p class="bold">${getTheCluster(data.cluster)}</p>
+          </article>
+          <a href="../detailproject?id=${data.projectid}">
+              <button class="btn bg-pink white">Unvote</button>
+          </a>
+      </div>
+    `);
+  }
+
   allData.forEach((element) => {
     votedClusterArr.push(getTheCluster(element.cluster));
   });
-  $(".votes-count").html(
-    "Voted projects: " + allData.length + " <br> " + votedClusterArr
-  );
+  $(".all-voted .item-name").append(`(${allData.length})`);
 }
+
 function printProjects(allData) {
-  $(".projects-count").text("Found projects: " + allData.length);
+  $(".top-projects .item-name").append(`(${allData.length})`);
 }
 
 function getTheCluster(cluster) {
@@ -145,17 +183,17 @@ function getTheCluster(cluster) {
 }
 
 function printAllProjects(allData) {
-  $(".table-content").empty();
+  $(".top-projects .table-content").empty();
   for (const data of allData) {
-    // let convertedImg = CTB64.bytesToBase64(data.images.data);
-
-    $(".table-content").append(`
+    $(".top-projects .table-content").append(`
             <div class="table-tr">
-                <figure class="table-td">
-                    <img src="${data.images}" alt="project-images">
+                <figure class="table-td bg-dark-blue" style="background: url('${data.images}') center center / 100% no-repeat;">
                 </figure>
                 <article class="table-td">
                     <p class="bold">${data.name}</p>
+                </article>
+                <article class="table-td">
+                    <p class="bold">${data.username}</p>
                 </article>
                 <article class="table-td">
                     <p class="bold">${getTheCluster(data.cluster)}</p>

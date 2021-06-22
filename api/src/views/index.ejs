@@ -14,25 +14,31 @@
 
   <body>
     <aside class="bg-blue">
-      <section>
-        <h1>Showcase Teacher Dashboard</h1>
+      <section class="cl1">
+        <img src="../assets/images/logo.png" lt="final show logo" class="logo"/>
       </section>
       <nav>
         <ul class="sidenav">
-          <li><a href="/dashboard-docent">projects</a></li>
-        </ul>
-        <ul class="sidenav">
-          <li><a href="/logout" class="pink">logout</a></li>
+          <li class="active"><a href="/dashboard-docent"><i class="fas fa-th-large"></i> Dashboard</a></li>
+          <li><a href=""><i class="fas fa-award"></i> Nominations</a></li>
+          <li><a href=""><i class="fas fa-columns"></i> Projects</a></li>
+          <li><a href=""><i class="fas fa-poll-h"></i> My Votes</a></li>
+          <li><a href=""><i class="far fa-heart"></i> favorites</a></li>
+          <li><a href=""><i class="fas fa-cog"></i> Settings</a></li>
+          <li class="bg-pink"><a href="/logout"><i class="fas fa-sign-out-alt"></i> sign-out</a></li>
         </ul>
       </nav>
     </aside>
 
     <main>
-      <header>
+      <header class="cl1">
         <nav>
           <ul class="topnav">
             <li>
-              <div class="search">
+              <h3 class="title">Dashboard</h3>
+            </li>
+            <li>
+              <div class="search box-shadow">
                 <i class="fas fa-search"></i>
                 <input type="search" name="" id="search" placeholder="Search" />
               </div>
@@ -48,64 +54,139 @@
           </ul>
         </nav>
       </header>
-      <div class="cl1 items">
-        <div class="item box box-shadow">
-          <h3 class="item-name">Projects</h3>
-          <p class="projects-count">Project count</p>
-        </div>
 
-        <div class="item box box-shadow">
-          <h3 class="item-name">Votes</h3>
-          <p class="votes-count"></p>
+      <figure class="banner">
+        <div class="slider-wrap">
+          <section class="slider">
+            <article class="slider-content bg-blue white">
+              <h3>Hello user !</h3>
+              <p>But this won't work long-term. Heroku's filesystem is ephemeral:
+                any changes you make will be lost the next time your dyno restarts,
+                which happens frequently (at least once per day).</p>
+              <button class="btn bg-pink white">See more</button>
+            </article>
+
+            <article class="slider-content bg-blue white">
+              <h3>Hello user !</h3>
+              <p>But this won't work long-term. Heroku's filesystem is ephemeral:
+                any changes you make will be lost the next time your dyno restarts,
+                which happens frequently (at least once per day).</p>
+              <button class="btn bg-pink white">See more</button>
+            </article>
+          </section>
         </div>
-      </div>
-      <div class="cl1 box box-shadow top-projects">
-        <article class="cl1">
-          <h3 class="item-name">All projects</h3>
-          <div class="option">
-            <i class="fas fa-sync-alt"></i>
-            <i class="fas fa-ellipsis-v"></i>
-          </div>
+      </figure>
+
+      <div class="votes">
+        <article class="bg-pink">
+          <h3>Nominations</h3>
+          <section class="vote-wrap cl1">
+            <figure class="vote-slider cl1">
+              <div class="project-item" data-projectid="">
+                <figure class="project-img"></figure>
+                <article class="project-info">
+                  <p class="bold project-name">User project</p>
+                  <p class="project-user-name">user</p>
+                </article>
+                <div class="vote-count">
+                  <p>Votes: 10</p>
+                </div>
+              </div>
+            </figure>
+          </section>
         </article>
-        <section class="cl1 filter">
-          <div class="dropdown">
-            <button class="btn btn-inverse dropbtn blue">
-              Filter <i class="fas fa-sort-down"></i>
-            </button>
-            <div class="dropdown-content">
-              <a href="?order=asc">Aflopend</a>
-              <a href="?order=desc">Oplopend</a>
-            </div>
-          </div>
-          <div class="dropdown">
-            <button class="btn btn-inverse dropbtn blue">
-              Cluster <i class="fas fa-sort-down"></i>
-            </button>
-            <div class="dropdown-content">
-              <a href="?cluster=web">Web</a>
-              <a href="?cluster=mobile">Mobile Appliance</a>
-              <a href="?cluster=motion">Interactive Motion</a>
-              <a href="?cluster=ar">Alternate Reality</a>
-              <a href="?cluster=digital-making">Digital Making</a>
-            </div>
-          </div>
-        </section>
-        <div class="cl1 table">
-          <div class="table-head-tr">
-            <article class="table-td">
-              <p class="bold">Project image</p>
-            </article>
-            <article class="table-td">
-              <p class="bold">Project name</p>
-            </article>
-            <article class="table-td">
-              <p class="bold">Cluster vak</p>
-            </article>
-            <article class="table-td"></article>
-          </div>
-          <div class="cl1 table-content"></div>
-        </div>
       </div>
+
+      <div class="cl1 top-projects">
+        <section class="wrap box-shadow">
+
+          <article class="cl1">
+            <h3 class="item-name">Projects </h3>
+            <div class="option">
+              <i class="fas fa-sync-alt"></i>
+              <i class="fas fa-ellipsis-v"></i>
+            </div>
+          </article>
+
+          <section class="cl1 filter">
+            <div class="dropdown">
+              <button class="btn btn-inverse dropbtn blue">
+                Filter <i class="fas fa-sort-down"></i>
+              </button>
+              <div class="dropdown-content">
+                <a href="?order=asc">Aflopend</a>
+                <a href="?order=desc">Oplopend</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <button class="btn btn-inverse dropbtn blue">
+                Cluster <i class="fas fa-sort-down"></i>
+              </button>
+              <div class="dropdown-content">
+                <a href="?cluster=web">Web</a>
+                <a href="?cluster=mobile">Mobile Appliance</a>
+                <a href="?cluster=motion">Interactive Motion</a>
+                <a href="?cluster=ar">Alternate Reality</a>
+                <a href="?cluster=digital-making">Digital Making</a>
+              </div>
+            </div>
+          </section>
+
+          <div class="cl1 table">
+            <div class="table-head-tr">
+              <article class="table-td">
+                <p class="bold">Project image</p>
+              </article>
+              <article class="table-td">
+                <p class="bold">Project name</p>
+              </article>
+              <article class="table-td">
+                <p class="bold">Student</p>
+              </article>
+              <article class="table-td">
+                <p class="bold">Cluster</p>
+              </article>
+              <article class="table-td"></article>
+            </div>
+            <div class="cl1 table-content"></div>
+          </div>
+
+        </section>
+      </div>
+
+      <div class="cl1 all-voted">
+        <section class="cl1 wrap box-shadow">
+
+          <article class="cl1">
+            <h3 class="item-name">My Votes </h3>
+            <div class="option">
+              <i class="fas fa-sync-alt"></i>
+              <i class="fas fa-ellipsis-v"></i>
+            </div>
+          </article>
+
+          <div class="cl1 table">
+            <div class="table-head-tr">
+              <article class="table-td">
+                <p class="bold">Project image</p>
+              </article>
+              <article class="table-td">
+                <p class="bold">Project name</p>
+              </article>
+              <article class="table-td">
+                <p class="bold">Student</p>
+              </article>
+              <article class="table-td">
+                <p class="bold">Cluster</p>
+              </article>
+              <article class="table-td"></article>
+            </div>
+            <div class="cl1 table-content"></div>
+          </div>
+
+        </section>
+      </div>
+
     </main>
   </body>
 </html>
