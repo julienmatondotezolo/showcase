@@ -6,7 +6,10 @@ router.get("/:cluster", async (req, res) => {
   try {
     const selectedFinalWork = req.params;
 
-    const allFinalWorksSQL = await pool.query(`SELECT * FROM projects where cluster = '${selectedFinalWork.cluster}'`);
+    const allFinalWorksSQL = await pool.query(
+      `SELECT projects.*, users.username, users.email FROM projects INNER JOIN users ON projects.user_id = users.userid where cluster = '${selectedFinalWork.cluster}'`
+    );
+
     res.status(200).json(allFinalWorksSQL.rows);
   } catch (err) {
     console.error(err.message);

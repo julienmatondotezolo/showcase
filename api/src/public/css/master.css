@@ -208,6 +208,10 @@ em {
   float: left;
 }
 
+.vote-count {
+  margin-right: 10px;
+}
+
 @media screen and (max-width: 850px) {
   .form-slider .cl2 {
     width: 50%;
