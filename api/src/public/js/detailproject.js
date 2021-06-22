@@ -28,13 +28,13 @@ $(document).ready(function () {
     `);
 
     $(".project-form").prepend(`
-      <input type="number" name="project_id" id="${idDetail}" value="${idDetail}" hidden>
+      <input type="number" name="id" id="${idDetail}" value="${idDetail}" hidden>
     `);
   }
 
   runAll(idDetail).then(() => {
     allVotes();
-    //  allFavorites();
+    allFavorites();
   });
 
   async function allVotes() {
@@ -54,7 +54,7 @@ $(document).ready(function () {
 
   function verifyVote(data) {
     for (const allData of data) {
-      if (allData.project_id === parseInt(idDetail)) {
+      if (allData.projectid === idDetail) {
         console.log(
           `You have already voted for ${allData.name} in the cluster ${allData.cluster}`
         );
@@ -101,7 +101,7 @@ $(document).ready(function () {
     return await response.json();
   }
 
-  /*   async function allFavorites() {
+  async function allFavorites() {
     await fetch("/admin/my-favorites", {
       method: "POST",
       headers: {
@@ -117,27 +117,29 @@ $(document).ready(function () {
 
   function verifyFavorite(data) {
     console.log(data);
-      for (const item of data) {
-    if (item.project_id === parseInt(idDetail)) {
-      console.log(
-        `You have already voted for ${item.name} in the cluster ${item.cluster}`
-      );
-      //  document.getElementById('voteButton').v
-      $(`#voteForm`).attr("hidden", true);
-
-      $(`#unvoteForm`).attr("hidden", false);
-      $(`#unvoteButton`).removeClass("bg-blue").addClass("bg-darkgrey");
-      // $('#' + projectId).next().val('Already voted').disabled.css("background", "#b0bfc3 !important");
-    } else {
-      if (item.cluster === cluster) {
-        $(`#voteButton`)
-          .val("Already voted for this cluster.")
-          .removeClass("bg-blue") //.
-          .attr("disabled", true)
-          //  $(`#voteForm`).
-          .addClass("bg-darkgrey");
+    for (const item of data) {
+      if (item.projectid === idDetail) {
+        console.log(`Favorite`);
+        $(`#favoriteButton`).val("Remove from favorites");
       }
     }
-  } 
-  } */
+  }
+
+  document
+    .getElementById("favoriteButton")
+    .addEventListener("click", function () {
+      favorite();
+      console.log(idDetail);
+      console.log(JSON.stringify({ project_id: idDetail }));
+    });
+  async function favorite() {
+    await fetch("/admin/favorite", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ project_id: idDetail }),
+    }).then((res) => {});
+  }
 });

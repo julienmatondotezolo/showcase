@@ -5,10 +5,10 @@ const pool = require("../../db/db");
 router.post("/", async (req, res) => {
   console.log(req.body);
 
-  let { project_id } = req.body;
+  let { id } = req.body;
   let docentId = req.user.userid;
 
-  let values = [project_id, docentId];
+  let values = [id, docentId];
 
   console.log(values);
   if (await check()) {
@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
       );
 
       const wantedVoteProject = await pool.query(
-        `SELECT cluster FROM projects where projectid = ${project_id}`
+        `SELECT cluster FROM projects where projectid = ${id}`
       );
       const projectToVoteCluster = wantedVoteProject.rows[0].cluster;
 
