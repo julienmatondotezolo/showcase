@@ -9,6 +9,7 @@ router.get("/", async (req, res) => {
     );
 
     res.send(allVotedProjects.rows);
+    
   } catch (err) {
     console.log(err);
     res.sendCustomStatus(500);
