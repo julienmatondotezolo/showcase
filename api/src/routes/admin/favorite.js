@@ -3,13 +3,12 @@ const router = express.Router();
 const pool = require("../../db/db");
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
-
-  let { project_id } = req.body;
+  let { id } = req.body;
   let docentId = req.user.userid;
-  let values = [project_id, docentId];
+  let values = [id, docentId];
 
-  if (await check(project_id)) {
+  console.log(id);
+  if (await check(id)) {
     try {
       const favoriteProject = await pool.query(
         "INSERT INTO favorites(project_id, user_id) VALUES($1, $2) RETURNING *",
