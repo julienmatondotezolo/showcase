@@ -5,28 +5,7 @@ const bcrypt = require("bcrypt");
 var crypto = require("crypto");
 require("dotenv").config();
 var nodemailer = require("nodemailer");
-
-async function emailSend(bodyEmail) {
-  let transporter = nodemailer.createTransport({
-    host: "smtp-auth.mailprotect.be",
-    port: 465,
-    secure: true, // true for 465, false for other ports
-    auth: {
-      user: "info@api-finalshow.be", // generated ethereal user
-      pass: "FinalshowFPV4", // generated ethereal password
-    },
-  });
-
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: '"Finalshow BACKEND team 👻" <info@api-finalshow.be>', // sender address
-    to: "chai.1997@hotmail.fr", // list of receivers
-    subject: "Hi WE ARE HOW ARE YOU ✔", // Subject line
-    text: bodyEmail, // plain text body
-    html: `
-    <b>Hello world?</b>  <p> ${bodyEmail}   </p>`, // html body
-  });
-}
+let errors = [];
 
 router.post("/", async (req, res) => {
   try {
@@ -54,93 +33,145 @@ router.post("/", async (req, res) => {
     }
 
     let emailBody = `
-    You are receiving this because you (or someone else) have requested the reset of the password for your account.
+    Hey ${userSelected.rows[0].username}, did you want to reset your password?\n 
+     Someone (hopefully you) has asked us to reset the password for your FinalShow account. Please click the link below to do so. If you didn't request this password reset, you can go ahead and ignore this email!\n 
     Please click on the following link, or paste this into your browser to complete the process:
-    <a href="http://localhost:3000/forgot/reset/${reset.token}">http://localhost:3000/forgot/reset/${reset.token}</a>
-    If you did not request this, please ignore this email and your password will remain unchanged.
+    <a href="http://localhost:3000/forgot/reset/${reset.token}">http://localhost:3000/forgot/reset/${reset.token}</a>\n 
+    This link will expire in one hour.
   `;
 
-    emailSend(emailBody);
-
-    res.redirect("/forgot");
+    emailSend(userSelected.rows[0].email, emailBody);
+    
+    res.redirect("/forgot/recover");
   } catch (err) {
     console.error(err.message);
     res.sendCustomStatus(500);
   }
 });
 
-router.post("/reset/:token", async (req, res) => {
+router.post("/reset/:token",async (req, res) => {
+  const tok = req.params.token;
+
+  console.log("here is the token for post " + tok);
+  const resetToken = await pool.query(
+    `SELECT * FROM resettoken WHERE token = '${tok}'`
+  );
+  console.log("expiration " + resetToken.rows[0].expires);
+  if(resetToken.rows[0] ===undefined){
+    res.send("error: Your reset token is invalid");
+  }else if (Date.now() > resetToken.rows[0].expires) {
+    req.flash("error", "Password reset token is invalid or has expired.");
+    return res.redirect("/forgot");
+  }
+  if (checkCredentials(req.body.newPassword, req.body.confirmPassword)) {
+    encryptPassword(resetToken.rows[0].user_id, req.body.newPassword);
+    console.log('your password has been updated');
+    res.redirect('/login')
+  }
   try {
-    const { token } = req.params;
-
-    const resetToken = await pool.query(
-      `SELECT * FROM resettoken where token = '${token}' AND expires > (to_timestamp(${Date.now()} / 1000.0))`
+    const deleteToken = await pool.query(
+      "DELETE FROM resettoken WHERE user_id = $1",
+      [resetToken.rows[0].user_id]
     );
-    if (!resetToken) {
-      req.flash("error", "Password reset token is invalid or has expired.");
-      return res.redirect("/forgot");
-    }
-
-    try {
-      console.log("reset your id "+resetToken.user_id)
-      const updateUser = await pool.query(
-        `UPDATE users SET password = $2 WHERE userid =${resetToken.user_id} `,
-        [req.body.password]
-      );
-    } catch (err) {
-      console.error("the error update", err.message);
-      res.sendCustomStatus(500);
-    }
-
-    try {
-      const deleteToken = await pool.query(
-        "DELETE FROM resettoken WHERE user_id = $1",
-        [resetToken.user_id]
-      );
-    } catch (err) {
-      console.error("the error select", err.message);
-      res.sendCustomStatus(500);
-    }
-
   } catch (err) {
-    console.error("error delete " + err.message);
+    console.error("the error delete", err.message);
     res.sendCustomStatus(500);
   }
 });
 
-function encryptPassword(password) {
-  bcrypt.genSalt(10, (err, salt) =>
-    bcrypt.hash(password, salt, (err, hash) => {
-      if (err) throw err;
-      //save pass to hash
-      password = hash;
-return password;
-    })
-  );
-}
 router.get("/reset/:token", async (req, res) => {
-  try {
-    const { token } = req.params;
+  const tok = req.params.token;
 
-    const resetToken = await pool.query(
-      `SELECT * FROM resettoken where token = '${token}' AND expires > (to_timestamp(${Date.now()} / 1000.0))`
-    );
-     
-    if (!resetToken) {
-      console.log('token not found')
-      req.flash("error", "Password reset token is invalid or has expired.");
-      return res.redirect("/forgot");
-    }
-
+  const resetToken = await pool.query(
+    `SELECT * FROM resettoken WHERE token = '${tok}'`
+  );
+  if(resetToken.rows[0] ===undefined){
+    res.send("error: Your reset token is invalid");
+  }else if (Date.now() > resetToken.rows[0].expires) {
+    console.log("Password reset token is invalid or has expired");
+    req.flash("error", "Password reset token is invalid or has expired.");
+    return res.redirect("/forgot");
+  } else {
+    console.log("token found");
     res.render("reset.ejs", { user: req.user });
-  } catch (err) {
-    console.error("error token here " +err.message);
-    res.sendCustomStatus(500);
   }
 });
 
 router.get("/", async (req, res) => {
   res.render("forgotPassword.ejs", { user: req.user });
 });
+router.get("/recover", async (req, res) => {
+  res.render("emailSend.ejs", { user: req.user });
+});
 
+async function emailSend(emailTo, bodyEmail) {
+  console.log("the email " + emailTo);
+  let transporter = nodemailer.createTransport({
+    host: "smtp-auth.mailprotect.be",
+    port: 465,
+    secure: true, // true for 465, false for other ports
+    auth: {
+      user: "info@api-finalshow.be", // generated ethereal user
+      pass: "FinalshowFPV4", // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: '"Finalshow BACKEND team 👻" <info@api-finalshow.be>', // sender address
+    to: emailTo, // list of receivers
+    subject: "Hi WE ARE HOW ARE YOU ✔", // Subject line
+    text: bodyEmail, // plain text body
+    html: `
+    <b>Reset Password: FinalShow</b>  <p> ${bodyEmail}</p>`, // html body
+  });
+}
+
+function checkCredentials(password, password2) {
+  if (!password || !password2) {
+    errors.push(" Please fill in all fields");
+  }
+
+  if (password !== password2) {
+    errors.push(" Passwords don't match");
+  }
+
+  if (password.length < 6) {
+    errors.push(" Password atleast 6 characters");
+  }
+
+  if (errors.length > 0) {
+    //here code if not pass
+    console.log(" Errors, not passed!");
+    console.log(errors);
+    return false;
+  }
+
+  return true;
+}
+
+async function updateDb(id, pass) {
+  console.log("update ....");
+  try {
+    const updateUser = await pool.query(
+      `UPDATE users SET userid = $1, password = $2 WHERE userid =${id} `,
+      [id, pass]
+    );
+
+    console.log("password has been updated");
+  } catch (err) {
+    console.error("the error for update " + err.message);
+  }
+}
+
+function encryptPassword(id, password) {
+  bcrypt.genSalt(10, (err, salt) =>
+    bcrypt.hash(password, salt, (err, hash) => {
+      if (err) throw err;
+      //save pass to hash
+      password = hash;
+      updateDb(id, password);
+    })
+  );
+}
 module.exports = router;
