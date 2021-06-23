@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
         "DELETE FROM votes WHERE id = $1",
         [alreadyVotedClusterId]
       );
-      res.sendCustomStatus(200, "Deleted");
+      res.sendCustomStatus(200, `You have successfully unvoted for ${wantedVoteProject}`);
     } catch (err) {
       console.log(err);
       res.sendCustomStatus(500);
