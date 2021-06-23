@@ -346,6 +346,7 @@ function getTheCluster(cluster) {
 /* ================= DETAIL & ALERTS & NOTIFICATIONS ================= */
 
 function detail(data) {
+  console.log(data)
   $(".detail").remove();
   $("body").append(`
     <div class="detail message-wrap">
