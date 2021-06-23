@@ -14,11 +14,17 @@ router.post("/", async (req, res) => {
   if (await check()) {
     console.log("CHECKED");
     try {
-      const votedProject = await pool.query(
+      const voteProject = await pool.query(
         "INSERT INTO votes(project_id, user_id) VALUES($1, $2) RETURNING *",
         values
       );
-      res.sendCustomStatus(200, `You have successfully voted for ${votedProject}`);
+      const votedProject = await pool.query(
+        `SELECT name FROM projects where projectid = ${id}`
+      );
+      res.sendCustomStatus(
+        200,
+        `You have successfully voted for ${votedProject.rows[0].name}`
+      );
     } catch (err) {
       console.error(err.message);
       res.sendCustomStatus(500);
@@ -53,7 +59,10 @@ router.post("/", async (req, res) => {
           alreadyVotedCluster = true;
           alreadyVotedClusterId = alreadyVotedProject.id;
           console.log("Already voted for the cluster " + projectToVoteCluster);
-          res.sendCustomStatus(403, `Already voted for the cluster ${projectToVoteCluster}`);
+          res.sendCustomStatus(
+            403,
+            `Already voted for the cluster ${projectToVoteCluster}`
+          );
           return false;
         }
       });

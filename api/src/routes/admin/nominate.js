@@ -35,14 +35,24 @@ router.post("/", async (req, res) => {
     if (!allDocentNominationList.rows.length) {
       giveCorrectGradeDependingOnPosition(1, 3);
     } else {
-      if (checkIfDifferentCluster(allDocentNominationList.rows, votedProject.rows[0].cluster)) {
-        giveCorrectGradeDependingOnPosition(allDocentNominationList.rows.length + 1, 3);
+      if (
+        checkIfDifferentCluster(
+          allDocentNominationList.rows,
+          votedProject.rows[0].cluster
+        )
+      ) {
+        giveCorrectGradeDependingOnPosition(
+          allDocentNominationList.rows.length + 1,
+          3
+        );
       }
     }
-  };
+  }
 
-  async function giveCorrectGradeDependingOnPosition(rankPosition, maxPosition) {
-
+  async function giveCorrectGradeDependingOnPosition(
+    rankPosition,
+    maxPosition
+  ) {
     const availableGrades = [5, 3, 1];
     let gradeToGive = availableGrades[rankPosition - 1];
 
@@ -51,7 +61,10 @@ router.post("/", async (req, res) => {
     let values = [id, docentId, gradeToGive];
 
     if (rankPosition < 1 || rankPosition > maxPosition) {
-      res.sendCustomStatus(400, `Cannot vote for more than ${maxPosition} projects`);
+      res.sendCustomStatus(
+        400,
+        `Cannot vote for more than ${maxPosition} projects`
+      );
       return;
     }
 
@@ -59,19 +72,26 @@ router.post("/", async (req, res) => {
       "INSERT INTO nominations(project_id, user_id, points) VALUES($1, $2, $3) RETURNING *",
       values
     );
-    res.sendCustomStatus(200, "Project successfully added!");
+    const nominatedProject = await pool.query(
+      `SELECT name FROM projects where projectid = ${id}`
+    );
+
+    res.sendCustomStatus(
+      200,
+      `Project ${nominatedProject.rows[0].name} successfully nominated!`
+    );
     return gradeToGive;
   }
 
   function checkIfDifferentCluster(projectsAlreadyVoted, projectToVoteCluster) {
     let canVote = true;
-    projectsAlreadyVoted.forEach(project => {
+    projectsAlreadyVoted.forEach((project) => {
       if (project.cluster === projectToVoteCluster) {
         res.sendCustomStatus(400, "cannot vote for 2 projects of same cluster");
         canVote = false;
         return false;
       }
-    })
+    });
     if (canVote) {
       return true;
     }
