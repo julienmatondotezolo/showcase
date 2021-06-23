@@ -153,7 +153,7 @@ async function vote(projectid) {
       console.log(parsedRes)
       allVotes();
       myVotes();
-      notification(parsedRes.message)
+      notification(parsedRes.customMessage, parsedRes.code)
     });
   });
 }
@@ -167,12 +167,10 @@ async function unVote(projectid) {
     },
     body: JSON.stringify({id: projectid})
   }).then((res) => {
-    console.log(res)
     res.json().then((parsedRes) => {
-      console.log(parsedRes)
       allVotes();
       myVotes();
-      notification(parsedRes.message)
+      notification(parsedRes.customMessage, parsedRes.code)
     });
   });
 }
@@ -346,7 +344,6 @@ function getTheCluster(cluster) {
 /* ================= DETAIL & ALERTS & NOTIFICATIONS ================= */
 
 function detail(data) {
-  console.log(data)
   $(".detail").remove();
   $("body").append(`
     <div class="detail message-wrap">
@@ -428,8 +425,22 @@ function alert(data, action) {
   });
 }
 
-function notification(msg) {
+function notification(msg, statusCode) {
+  let statuscolor = "bg-green"
+
+  if(statusCode == 200) {
+    statuscolor = "bg-green"
+  }
+
+  if(statusCode == 403) {
+    statuscolor = "bg-red"
+  }
+
   $('.notification').remove();
-  $(`<div class="notification bg-green"><strong>${msg}</strong></div>`).appendTo('body');
-  $('.notification').fadeOut(3000).remove(5000);
+  $(`<div class="notification ${statuscolor}"><span class="bold">${msg}</span></div>`).appendTo('body');
+  $('.notification').fadeOut(5000);
+
+  setTimeout(function(){ 
+    $('.notification').remove();
+  }, 6000);
 }

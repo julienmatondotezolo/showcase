@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
   let alreadyVotedClusterId = 0;
 
   const allVotedProjects = await pool.query(
-    `SELECT votes.id, votes.user_id, project_id, cluster FROM votes INNER JOIN projects ON votes.project_id = projects.projectid AND votes.user_id = ${docentId}`
+    `SELECT votes.id, votes.user_id, project_id, name, cluster FROM votes INNER JOIN projects ON votes.project_id = projects.projectid AND votes.user_id = ${docentId}`
   );
 
   const wantedVoteProject = await pool.query(
@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
         "DELETE FROM votes WHERE id = $1",
         [alreadyVotedClusterId]
       );
-      res.sendCustomStatus(200, `You have successfully unvoted for ${wantedVoteProject}`);
+      res.sendCustomStatus(200, `You have successfully unvoted for ${wantedVoteProject.rows[0].name}`);
     } catch (err) {
       console.log(err);
       res.sendCustomStatus(500);

@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
         "INSERT INTO votes(project_id, user_id) VALUES($1, $2) RETURNING *",
         values
       );
-      res.sendCustomStatus(200);
+      res.sendCustomStatus(200, `You have successfully voted for ${votedProject}`);
     } catch (err) {
       console.error(err.message);
       res.sendCustomStatus(500);
