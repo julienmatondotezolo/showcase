@@ -70,6 +70,8 @@ const allVotes = require("./routes/admin/all-votes");
 const votesByProject = require("./routes/admin/votes-project");
 const favorite = require("./routes/admin/favorite");
 const myFavorites = require("./routes/admin/my-favorites");
+const nominate = require("./routes/admin/nominate");
+const getNominations = require("./routes/admin/get-nominations");
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -151,6 +153,8 @@ app.use("/admin/votes-project", ensureDocent, votesByProject);
 app.use("/admin/unvote", ensureDocent, unvote);
 app.use("/admin/favorite", ensureDocent, favorite);
 app.use("/admin/my-favorites", ensureDocent, myFavorites);
+app.use("/admin/nominate", ensureDocent, nominate);
+app.use("/admin/get-nominations", getNominations);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);

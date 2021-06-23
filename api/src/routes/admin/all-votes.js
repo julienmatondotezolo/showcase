@@ -5,7 +5,7 @@ const pool = require("../../db/db");
 router.get("/", async (req, res) => {
   try {
     const allVotedProjects = await pool.query(
-      `SELECT votes.id, projects.name,projects.cluster, projects.images,   users.username FROM votes INNER JOIN projects ON votes.project_id = projects.projectid INNER JOIN users ON votes.user_id = users.userid ORDER BY project_id ASC`
+      `SELECT votes.id, projects.name,projects.cluster, projects.images, users.username FROM votes INNER JOIN projects ON votes.project_id = projects.projectid INNER JOIN users ON votes.user_id = users.userid ORDER BY project_id ASC`
     );
 
     let object = {};
