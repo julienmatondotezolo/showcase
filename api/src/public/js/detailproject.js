@@ -17,6 +17,7 @@ $(document).ready(function () {
 
           <div class="row_detail">
             <h3>Project name: <span class="blue">${data[0].name}</span></h3>
+            <h4>Created by: <span class="blue">${data[0].username}</span></h4>
           </div>
           <div class="row_detail">
             <p>Project video: <a class="pink" href="${data[0].url}" target="_blank">${data[0].url}</a></p>
