@@ -156,6 +156,38 @@ main .nav-toggler {
   position: relative;
   left: 0%;
   width: 200%;
+  animation: slide 10s infinite;
+  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  -webkit-animation: slide 10s infinite;
+}
+
+.slider h3, .slider p {
+  position: relative;
+  z-index: 3;
+} 
+
+.slider img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  opacity: .5;
+  filter: blur(2px);
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transition: all .5s ease-in-out;
+  -webkit-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  -ms-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
 }
 
 .slider-content {
@@ -166,15 +198,24 @@ main .nav-toggler {
   box-sizing: border-box;
   height: 250px;
   border-radius: 10px;
+  overflow: hidden;
+  background: #244651;
+}
+
+.slider-content:hover > img {
+  width: 110%;
+  filter: blur(0px);
+  -webkit-filter: blur(0px);
 }
 
 .slider-content p {
-  width: 60%;
+  width: 75%;
 }
 
 .slider-content button {
   position: absolute;
   bottom: 2em;
+  z-index: 3;
 }
 
 /*///////////// VOTES ////////////////*/

@@ -6,6 +6,7 @@ const query = url.searchParams.get("cluster")
 
 allVotes();
 myVotes();
+slider();
 
 if (query) {
   if (
@@ -67,6 +68,36 @@ async function clusterFilter(sort) {
       printProjects(parsedRes);
       printAllProjects(parsedRes);
     });
+  });
+}
+
+/* ================= SLIDER ================= */
+
+async function slider() {
+  const projectIdArr = [79, 82, 83, 84, 96, 112, 115, 125]
+  let random = Math.floor(Math.random() * projectIdArr.length);
+  let data = await getProjectId(projectIdArr[random]);
+  printSlidContent(data)
+
+  random = Math.floor(Math.random() * projectIdArr.length);
+  data = await getProjectId(projectIdArr[random]);
+  printSlidContent(data)
+}
+
+function printSlidContent(data) {
+  //style="background: url('${data[0].images}') center center / 100% no-repeat;"
+  $(".slider").append(`
+  <article class="slider-content white">
+    <h3>Watch the ${data[0].name} project !</h3>
+    <p>
+      ${data[0].description}
+    </p>
+    <button class="btn bg-pink white detailproject" data-project-id=${data[0].projectid}>See project</button>
+    <img src="${data[0].images}" alt="${data[0].name}">
+  </article>`);
+
+  $(".detailproject").click(function (e) { 
+    detail(data)
   });
 }
 
@@ -149,12 +180,12 @@ async function unVote(projectid) {
 let votedClusterArr = [];
 function printVotes(allData) {
   $(".all-voted .table-content").empty();
+  // style="background: url('${data.images}') center center / 100% no-repeat;"
   for (const data of allData) {
     $(".all-voted .table-content").append(`
       <div class="table-tr">
-          <figure class="table-td bg-dark-blue" style="background: url('${
-            data.images
-          }') center center / 100% no-repeat;">
+          <figure class="table-td bg-dark-blue">
+            <img src="${data.images}" alt="${data.name}">
           </figure>
           <article class="table-td">
               <p class="bold">${data.name}</p>
@@ -218,12 +249,12 @@ function printProjects(allData) {
 
 function printAllProjects(allData) {
   $(".top-projects .table-content").empty();
+  // style="background: url('${data.images}') center center / 100% no-repeat;"
   for (const data of allData) {
     $(".top-projects .table-content").append(`
         <div class="table-tr">
-            <figure class="table-td bg-dark-blue" style="background: url('${
-              data.images
-            }') center center / 100% no-repeat;">
+            <figure class="table-td bg-dark-blue">
+              <img src="${data.images}" alt="${data.name}">
             </figure>
             <article class="table-td">
                 <p class="bold">${data.name}</p>
@@ -250,7 +281,7 @@ function printAllProjects(allData) {
 }
 
 async function getProjectId(id) {
-  let response = await fetch(`final-work/get-byid/${id}`, {
+  let response = await fetch(`/final-work/get-byid/${id}`, {
     mode: "cors",
   });
   return await response.json();
@@ -312,7 +343,7 @@ function getTheCluster(cluster) {
   return data;
 }
 
-/* ================= ALERTS ================= */
+/* ================= DETAIL & ALERTS & NOTIFICATIONS ================= */
 
 function detail(data) {
   $(".detail").remove();
@@ -321,14 +352,15 @@ function detail(data) {
       <i class="fas fa-2x fa-times close"></i>
       <div class="detail-content box box-shadow">
         <h3 class="blue">${data[0].name}</h3>
-        <figure class="project-img">
-          <img src="${data[0].images}" alt="${data[0].name} banner">
+        <figure class="project-img" style="background: url('${data[0].images}') center center / 100% no-repeat;">
+          
         </figure>
         <article class="project-info cl1">
           <section class="txt">
             <h3 class="blue">Description</h3>
             <p class="description">${data[0].description}</p>
             <p class="author">Author: ${data[0].username}</p>
+            <p class="video">Video: <a class="blue" href="${data[0].url}" target="_blank">${data[0].url}</a></p>
             <p class="cluster">Cluster: <span class="blue">${data[0].cluster}</span></p>
           </section>
           <figure class="project-video">
@@ -397,5 +429,6 @@ function alert(data, action) {
 
 function notification(msg) {
   $('.notification').remove();
-  $(`<div class="notification bg-green"><strong>${msg}.</strong></div>`).appendTo('body');
+  $(`<div class="notification bg-green"><strong>${msg}</strong></div>`).appendTo('body');
+  $('.notification').fadeOut(3000).remove(5000);
 }

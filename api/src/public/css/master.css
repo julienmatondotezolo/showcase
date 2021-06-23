@@ -526,3 +526,26 @@ footer {
 footer p {
   margin: 1em 0;
 }
+
+
+@keyframes slide {
+  0% {
+    left: 0%;
+  }
+
+  25% {
+    left: 0%;
+  }
+
+  50% {
+    left: -100%;
+  }
+
+  75% {
+    left: -100%;
+  }
+
+  100% {
+    left: 0%;
+  }
+}
