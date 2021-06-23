@@ -141,7 +141,8 @@ function nominates(data) {
     <div class="project-item" data-projectid="${item.id}">
     <figure class="project-img" style="background: url('${
       item.images
-    }') center center / 100% no-repeat;"></figure>
+    }') center center / 100% no-repeat;">
+    </figure>
     <article class="project-info">
       <p class="bold project-name">${item.name}</p>
       <p class="project-cluster-name">${getTheCluster(item.cluster)}</p>
@@ -160,9 +161,8 @@ function printVotes(allData) {
   for (const data of allData) {
     $(".all-voted .table-content").append(`
       <div class="table-tr">
-          <figure class="table-td bg-dark-blue" style="background: url('${
-            data.images
-          }') center center / 100% no-repeat;">
+          <figure class="table-td">
+          <img src="${data.images}" alt="project-images">
           </figure>
           <article class="table-td">
               <p class="bold">${data.name}</p>
@@ -220,9 +220,8 @@ function printAllProjects(allData) {
   for (const data of allData) {
     $(".top-projects .table-content").append(`
             <div class="table-tr">
-                <figure class="table-td bg-dark-blue" style="background: url('${
-                  data.images
-                }') center center / 100% no-repeat;">
+                <figure class="table-td">
+                <img src="${data.images}" alt="project-images">
                 </figure>
                 <article class="table-td">
                     <p class="bold">${data.name}</p>
