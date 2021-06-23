@@ -34,6 +34,14 @@ router.post("/", async (req, res) => {
         `SELECT votes.id, votes.user_id, project_id, cluster FROM votes INNER JOIN projects ON votes.project_id = projects.projectid AND votes.user_id = ${docentId}`
       );
 
+      if (allVotedProjects.rows.length >= 5) {
+        // Already 5 votes
+        console.log("Already 5 votes");
+        res.sendCustomStatus(400, "Already 5 votes");
+        alreadyVoted = false;
+        return false;
+      }
+
       const wantedVoteProject = await pool.query(
         `SELECT cluster FROM projects where projectid = ${id}`
       );
@@ -45,20 +53,13 @@ router.post("/", async (req, res) => {
           alreadyVotedCluster = true;
           alreadyVotedClusterId = alreadyVotedProject.id;
           console.log("Already voted for the cluster " + projectToVoteCluster);
+          res.sendCustomStatus(403, `Already voted for the cluster ${projectToVoteCluster}`);
+          return false;
         }
       });
 
       if (alreadyVotedCluster) {
-        try {
-          const deleteVotedProject = await pool.query(
-            "DELETE FROM votes WHERE id = $1",
-            [alreadyVotedClusterId]
-          );
-        } catch (err) {
-          res.sendCustomStatus(500);
-          return false;
-        }
-        return true;
+        return false;
       } else {
         return true;
       }

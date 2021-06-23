@@ -18,9 +18,8 @@ router.use(function (req, res, next) {
 
     return res.status(statusCode).send({
       code: statusCode,
-      message: `${extraMessage}${extraMessage.length ? "," : ""} ${
-        status[statusCode]
-      }`,
+      message: status[statusCode],
+      customMessage: extraMessage
     });
   };
   next();
