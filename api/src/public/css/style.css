@@ -588,7 +588,7 @@ form select {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 75%;
+  width: 71%;
   height: 400px;
   overflow-y: scroll;
   padding: 1em;

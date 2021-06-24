@@ -27,7 +27,6 @@ if (query) {
 $(".sidenav li").click(function (e) { 
   e.preventDefault();
   $(this).addClass('active').siblings().removeClass('active');
-
 });
 
 $("#search").on("keyup", function () {
@@ -370,7 +369,7 @@ function getTheCluster(cluster) {
 }
 
 function printNominations(data) {
-  $(".nomination-lis").remove();
+  $(".nomination-list").empty();
   for (const item of data) {
     $(".nomination-list").append(`
       <div class="nominated-item">
@@ -389,18 +388,36 @@ function printNominations(data) {
 
   $("#nomination .cancel").click(function (e) { 
     $("#nomination").css("display", "none");
+    $(".nominations").removeClass('active');
+    $(".sidenav li:nth-child(1)").addClass('active');
   });
 
-  // $(".vote").click(function (e) { 
-  //   alert(data, "vote");
-  // });
+  $(".confirm-nominations").click(function (e) { 
+    let projectid = $(this).data("project-id");
+    nominate(projectid);
+  });
 }
 
+async function nominate(projectid) {
+  await fetch("/admin/nominate", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({id: projectid})
+  }).then((res) => {
+    console.log(res)
+    res.json().then((parsedRes) => {
+      console.log(parsedRes)
+      notification(parsedRes.customMessage, parsedRes.code)
+    });
+  });
+}
 
 /* ================= DETAIL & ALERTS & NOTIFICATIONS ================= */
 
 function detail(data) {
-  console.log(data)
   $(".detail").remove();
   $("body").append(`
     <div class="detail message-wrap">
