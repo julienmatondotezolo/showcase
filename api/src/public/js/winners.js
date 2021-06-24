@@ -1,7 +1,7 @@
 console.log("works");
 
 await getNominations();
-getWinners()
+//getWinners();
 
 async function getNominations() {
   await fetch("/admin/get-nominations", {
@@ -18,7 +18,7 @@ async function getNominations() {
   });
 }
 
-async function getWinners() {
+/* async function getWinners() {
   await fetch("/admin/get-winners", {
     method: "GET",
     headers: {
@@ -37,7 +37,7 @@ async function getWinners() {
               <p class="project-cluster red">${iterator.cluster}</p>
             </article>
             <article class="nominated-votes cl2">
-              <p class="votes-count">Votes: 8</p>
+              <p class="votes-count">Votes: ${iterator.}</p>
             </article>
             <img src="${iterator.images}" alt="Bootz">
             <button class="btn bg-green white nominate" data-project-id="112">Winner <i class="fas fa-trophy"></i></button>
@@ -55,7 +55,7 @@ async function getWinners() {
       activeBtn();
     });
   });
-}
+} */
 
 async function setWinner(data) {
   await fetch("/admin/set-winner", {
@@ -76,6 +76,7 @@ async function setWinner(data) {
 
 function printProjects(parsedRes) {
   let alreadyVotedForCluster = [];
+  let winnerList = [];
   $(`.table-content`).empty();
   for (const iterator in parsedRes) {
     parsedRes[iterator].forEach((data) => {
@@ -103,12 +104,44 @@ function printProjects(parsedRes) {
         `);
 
       if (data.winner) {
+        winnerList.push(data);
         alreadyVotedForCluster.push(data.cluster);
       }
     });
   }
 
+  printWinners(winnerList);
   disableButtons(alreadyVotedForCluster);
+}
+
+function printWinners(parsedRes) {
+  console.log(parsedRes);
+  $(".nomination-list").empty();
+  if (parsedRes.length) {
+    for (const iterator of parsedRes) {
+      $(".nomination-list").append(
+        `<div class="nominated-item">
+        <article class="nominated-project cl2">
+          <p class="project-name bold">${iterator.name}</p>
+          <p class="project-cluster red">${iterator.cluster}</p>
+        </article>
+        <article class="nominated-votes cl2">
+          <p class="votes-count">Votes: ${iterator.totalVotes}</p>
+        </article>
+        <img src="${iterator.images}" alt="Bootz">
+        <button class="btn bg-green white nominate" data-project-id="112">Winner <i class="fas fa-trophy"></i></button>
+      </div>`
+      );
+    }
+  } else {
+    $(".nomination-list").empty();
+    $(".nomination-list").append(`
+    <section class="box">
+      <p class='red'>No winners selected.</p>
+    </section>
+    `);
+  }
+  activeBtn();
 }
 
 function disableButtons(alreadyVotedForCluster) {
@@ -142,7 +175,8 @@ function notification(msg, statusCode) {
   }
 
   $(".notification").remove();
-  $(`<div class="notification ${statuscolor}"><span class="bold">${msg}</span></div>`
+  $(
+    `<div class="notification ${statuscolor}"><span class="bold">${msg}</span></div>`
   ).appendTo("body");
   $(".notification").fadeOut(5000);
 

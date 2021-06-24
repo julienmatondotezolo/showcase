@@ -264,7 +264,7 @@ function printAllProjects(allData) {
   for (const data of allData) {
     $(".top-projects .table-content").append(`
         <div class="table-tr">
-            <figure class="table-td bg-dark-blue">
+            <figure class="table-td ">
               <img src="${data.images}" alt="${data.name}">
             </figure>
             <article class="table-td">
@@ -528,10 +528,10 @@ async function removeNomination(projectid) {
 /* ================= DETAIL & ALERTS & NOTIFICATIONS ================= */
 
 function detail(data) {
-  console.log("here is the data "+data[0].url);
+  console.log("here is the data " + data[0].url);
   var url = data[0].url;
   var newUrl = url.replace("watch?v=", "embed/");
-  console.log('new url '+ newUrl);
+  console.log("new url " + newUrl);
 
   $(".detail").remove();
   $("body").append(`
