@@ -324,6 +324,7 @@ function nominates(data) {
     a.totalVotes < b.totalVotes ? 1 : b.totalVotes < a.totalVotes ? -1 : 0
   );
 
+  myNominations();
   printNominations(result)
 
   $(".vote-slider").empty();
@@ -369,6 +370,19 @@ function getTheCluster(cluster) {
 
 function printNominations(data) {
   $(".nomination-list").empty();
+
+  $("#pos1").empty().append(`
+    <option value="" disabled selected>Select first pick</option>
+  `)
+
+  $("#pos2").empty().append(`
+    <option value="" disabled selected>Select second pick</option>
+  `)
+
+  $("#pos3").empty().append(`
+    <option value="" disabled selected>Select third pick</option>
+  `)
+
   for (const item of data) {
     $(".nomination-list").append(`
       <div class="nominated-item">
@@ -383,6 +397,18 @@ function printNominations(data) {
         <button class="btn bg-pink white confirm-nominations" data-project-id="${item.projectid}">Nominate</button>
       </div>
     `);
+
+    $("#pos1").append(`
+      <option value="${item.projectid}">${item.name} (${item.cluster})</option>
+    `)
+
+    $("#pos2").append(`
+      <option value="${item.projectid}">${item.name} (${item.cluster})</option>
+    `)
+
+    $("#pos3").append(`
+      <option value="${item.projectid}">${item.name} (${item.cluster})</option>
+    `)
   }
 
   $("#nomination .cancel").click(function (e) {
@@ -391,10 +417,17 @@ function printNominations(data) {
     $(".sidenav li:nth-child(1)").addClass('active');
   });
 
-  $(".confirm-nominations").click(function (e) {
-    let projectid = $(this).data("project-id");
-    nominate(projectid);
+  $("#confirm-nominations").submit(function (e) { 
+    e.preventDefault();
+    let formData = $(this).serializeArray();
+    console.log(formData);
+    nominate(formData);
   });
+
+  // $(".confirm-nominations").click(function (e) {
+  //   let projectid = $(this).data("project-id");
+  //   nominate(projectid);
+  // });
 }
 
 async function nominate(projectid) {
@@ -410,6 +443,20 @@ async function nominate(projectid) {
     res.json().then((parsedRes) => {
       console.log(parsedRes)
       notification(parsedRes.customMessage, parsedRes.code)
+    });
+  });
+}
+
+async function myNominations() {
+  await fetch("/admin/my-nominations", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    res.json().then((parsedRes) => {
+      console.log(parsedRes)
     });
   });
 }
@@ -505,7 +552,7 @@ function notification(msg, statusCode) {
     statuscolor = "bg-green"
   }
 
-  if (statusCode == 403) {
+  if (statusCode == 403 || statusCode == 400) {
     statuscolor = "bg-red"
   }
 

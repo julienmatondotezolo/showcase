@@ -200,9 +200,31 @@
         </ul>
         <section class="nomination-list">
         </section>
+        <section class="nomination-postion">
+          <form id="confirm-nominations" enctype="multipart/form-data">
+
+            <section class="picks">
+              <p class="blue">First pick (+5 votes)</p>
+              <select name="1" id="pos1" required="">
+              </select>
+            </section>
+
+            <section class="picks">
+              <p class="blue">Second pick (+3 votes)</p>
+              <select name="2" id="pos2" required="">
+              </select>
+            </section>
+
+            <section class="picks">
+              <p class="blue">Third pick (+1 votes)</p>
+              <select name="3" id="pos3" required="">
+              </select>
+            </section>
+            <input class="btn bg-pink white confirm-nominations" type="submit" name="submit" value="Confirm">
+          </form>
+        </section>
         <article class="cl1">
           <button class="btn btn-inverse cancel">Close</button>
-          <button class="btn bg-pink white confirm-nominations" data-project-id="${data[0].projectid}">Confirm</button>
         </article>
       </div>
     </div>
