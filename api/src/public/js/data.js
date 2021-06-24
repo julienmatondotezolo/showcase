@@ -371,18 +371,6 @@ function getTheCluster(cluster) {
 function printNominations(data) {
   $(".nomination-list").empty();
 
-  $("#pos1").empty().append(`
-    <option value="" disabled selected>Select first pick</option>
-  `)
-
-  $("#pos2").empty().append(`
-    <option value="" disabled selected>Select second pick</option>
-  `)
-
-  $("#pos3").empty().append(`
-    <option value="" disabled selected>Select third pick</option>
-  `)
-
   for (const item of data) {
     $(".nomination-list").append(`
       <div class="nominated-item">
@@ -397,18 +385,6 @@ function printNominations(data) {
         <button class="btn bg-pink white confirm-nominations" data-project-id="${item.projectid}">Nominate</button>
       </div>
     `);
-
-    $("#pos1").append(`
-      <option value="${item.projectid}">${item.name} (${item.cluster})</option>
-    `)
-
-    $("#pos2").append(`
-      <option value="${item.projectid}">${item.name} (${item.cluster})</option>
-    `)
-
-    $("#pos3").append(`
-      <option value="${item.projectid}">${item.name} (${item.cluster})</option>
-    `)
   }
 
   $("#nomination .cancel").click(function (e) {
@@ -417,27 +393,20 @@ function printNominations(data) {
     $(".sidenav li:nth-child(1)").addClass('active');
   });
 
-  $("#confirm-nominations").submit(function (e) { 
-    e.preventDefault();
-    let formData = $(this).serializeArray();
-    console.log(formData);
-    nominate(formData);
+  $(".confirm-nominations").click(function (e) {
+    let projectid = $(this).data("project-id");
+    alert(data, "nominate");
   });
-
-  // $(".confirm-nominations").click(function (e) {
-  //   let projectid = $(this).data("project-id");
-  //   nominate(projectid);
-  // });
 }
 
-async function nominate(projectid) {
+async function nominate(pickedNomation) {
   await fetch("/admin/nominate", {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id: projectid })
+    body: pickedNomation
   }).then((res) => {
     console.log(res)
     res.json().then((parsedRes) => {
@@ -457,6 +426,7 @@ async function myNominations() {
   }).then((res) => {
     res.json().then((parsedRes) => {
       console.log(parsedRes)
+      $("#pos1").append(``)
     });
   });
 }
@@ -516,6 +486,19 @@ function message(data, conditon) {
             <button class="btn btn-inverse cancel">Cancel</button>
             <button class="btn bg-pink white vote" data-project-id="${data[0].projectid}">Vote</button>`
   }
+
+  if (conditon == "nominate") {
+    return `<h3>Nominate for <span class="blue">${data[0].name}</span> ?</h3>
+            <p>Choose <span class="blue">the position to nominate</span> this project.</p>
+            <select name="position" id="pick-position" required="">
+              <option value="" disabled selected>Select pick position</option>
+              <option value="1">+ 5 votes</option>
+              <option value="2">+ 3 votes</option>
+              <option value="3">+ 1 votes</option>
+            </select>
+            <button class="btn btn-inverse cancel">Cancel</button>
+            <submit class="btn bg-pink white nominate" data-project-id="${data[0].projectid}">Nominate</submit>`
+  }
 }
 
 function alert(data, action) {
@@ -542,6 +525,20 @@ function alert(data, action) {
     let projectid = $(this).data("project-id");
     vote(projectid);
     $(".message-wrap").remove();
+  });
+
+  $(".nominate").click(function (e) {
+    let data = {}
+    let projectid = $(this).data("project-id");
+
+    data.id = projectid
+    data.position = parseInt($( "#pick-position option:selected" ).val());
+
+    console.log(data)
+    nominate(data)
+
+    $(".message-wrap").css("display", "none");
+    $("#nomination").css("display", "block");
   });
 }
 

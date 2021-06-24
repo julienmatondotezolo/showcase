@@ -561,7 +561,7 @@ form select {
 /*///////////// NOMINATIONS ////////////////*/
 
 #nomination {
-  /* display: none; */
+  display: none;
 }
 
 #nomination .nomination-content {
