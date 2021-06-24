@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
     Hey ${userSelected.rows[0].username}, did you want to reset your password?\n 
      Someone (hopefully you) has asked us to reset the password for your FinalShow account. Please click the link below to do so. If you didn't request this password reset, you can go ahead and ignore this email!\n 
     Please click on the following link, or paste this into your browser to complete the process:
-    <a href="http://localhost:3000/forgot/reset/${reset.token}">http://localhost:3000/forgot/reset/${reset.token}</a>\n 
+    <a href="http://api-finalshow.be:3000/forgot/reset/${reset.token}">http://api-finalshow.be:3000/forgot/reset/${reset.token}</a>\n 
     This link will expire in one hour.
   `;
 
