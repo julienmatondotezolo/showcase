@@ -434,25 +434,26 @@ async function myNominations() {
     },
   }).then((res) => {
     res.json().then((parsedRes) => {
+      console.log(parsedRes)
       for (const nomination of parsedRes) {
         if(nomination.points == 5) {
           $("#pos1").empty()
           $("#pos1").siblings(".remove-picks").remove();
-          $("#pos1").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out")
+          $("#pos1").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out").attr("data-project-id", nomination.projectid)
           $(`<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`).insertAfter($("#pos1"));
         } else if(nomination.points == 3) {
           $("#pos2").empty()
           $("#pos2").siblings(".remove-picks").remove();
-          $("#pos2").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out")
+          $("#pos2").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out").attr("data-project-id", nomination.projectid)
           $(`<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`).insertAfter($("#pos2"));
         } else if(nomination.points == 1) {
           $("#pos3").empty()
           $("#pos3").siblings(".remove-picks").remove();
-          $("#pos3").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out")
+          $("#pos3").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out").attr("data-project-id", nomination.projectid)
           $(`<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`).insertAfter($("#pos3"));
         }
       }
-
+      
       $(".nomination-postion .remove-picks").click(function (e) {
         let projectData;
         let projectid = $(this).data("project-id");
@@ -620,6 +621,10 @@ function alert(data, action) {
   $(".remove-nominate").click(function (e) {
     let projectid = $(this).data("project-id");
     removeNomination(projectid);
+
+    $(".picks button[data-project-id="+ projectid +"]").remove();
+    $(".picks p[data-project-id="+ projectid +"]").text("Click nominate to add a nomination").addClass("grey-out").removeClass("bold")
+
     $(".alert").remove();
     myNominations()
   });
