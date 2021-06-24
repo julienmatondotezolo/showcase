@@ -52,9 +52,9 @@ router.post("/", async (req, res) => {
 
     function positionToPoints(position) {
 
-      if (position === 1) {
+      if (position === 1 || position === "1") {
         return 5;
-      } else if (position === 2) {
+      } else if (position === 2 || position === "2") {
         return 3;
       } else {
         return 1;

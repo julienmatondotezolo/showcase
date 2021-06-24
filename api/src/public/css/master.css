@@ -56,6 +56,11 @@
   color: #be270f !important;
 }
 
+.grey-out {
+  font-style: italic;
+  opacity: .5;
+}
+
 /*/////////////    BODY   ////////////////*/
 
 body {

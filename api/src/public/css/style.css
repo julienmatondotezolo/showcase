@@ -606,6 +606,33 @@ form select {
   float: left;
 }
 
+.nomination-postion .picks {
+  cursor: pointer;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: #f1f1f1;
+  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+}
+
+.nomination-postion .picks:hover {
+  padding: 1.5em;
+  background: #fddcdb;
+}
+
+.nomination-postion .picks p:first-child {
+  font-size: 1.2em;
+}
+
+.nomination-postion .remove-picks {
+  margin-top: 1em;
+}
+
 .picks select {
   width: 100%;
 }
@@ -676,6 +703,12 @@ form select {
   -moz-transform: translate(-50%, -50%) scale(0.95);
   -ms-transform: translate(-50%, -50%) scale(0.95);
   -o-transform: translate(-50%, -50%) scale(0.95);
+}
+
+.alert #pick-position {
+  width: 100%;
+  padding: 1em;
+  margin-bottom: 1em;
 }
 
 /*///////////// ALERT ////////////////*/
