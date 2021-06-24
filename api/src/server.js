@@ -55,6 +55,7 @@ const filterCluster = require("./routes/final_work/filter-cluster");
 const dashboardDocent = require("./routes/dashboard/dashboard-docent");
 const detailProject = require("./routes/final_work/detail-project");
 const winnersView = require("./routes/nominations/winners");
+const getWinners = require("./routes/admin/get-winners");
 const addEmail = require("./routes/mail/add-email");
 const addUser = require("./routes/users/add");
 const deleteUser = require("./routes/users/delete");
@@ -164,6 +165,7 @@ app.use("/admin/get-nominations", getNominations);
 app.use("/admin/my-nominations", myNominations);
 app.use("/admin/remove-nomination", removeNominations);
 app.use("/admin/set-winner", setWinner);
+app.use("/admin/get-winners", getWinners);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
