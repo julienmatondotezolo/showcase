@@ -355,7 +355,7 @@ main .nav-toggler {
 /*///////////// OPTIONS ////////////////*/
 
 .top-projects .option .fa-ellipsis-v,
-.all-favorites,
+.all-favorites .option .fa-ellipsis-v,
 .all-voted .option .fa-ellipsis-v {
   margin-left: 1em;
 }
