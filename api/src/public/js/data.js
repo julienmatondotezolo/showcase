@@ -489,7 +489,7 @@ async function verifyNominations(projectId) {
   });
   return verification
 }
-async function removeNomination(projectid); {
+async function removeNomination(projectid) {
   await fetch("/admin/remove-nomination", {
     method: "POST",
     headers: {
@@ -620,6 +620,7 @@ function alert(data, action) {
   $(".remove-nominate").click(function (e) {
     let projectid = $(this).data("project-id");
     removeNomination(projectid);
+    myNominations()
     $(".alert").remove();
   });
 }
