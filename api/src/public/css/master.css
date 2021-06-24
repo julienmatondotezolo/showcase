@@ -4,6 +4,12 @@
 
 /*////////////////  COLORS  ///////////*/
 
+html,
+*,
+body {
+  scroll-behavior: smooth;
+}
+
 .bg-dark-blue {
   background-color: #37535f !important;
 }
@@ -58,7 +64,7 @@
 
 .grey-out {
   font-style: italic;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 /*/////////////    BODY   ////////////////*/
@@ -535,7 +541,6 @@ footer {
 footer p {
   margin: 1em 0;
 }
-
 
 @keyframes slide {
   0% {

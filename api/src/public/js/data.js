@@ -28,10 +28,15 @@ if (query) {
 /* ================= NAVIGATIE ================= */
 
 $(".sidenav li").click(function (e) {
-  e.preventDefault()
-
-  if(this.className !== "nominations" || this.className !== "home" || this.className !== "winners") {
-    goToByScroll(this.className)
+  console.log("clicked");
+  console.log(this.className);
+  if (
+    this.className === "nominations" ||
+    this.className === "home" ||
+    this.className === "winners"
+  ) {
+    e.preventDefault();
+    // goToByScroll(this.className);
   }
   $(this).addClass("active").siblings().removeClass("active");
 });
@@ -789,10 +794,13 @@ function goToByScroll(id) {
   // Remove "link" from the ID
   id = id.replace("link-", "");
   // Scroll
-  let posY = $("main #" + id).offset().top
-  console.log("#" + id)
-  console.log(posY)
-  $('main').animate({
-      scrollTop: $("#" + id).offset().top
-  }, 'slow');
+  let posY = $("main #" + id).offset().top;
+  console.log("#" + id);
+  console.log(posY);
+  $("main").animate(
+    {
+      scrollTop: $("#" + id).offset().top,
+    },
+    "slow"
+  );
 }
