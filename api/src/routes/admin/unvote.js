@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
   );
 
   const wantedVoteProject = await pool.query(
-    `SELECT cluster FROM projects where projectid = ${id}`
+    `SELECT cluster, name FROM projects where projectid = ${id}`
   );
   const projectToVoteCluster = wantedVoteProject.rows[0].cluster;
 
