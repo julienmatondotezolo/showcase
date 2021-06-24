@@ -561,7 +561,7 @@ form select {
 /*///////////// NOMINATIONS ////////////////*/
 
 #nomination {
-  display: none;
+  /* display: none; */
 }
 
 #nomination .nomination-content {
@@ -588,13 +588,26 @@ form select {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 71%;
+  width: 75%;
   height: 400px;
   overflow-y: scroll;
   padding: 1em;
   margin: 1em 0;
+  box-sizing: border-box;
   border-radius: 10px;
   background: #f1f1f1;
+  float: left;
+}
+
+.nomination-postion {
+  width: 25%;
+  padding: 1em;
+  box-sizing: border-box;
+  float: left;
+}
+
+.picks select {
+  width: 100%;
 }
 
 .nominated-item {
