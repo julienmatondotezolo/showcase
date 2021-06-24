@@ -420,7 +420,8 @@ function printNominations(data) {
   $("#confirm-nominations").submit(function (e) { 
     e.preventDefault();
     let formData = $(this).serializeArray();
-    console.log(formData)
+    console.log(formData);
+    nominate(formData);
   });
 
   // $(".confirm-nominations").click(function (e) {
@@ -442,9 +443,6 @@ async function nominate(projectid) {
     res.json().then((parsedRes) => {
       console.log(parsedRes)
       notification(parsedRes.customMessage, parsedRes.code)
-      if(parsedRes.code == 200) {
-        //
-      }
     });
   });
 }
