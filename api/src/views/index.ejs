@@ -23,25 +23,23 @@
       </section>
       <nav>
         <ul class="sidenav">
-          <li class="active">
-            <a href="/dashboard-docent"
-              ><i class="fas fa-th-large"></i> Dashboard</a
-            >
+          <li class="home active">
+            <a href="/dashboard-docent"><i class="fas fa-th-large"></i> Dashboard</a>
+          </li>
+          <li class="winners">
+            <a href=""><i class="fas fa-trophy"></i> Winners</a>
           </li>
           <li class="nominations">
             <a href=""><i class="fas fa-award"></i> Nominations</a>
           </li>
-          <li>
+          <li class="link-projects">
             <a href=""><i class="fas fa-columns"></i> Projects</a>
           </li>
-          <li>
+          <li class="link-voted">
             <a href=""><i class="fas fa-poll-h"></i> My Votes</a>
           </li>
-          <li>
+          <li class="link-favorites">
             <a href=""><i class="far fa-heart"></i> favorites</a>
-          </li>
-          <li>
-            <a href=""><i class="fas fa-cog"></i> Settings</a>
           </li>
           <li class="bg-pink">
             <a href="/logout"><i class="fas fa-sign-out-alt"></i> sign-out</a>
@@ -81,7 +79,7 @@
         </div>
       </figure>
 
-      <div class="votes">
+      <div class="votes" id="votes">
         <article class="bg-pink">
           <h3>All votes</h3>
           <section class="vote-wrap cl1">
@@ -99,7 +97,7 @@
         </article>
       </div>
 
-      <div class="cl1 top-projects">
+      <div class="cl1 top-projects" id="projects">
         <section class="wrap box-shadow">
           <article class="cl1">
             <h3 class="item-name">Projects</h3>
@@ -154,7 +152,7 @@
         </section>
       </div>
 
-      <div class="cl1 all-voted">
+      <div class="cl1 all-voted" id="voted">
         <section class="cl1 wrap box-shadow">
           <article class="cl1">
             <h3 class="item-name">My Votes</h3>
@@ -185,7 +183,7 @@
         </section>
       </div>
 
-      <div class="cl1 all-favorites">
+      <div class="cl1 all-favorites" id="favorites">
         <section class="cl1 wrap box-shadow">
           <article class="cl1">
             <h3 class="item-name">My Favorites</h3>
