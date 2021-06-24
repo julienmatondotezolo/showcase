@@ -8,13 +8,13 @@ var nodemailer = require("nodemailer");
 let errors = [];
 
 router.post("/", async (req, res) => {
-  try {
+
     const userSelected = await pool.query(
       `SELECT * FROM users where email = '${req.body.email}'`
     );
-    if (!userSelected) {
-      req.flash("error", "No account with that email address exists.");
-      return res.redirect("/forgot");
+    if (userSelected.rows[0]===undefined) {
+      console.log("there is an error")
+      res.sendCustomStatus(400, "Your email does not exist or incorrect");
     }
 
     const reset = {
@@ -41,12 +41,9 @@ router.post("/", async (req, res) => {
   `;
 
     emailSend(userSelected.rows[0].email, emailBody);
-    
-    res.redirect("/forgot/recover");
-  } catch (err) {
-    console.error(err.message);
-    res.sendCustomStatus(500);
-  }
+
+    res.redirect(`/forgot/recover?email=${userSelected.rows[0].email}`);
+  
 });
 
 router.post("/reset/:token",async (req, res) => {
@@ -67,6 +64,8 @@ router.post("/reset/:token",async (req, res) => {
     encryptPassword(resetToken.rows[0].user_id, req.body.newPassword);
     console.log('your password has been updated');
     res.redirect('/login')
+  } else {
+    res.sendCustomStatus(400, errors);
   }
   try {
     const deleteToken = await pool.query(
@@ -75,25 +74,29 @@ router.post("/reset/:token",async (req, res) => {
     );
   } catch (err) {
     console.error("the error delete", err.message);
-    res.sendCustomStatus(500);
+    res.sendCustomStatus(400);
   }
 });
 
 router.get("/reset/:token", async (req, res) => {
   const tok = req.params.token;
-
+ try{
   const resetToken = await pool.query(
     `SELECT * FROM resettoken WHERE token = '${tok}'`
   );
+ 
   if(resetToken.rows[0] ===undefined){
     res.send("error: Your reset token is invalid");
   }else if (Date.now() > resetToken.rows[0].expires) {
     console.log("Password reset token is invalid or has expired");
-    req.flash("error", "Password reset token is invalid or has expired.");
-    return res.redirect("/forgot");
+    res.send("error", "Password reset token is invalid or has expired.");
+    //return res.redirect("/forgot");
   } else {
     console.log("token found");
-    res.render("reset.ejs", { user: req.user });
+    res.render("reset.ejs");
+  }
+}  catch (err) {
+    console.error("the error for insert " + err.message);
   }
 });
 
@@ -120,7 +123,7 @@ async function emailSend(emailTo, bodyEmail) {
   let info = await transporter.sendMail({
     from: '"Finalshow BACKEND team 👻" <info@api-finalshow.be>', // sender address
     to: emailTo, // list of receivers
-    subject: "Hi WE ARE HOW ARE YOU ✔", // Subject line
+    subject: "RESET password: FINALSHOW ✔", // Subject line
     text: bodyEmail, // plain text body
     html: `
     <b>Reset Password: FinalShow</b>  <p> ${bodyEmail}</p>`, // html body
