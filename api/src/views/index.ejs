@@ -194,34 +194,27 @@
         <h3 class="blue">Nominations</h3>
         <p>Nominate your top 3 projects</p>
         <ul class="nomination-system-text">
-          <li>First pick will receive <span class="bold red">5 extra</span> votes.</li>
-          <li>Second pick will receive <span class="bold red">3 extra</span> votes.</li>
-          <li>Third pick will receive <span class="bold red">1 extra</span> votes.</li>
+          <li>Top 1 will receive <span class="bold red">5 extra</span> votes.</li>
+          <li>Top 2 will receive <span class="bold red">3 extra</span> votes.</li>
+          <li>Top 3 will receive <span class="bold red">1 extra</span> votes.</li>
         </ul>
         <section class="nomination-list">
         </section>
         <section class="nomination-postion">
-          <form id="confirm-nominations" enctype="multipart/form-data">
-
             <section class="picks">
-              <p class="blue">First pick (+5 votes)</p>
-              <select name="1" id="pos1" required="">
-              </select>
+              <p class="blue bold">Top 1 (+5 votes)</p>
+              <p id="pos1" class="grey-out">Click nominate to add a nomination</p>
             </section>
 
             <section class="picks">
-              <p class="blue">Second pick (+3 votes)</p>
-              <select name="2" id="pos2" required="">
-              </select>
+              <p class="blue bold">Top 2 (+3 votes)</p>
+              <p id="pos2" class="grey-out">Click nominate to add a nomination</p>
             </section>
 
             <section class="picks">
-              <p class="blue">Third pick (+1 votes)</p>
-              <select name="3" id="pos3" required="">
-              </select>
+              <p class="blue bold">Top 3 (+1 votes)</p>
+              <p id="pos3" class="grey-out">Click nominate to add a nomination</p>
             </section>
-            <input class="btn bg-pink white confirm-nominations" type="submit" name="submit" value="Confirm">
-          </form>
         </section>
         <article class="cl1">
           <button class="btn btn-inverse cancel">Close</button>
