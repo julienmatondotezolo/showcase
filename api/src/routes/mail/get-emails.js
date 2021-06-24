@@ -4,10 +4,10 @@ const pool = require("../../db/db");
 
 router.get("/", async (req, res) => {
     try {
-        const winners = await pool.query(
-            `SELECT * FROM PROJECTS WHERE PROJECTS.WINNER = TRUE`
+        const emails = await pool.query(
+            `SELECT * FROM EMAILS`
         );
-        res.send(winners.rows);
+        res.send(emails.rows);
     } catch (err) {
         console.log(err);
         res.sendCustomStatus(500);
