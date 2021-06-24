@@ -68,7 +68,7 @@ router.post("/", async (req, res) => {
     if (rankPosition < 1 || rankPosition > maxPosition) {
       res.sendCustomStatus(
         400,
-        `Cannot vote for more than ${maxPosition} projects`
+        `Cannot nominate for more than ${maxPosition} projects`
       );
       return;
     }
@@ -93,7 +93,7 @@ router.post("/", async (req, res) => {
     let canVote = true;
     projectsAlreadyVoted.forEach((project) => {
       if (project.cluster === projectToVoteCluster) {
-        res.sendCustomStatus(400, "cannot vote for 2 projects of same cluster");
+        res.sendCustomStatus(400, "Cannot nominate for 2 projects of same cluster");
         canVote = false;
         return false;
       }

@@ -71,6 +71,7 @@ const votesByProject = require("./routes/admin/votes-project");
 const favorite = require("./routes/admin/favorite");
 const myFavorites = require("./routes/admin/my-favorites");
 const nominate = require("./routes/admin/nominate");
+const myNominations = require("./routes/admin/my-nominations");
 const getNominations = require("./routes/admin/get-nominations");
 
 app.use(function (req, res, next) {
@@ -155,6 +156,7 @@ app.use("/admin/favorite", ensureDocent, favorite);
 app.use("/admin/my-favorites", ensureDocent, myFavorites);
 app.use("/admin/nominate", ensureDocent, nominate);
 app.use("/admin/get-nominations", getNominations);
+app.use("/admin/my-nominations", myNominations);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
