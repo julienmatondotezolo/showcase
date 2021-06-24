@@ -291,12 +291,14 @@ main .nav-toggler {
 /*///////////// TABLE ////////////////*/
 
 .top-projects,
+.all-favorites,
 .all-voted {
   padding: 2em;
   box-sizing: border-box;
 }
 
 .top-projects .filter,
+.all-favorites .filter,
 .all-voted .filter {
   display: flex;
   align-items: center;
@@ -353,11 +355,13 @@ main .nav-toggler {
 /*///////////// OPTIONS ////////////////*/
 
 .top-projects .option .fa-ellipsis-v,
+.all-favorites,
 .all-voted .option .fa-ellipsis-v {
   margin-left: 1em;
 }
 
 .top-projects .option .fa-sync-alt,
+.all-favorites,
 .all-voted .option .fa-sync-alt {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -368,6 +372,7 @@ main .nav-toggler {
 }
 
 .top-projects .option .fa-sync-alt:hover,
+.all-favorites .option .fa-sync-alt:hover,
 .all-voted .option .fa-sync-alt:hover {
   transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
@@ -377,7 +382,8 @@ main .nav-toggler {
 }
 
 .top-projects > .wrap,
-.all-voted > .wrap {
+.all-voted > .wrap,
+.all-favorites > .wrap {
   padding: 2em;
   box-sizing: border-box;
   background: #fff;
@@ -387,7 +393,8 @@ main .nav-toggler {
 }
 
 .top-projects > .wrap > article,
-.all-voted > .wrap > article {
+.all-voted > .wrap > article,
+.all-favorites > .wrap > article {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -633,11 +640,11 @@ form select {
   border-radius: 10px;
   box-sizing: border-box;
   background: #f1f1f1;
-  transition: all .2s ease-in-out;
-  -webkit-transition: all .2s ease-in-out;
-  -moz-transition: all .2s ease-in-out;
-  -ms-transition: all .2s ease-in-out;
-  -o-transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
 }
 
 .nomination-postion .picks:hover {

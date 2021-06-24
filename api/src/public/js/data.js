@@ -6,6 +6,7 @@ const query = url.searchParams.get("cluster")
 
 allVotes();
 myVotes();
+myFavorites();
 slider();
 
 if (query) {
@@ -28,11 +29,11 @@ if (query) {
 
 $(".sidenav li").click(function (e) {
   e.preventDefault();
-  $(this).addClass('active').siblings().removeClass('active');
+  $(this).addClass("active").siblings().removeClass("active");
 });
 
 $(".nominations").click(function (e) {
-  allVotes()
+  allVotes();
   $("#nomination").css("display", "block");
 });
 
@@ -66,7 +67,7 @@ async function orderFilter(sort) {
 }
 
 async function clusterFilter(sort) {
-  $('.filter').append(`
+  $(".filter").append(`
   <div class="filter-value bg-blue">
     <a href="/dashboard-docent"><i class="fas fa-times"></i> ${sort}</a>
   </div>`);
@@ -88,14 +89,14 @@ async function clusterFilter(sort) {
 /* ================= SLIDER ================= */
 
 async function slider() {
-  const projectIdArr = [79, 82, 83, 84, 96, 112, 115, 125]
+  const projectIdArr = [79, 82, 83, 84, 96, 112, 115, 125];
   let random = Math.floor(Math.random() * projectIdArr.length);
   let data = await getProjectId(projectIdArr[random]);
-  printSlidContent(data)
+  printSlidContent(data);
 
   random = Math.floor(Math.random() * projectIdArr.length);
   data = await getProjectId(projectIdArr[random]);
-  printSlidContent(data)
+  printSlidContent(data);
 }
 
 function printSlidContent(data) {
@@ -111,7 +112,7 @@ function printSlidContent(data) {
   </article>`);
 
   $(".detailproject").click(function (e) {
-    detail(data)
+    detail(data);
   });
 }
 
@@ -148,7 +149,6 @@ async function myVotes() {
         let data = await getProjectId(idDetail);
         alert(data, "unvote");
       });
-
     });
   });
 }
@@ -160,12 +160,13 @@ async function vote(projectid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id: projectid })
+    body: JSON.stringify({ id: projectid }),
   }).then((res) => {
     res.json().then((parsedRes) => {
       allVotes();
       myVotes();
-      notification(parsedRes.customMessage, parsedRes.code)
+
+      notification(parsedRes.customMessage, parsedRes.code);
     });
   });
 }
@@ -177,12 +178,12 @@ async function unVote(projectid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id: projectid })
+    body: JSON.stringify({ id: projectid }),
   }).then((res) => {
     res.json().then((parsedRes) => {
       allVotes();
       myVotes();
-      notification(parsedRes.customMessage, parsedRes.code)
+      notification(parsedRes.customMessage, parsedRes.code);
     });
   });
 }
@@ -285,9 +286,8 @@ function printAllProjects(allData) {
   $(".detailproject").click(async function (e) {
     let idDetail = $(this).data("project-id");
     let data = await getProjectId(idDetail);
-    detail(data)
+    detail(data);
   });
-
 }
 
 async function getProjectId(id) {
@@ -306,10 +306,10 @@ async function addFavorite(projectid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id: projectid })
+    body: JSON.stringify({ id: projectid }),
   }).then((res) => {
     res.json().then((parsedRes) => {
-      notification(parsedRes.customMessage, parsedRes.code)
+      notification(parsedRes.customMessage, parsedRes.code);
     });
   });
 }
@@ -330,14 +330,15 @@ function nominates(data) {
 
   myNominations();
   $(".nomination-list").empty();
-  printNominations(result)
+  printNominations(result);
 
   $(".vote-slider").empty();
   for (const item of result) {
     $(".vote-slider").append(`
     <div class="project-item" data-projectid="${item.id}">
-    <figure class="project-img" style="background: url('${item.images
-      }') center center / 100% no-repeat;"></figure>
+    <figure class="project-img" style="background: url('${
+      item.images
+    }') center center / 100% no-repeat;"></figure>
     <article class="project-info">
       <p class="bold project-name">${item.name}</p>
       <p class="project-cluster-name">${getTheCluster(item.cluster)}</p>
@@ -393,8 +394,8 @@ async function printNominations(data) {
 
   $("#nomination .cancel").click(function (e) {
     $("#nomination").css("display", "none");
-    $(".nominations").removeClass('active');
-    $(".sidenav li:nth-child(1)").addClass('active');
+    $(".nominations").removeClass("active");
+    $(".sidenav li:nth-child(1)").addClass("active");
   });
 
   $(".nomination-list .nominate").click(function (e) {
@@ -402,7 +403,7 @@ async function printNominations(data) {
     let projectid = $(this).data("project-id");
     for (const project of data) {
       if (project.projectid == projectid) {
-        projectData = project
+        projectData = project;
       }
     }
     alert(projectData, "nominate");
@@ -416,11 +417,11 @@ async function nominate(pickedNomation) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(pickedNomation)
+    body: JSON.stringify(pickedNomation),
   }).then((res) => {
     res.json().then((parsedRes) => {
-      myNominations()
-      notification(parsedRes.customMessage, parsedRes.code)
+      myNominations();
+      notification(parsedRes.customMessage, parsedRes.code);
     });
   });
 }
@@ -435,30 +436,49 @@ async function myNominations() {
   }).then((res) => {
     res.json().then((parsedRes) => {
       for (const nomination of parsedRes) {
-        if(nomination.points == 5) {
-          $("#pos1").empty()
+        if (nomination.points == 5) {
+          $("#pos1").empty();
           $("#pos1").siblings(".remove-picks").remove();
-          $("#pos1").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out").attr("data-project-id", nomination.projectid)
-          $(`<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`).insertAfter($("#pos1"));
-        } else if(nomination.points == 3) {
-          $("#pos2").empty()
+          $("#pos1")
+            .append(`${nomination.name} (${nomination.cluster})`)
+            .addClass("bold")
+            .removeClass("grey-out")
+            .attr("data-project-id", nomination.projectid);
+          $(
+            `<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`
+          ).insertAfter($("#pos1"));
+        } else if (nomination.points == 3) {
+          $("#pos2").empty();
           $("#pos2").siblings(".remove-picks").remove();
-          $("#pos2").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out").attr("data-project-id", nomination.projectid)
-          $(`<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`).insertAfter($("#pos2"));
-        } else if(nomination.points == 1) {
-          $("#pos3").empty()
+          $("#pos2")
+            .append(`${nomination.name} (${nomination.cluster})`)
+            .addClass("bold")
+            .removeClass("grey-out")
+            .attr("data-project-id", nomination.projectid);
+          $(
+            `<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`
+          ).insertAfter($("#pos2"));
+        } else if (nomination.points == 1) {
+          $("#pos3").empty();
           $("#pos3").siblings(".remove-picks").remove();
-          $("#pos3").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out").attr("data-project-id", nomination.projectid)
-          $(`<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`).insertAfter($("#pos3"));
+          $("#pos3")
+            .append(`${nomination.name} (${nomination.cluster})`)
+            .addClass("bold")
+            .removeClass("grey-out")
+            .attr("data-project-id", nomination.projectid);
+          $(
+            `<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`
+          ).insertAfter($("#pos3"));
         }
       }
-      
+      console.log(parsedRes);
+      console.log("heree");
       $(".nomination-postion .remove-picks").click(function (e) {
         let projectData;
         let projectid = $(this).data("project-id");
         for (const project of parsedRes) {
           if (project.projectid == projectid) {
-            projectData = project
+            projectData = project;
           }
         }
         alert(projectData, "remove-nominate");
@@ -480,14 +500,14 @@ async function verifyNominations(projectId) {
     await res.json().then((parsedRes) => {
       for (const data of parsedRes) {
         if (projectId == data.projectid) {
-          verification = "remove"
+          verification = "remove";
         } else {
-          verification = "nominate"
+          verification = "nominate";
         }
       }
     });
   });
-  return verification
+  return verification;
 }
 async function removeNomination(projectid) {
   await fetch("/admin/remove-nomination", {
@@ -496,11 +516,11 @@ async function removeNomination(projectid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id: projectid })
+    body: JSON.stringify({ id: projectid }),
   }).then((res) => {
     res.json().then((parsedRes) => {
       allVotes();
-      notification(parsedRes.customMessage, parsedRes.code)
+      notification(parsedRes.customMessage, parsedRes.code);
     });
   });
 }
@@ -549,6 +569,10 @@ function detail(data) {
   $(".vote").click(function (e) {
     alert(data, "vote");
   });
+
+  $(".fa-heart").click(function (e) {
+    alert(data, "favorite");
+  });
 }
 
 function message(data, conditon) {
@@ -556,21 +580,34 @@ function message(data, conditon) {
     return `<h3>Remove your vote for <span class="blue">${data[0].name}</span> ?</h3>
               <p>Click <span class="blue">unvote</span> to remove your vote.</p>
               <button class="btn btn-inverse cancel">Cancel</button>
-              <button class="btn bg-pink white remove" data-project-id="${data[0].projectid}">Remove</button>`
+              <button class="btn bg-pink white remove" data-project-id="${data[0].projectid}">Remove</button>`;
   }
 
+  if (conditon == "favorite") {
+    return `<h3>Set <span class="blue">${data[0].name}</span> in your favorites?</h3>
+            <p>Click <span class="blue">add</span> to set this project in your favorites.</p>
+            <button class="btn btn-inverse cancel">Cancel</button>
+            <button class="btn bg-pink white favorite" data-project-id="${data[0].projectid}">Add</button>`;
+  }
   if (conditon == "vote") {
     return `<h3>Vote for <span class="blue">${data[0].name}</span> ?</h3>
             <p>Click <span class="blue">vote</span> to vote for this project.</p>
             <button class="btn btn-inverse cancel">Cancel</button>
-            <button class="btn bg-pink white vote" data-project-id="${data[0].projectid}">Vote</button>`
+            <button class="btn bg-pink white vote" data-project-id="${data[0].projectid}">Vote</button>`;
   }
 
   if (conditon == "remove-nominate") {
     return `<h3>Remove your nomination for <span class="blue">${data.name}</span> ?</h3>
             <p>Click <span class="blue">remove</span> to remove your nomination.</p>
             <button class="btn btn-inverse cancel">Cancel</button>
-            <button class="btn bg-pink white remove-nominate" data-project-id="${data.projectid}">Remove</button>`
+            <button class="btn bg-pink white remove-nominate" data-project-id="${data.projectid}">Remove</button>`;
+  }
+
+  if (conditon == "remove-favorite") {
+    return `<h3>Remove <span class="blue">${data[0].name}</span> from your favorites ?</h3>
+            <p>Click <span class="blue">remove</span> to remove your favorite.</p>
+            <button class="btn btn-inverse cancel">Cancel</button>
+            <button class="btn bg-pink white remove-favorite" data-project-id="${data[0].projectid}">Remove</button>`;
   }
 
   if (conditon == "nominate") {
@@ -582,7 +619,7 @@ function message(data, conditon) {
               <option value="3">Top 3</option>
             </select>
             <button class="btn btn-inverse cancel">Cancel</button>
-            <button class="btn bg-pink white confirm-nomination" data-project-id="${data.projectid}">Nominate</button>`
+            <button class="btn bg-pink white confirm-nomination" data-project-id="${data.projectid}">Nominate</button>`;
   }
 }
 
@@ -605,6 +642,18 @@ function alert(data, action) {
     $(".alert").remove();
   });
 
+  $(".remove-favorite").click(function (e) {
+    let projectid = $(this).data("project-id");
+    favorite(projectid);
+    $(".alert").remove();
+  });
+
+  $(".favorite").click(function (e) {
+    let projectid = $(this).data("project-id");
+    favorite(projectid);
+    $(".alert").remove();
+  });
+
   $(".vote").click(function (e) {
     let projectid = $(this).data("project-id");
     vote(projectid);
@@ -612,12 +661,12 @@ function alert(data, action) {
   });
 
   $(".confirm-nomination").click(function (e) {
-    let data = {}
+    let data = {};
     let projectid = $(this).data("project-id");
 
-    data.id = projectid
-    data.position = parseInt($( "#pick-position").val());
-    nominate(data)
+    data.id = projectid;
+    data.position = parseInt($("#pick-position").val());
+    nominate(data);
 
     $(".alert").remove();
   });
@@ -626,30 +675,106 @@ function alert(data, action) {
     let projectid = $(this).data("project-id");
     removeNomination(projectid);
 
-    $(".picks button[data-project-id="+ projectid +"]").remove();
-    $(".picks p[data-project-id="+ projectid +"]").text("Click nominate to add a nomination").addClass("grey-out").removeClass("bold")
+    $(".picks button[data-project-id=" + projectid + "]").remove();
+    $(".picks p[data-project-id=" + projectid + "]")
+      .text("Click nominate to add a nomination")
+      .addClass("grey-out")
+      .removeClass("bold");
 
     $(".alert").remove();
-    myNominations()
+    myNominations();
   });
 }
 
 function notification(msg, statusCode) {
-  let statuscolor = "bg-green"
+  let statuscolor = "bg-green";
 
   if (statusCode == 200) {
-    statuscolor = "bg-green"
+    statuscolor = "bg-green";
   }
 
   if (statusCode == 403 || statusCode == 400) {
-    statuscolor = "bg-red"
+    statuscolor = "bg-red";
   }
 
-  $('.notification').remove();
-  $(`<div class="notification ${statuscolor}"><span class="bold">${msg}</span></div>`).appendTo('body');
-  $('.notification').fadeOut(5000);
+  $(".notification").remove();
+  $(
+    `<div class="notification ${statuscolor}"><span class="bold">${msg}</span></div>`
+  ).appendTo("body");
+  $(".notification").fadeOut(5000);
 
   setTimeout(function () {
-    $('.notification').remove();
+    $(".notification").remove();
   }, 6000);
+}
+
+async function myFavorites() {
+  await fetch("/admin/my-favorites", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    res.json().then((parsedRes) => {
+      printFavorites(parsedRes);
+
+      $(".unfavorite").click(async function (e) {
+        e.preventDefault();
+        let idDetail = $(this).data("project-id");
+        let data = await getProjectId(idDetail);
+        alert(data, "remove-favorite");
+      });
+    });
+  });
+}
+
+let FavoritesClusterArr = [];
+function printFavorites(allData) {
+  console.log(allData);
+  $(".all-favorites .table-content").empty();
+  // style="background: url('${data.images}') center center / 100% no-repeat;"
+  for (const data of allData) {
+    $(".all-favorites .table-content").append(`
+      <div class="table-tr">
+          <figure class="table-td bg-dark-blue">
+            <img src="${data.images}" alt="${data.name}">
+          </figure>
+          <article class="table-td">
+              <p class="bold">${data.name}</p>
+          </article>
+          <article class="table-td">
+              <p class="bold">${data.username}</p>
+          </article>
+          <article class="table-td">
+              <p class="bold">${getTheCluster(data.cluster)}</p>
+          </article>
+          <a class="unfavorite" data-project-id=${data.projectid}>
+              <button class="btn bg-pink white">Remove</button>
+          </a>
+      </div>
+    `);
+  }
+
+  allData.forEach((element) => {
+    votedClusterArr.push(getTheCluster(element.cluster));
+  });
+  $(".all-favorites .item-name").empty();
+  $(".all-favorites .item-name").append(`My Favorites (${allData.length})`);
+}
+
+async function favorite(projectid) {
+  await fetch("/admin/favorite", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id: projectid }),
+  }).then((res) => {
+    res.json().then((parsedRes) => {
+      myFavorites();
+      notification(parsedRes.customMessage, parsedRes.code);
+    });
+  });
 }

@@ -11,6 +11,8 @@ router.post("/", async (req, res) => {
       projects.name,
       projects.projectid,
       projects.cluster,
+      projects.url,
+      projects.images,
       users.username
   FROM
   favorites
