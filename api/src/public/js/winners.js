@@ -142,8 +142,7 @@ function notification(msg, statusCode) {
   }
 
   $(".notification").remove();
-  $(
-    `<div class="notification ${statuscolor}"><span class="bold">${msg}</span></div>`
+  $(`<div class="notification ${statuscolor}"><span class="bold">${msg}</span></div>`
   ).appendTo("body");
   $(".notification").fadeOut(5000);
 
