@@ -434,7 +434,6 @@ async function myNominations() {
     },
   }).then((res) => {
     res.json().then((parsedRes) => {
-      console.log(parsedRes)
       for (const nomination of parsedRes) {
         if(nomination.points == 5) {
           $("#pos1").empty()
