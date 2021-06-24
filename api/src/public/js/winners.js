@@ -17,6 +17,37 @@ async function getNominations() {
   });
 }
 
+async function getWinners() {
+  await fetch("/admin/get-winners", {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    res.json().then((parsedRes) => {
+      console.log(parsedRes)
+      $(".nomination-list").empty();
+      for (const iterator in parsedRes) {
+        $(".nomination-list").append(
+        `<div class="nominated-item">
+          <article class="nominated-project cl2">
+            <p class="project-name bold">${iterator.name}</p>
+            <p class="project-cluster red">${iterator.cluster}</p>
+          </article>
+          <article class="nominated-votes cl2">
+            <p class="votes-count">Votes: 8</p>
+          </article>
+          <img src="${iterator.images}" alt="Bootz">
+          <button class="btn bg-pink white nominate" data-project-id="112">nominate</button>
+        </div>`
+        );
+      }
+      activeBtn();
+    });
+  });
+}
+
 async function setWinner(data) {
   await fetch("/admin/set-winner", {
     method: "POST",

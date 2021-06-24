@@ -614,6 +614,11 @@ form select {
   float: left;
 }
 
+.winners .nomination-list {
+  background: none;
+  height: unset;
+}
+
 .nomination-postion {
   width: 25%;
   padding: 1em;
