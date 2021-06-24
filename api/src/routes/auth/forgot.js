@@ -8,13 +8,13 @@ var nodemailer = require("nodemailer");
 let errors = [];
 
 router.post("/", async (req, res) => {
-  try {
+
     const userSelected = await pool.query(
       `SELECT * FROM users where email = '${req.body.email}'`
     );
-    if (!userSelected) {
-      req.flash("error", "No account with that email address exists.");
-      return res.redirect("/forgot");
+    if (userSelected.rows[0]===undefined) {
+      console.log("there is an error")
+      res.sendCustomStatus(400, "Your email does not exist or incorrect");
     }
 
     const reset = {
@@ -43,10 +43,7 @@ router.post("/", async (req, res) => {
     emailSend(userSelected.rows[0].email, emailBody);
 
     res.redirect(`/forgot/recover?email=${userSelected.rows[0].email}`);
-  } catch (err) {
-    console.error(err.message);
-    res.sendCustomStatus(500);
-  }
+  
 });
 
 router.post("/reset/:token",async (req, res) => {
@@ -67,6 +64,8 @@ router.post("/reset/:token",async (req, res) => {
     encryptPassword(resetToken.rows[0].user_id, req.body.newPassword);
     console.log('your password has been updated');
     res.redirect('/login')
+  } else {
+    res.sendCustomStatus(400, errors);
   }
   try {
     const deleteToken = await pool.query(
@@ -75,7 +74,7 @@ router.post("/reset/:token",async (req, res) => {
     );
   } catch (err) {
     console.error("the error delete", err.message);
-    res.sendCustomStatus(500);
+    res.sendCustomStatus(400);
   }
 });
 
