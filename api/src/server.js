@@ -76,6 +76,7 @@ const myFavorites = require("./routes/admin/my-favorites");
 const nominate = require("./routes/admin/nominate");
 const myNominations = require("./routes/admin/my-nominations");
 const getNominations = require("./routes/admin/get-nominations");
+const removeNominations = require("./routes/admin/remove-nominations");
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -161,6 +162,7 @@ app.use("/admin/my-favorites", ensureDocent, myFavorites);
 app.use("/admin/nominate", ensureDocent, nominate);
 app.use("/admin/get-nominations", getNominations);
 app.use("/admin/my-nominations", myNominations);
+app.use("/admin/remove-nomination", removeNominations);
 app.use("/admin/set-winner", setWinner);
 
 app.listen(port, () => {

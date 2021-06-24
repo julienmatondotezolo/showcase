@@ -24,10 +24,19 @@ if (query) {
   allProjects();
 }
 
+/* ================= NAVIGATIE ================= */
+
 $(".sidenav li").click(function (e) {
   e.preventDefault();
   $(this).addClass('active').siblings().removeClass('active');
 });
+
+$(".nominations").click(function (e) {
+  allVotes()
+  $("#nomination").css("display", "block");
+});
+
+/* ================= SEARCH ================= */
 
 $("#search").on("keyup", function () {
   let valueText = $("input").val();
@@ -307,11 +316,6 @@ async function addFavorite(projectid) {
 
 /* ================= NOMINATIONS ================= */
 
-$(".nominations").click(function (e) {
-  allVotes()
-  $("#nomination").css("display", "block");
-});
-
 function nominates(data) {
   var result = data.reduce((unique, o) => {
     if (!unique.some((obj) => obj.name === o.name)) {
@@ -325,6 +329,7 @@ function nominates(data) {
   );
 
   myNominations();
+  $(".nomination-list").empty();
   printNominations(result)
 
   $(".vote-slider").empty();
@@ -364,11 +369,10 @@ function getTheCluster(cluster) {
       data = " Mobile Application";
       break;
   }
-
   return data;
 }
 
-function printNominations(data) {
+async function printNominations(data) {
   $(".nomination-list").empty();
 
   for (const item of data) {
@@ -382,7 +386,7 @@ function printNominations(data) {
           <p class="votes-count">Votes: ${item.totalVotes}</p>
         </article>
         <img src="${item.images}" alt="${item.name}">
-        <button class="btn bg-pink white confirm-nominations" data-project-id="${item.projectid}">Nominate</button>
+        <button class="btn bg-pink white nominate" data-project-id="${item.projectid}">nominate</button>
       </div>
     `);
   }
@@ -393,9 +397,15 @@ function printNominations(data) {
     $(".sidenav li:nth-child(1)").addClass('active');
   });
 
-  $(".confirm-nominations").click(function (e) {
+  $(".nomination-list .nominate").click(function (e) {
+    let projectData;
     let projectid = $(this).data("project-id");
-    alert(data, "nominate");
+    for (const project of data) {
+      if (project.projectid == projectid) {
+        projectData = project
+      }
+    }
+    alert(projectData, "nominate");
   });
 }
 
@@ -406,11 +416,10 @@ async function nominate(pickedNomation) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: pickedNomation
+    body: JSON.stringify(pickedNomation)
   }).then((res) => {
-    console.log(res)
     res.json().then((parsedRes) => {
-      console.log(parsedRes)
+      myNominations()
       notification(parsedRes.customMessage, parsedRes.code)
     });
   });
@@ -425,8 +434,73 @@ async function myNominations() {
     },
   }).then((res) => {
     res.json().then((parsedRes) => {
-      console.log(parsedRes)
-      $("#pos1").append(``)
+      for (const nomination of parsedRes) {
+        if(nomination.points == 5) {
+          $("#pos1").empty()
+          $("#pos1").siblings(".remove-picks").remove();
+          $("#pos1").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out")
+          $(`<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`).insertAfter($("#pos1"));
+        } else if(nomination.points == 3) {
+          $("#pos2").empty()
+          $("#pos2").siblings(".remove-picks").remove();
+          $("#pos2").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out")
+          $(`<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`).insertAfter($("#pos2"));
+        } else if(nomination.points == 1) {
+          $("#pos3").empty()
+          $("#pos3").siblings(".remove-picks").remove();
+          $("#pos3").append(`${nomination.name} (${nomination.cluster})`).addClass("bold").removeClass("grey-out")
+          $(`<button class="btn bg-red white remove-picks" data-project-id="${nomination.projectid}">remove</button>`).insertAfter($("#pos3"));
+        }
+      }
+
+      $(".nomination-postion .remove-picks").click(function (e) {
+        let projectData;
+        let projectid = $(this).data("project-id");
+        for (const project of parsedRes) {
+          if (project.projectid == projectid) {
+            projectData = project
+          }
+        }
+        alert(projectData, "remove-nominate");
+      });
+    });
+  });
+}
+
+async function verifyNominations(projectId) {
+  let verification = "nominate";
+
+  await fetch("/admin/my-nominations", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then(async (res) => {
+    await res.json().then((parsedRes) => {
+      for (const data of parsedRes) {
+        if (projectId == data.projectid) {
+          verification = "remove"
+        } else {
+          verification = "nominate"
+        }
+      }
+    });
+  });
+  return verification
+}
+async function removeNomination(projectid) {
+  await fetch("/admin/remove-nomination", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id: projectid })
+  }).then((res) => {
+    res.json().then((parsedRes) => {
+      allVotes();
+      notification(parsedRes.customMessage, parsedRes.code)
     });
   });
 }
@@ -487,22 +561,27 @@ function message(data, conditon) {
             <button class="btn bg-pink white vote" data-project-id="${data[0].projectid}">Vote</button>`
   }
 
+  if (conditon == "remove-nominate") {
+    return `<h3>Remove your nomination for <span class="blue">${data.name}</span> ?</h3>
+            <p>Click <span class="blue">remove</span> to remove your nomination.</p>
+            <button class="btn btn-inverse cancel">Cancel</button>
+            <button class="btn bg-pink white remove-nominate" data-project-id="${data.projectid}">Remove</button>`
+  }
+
   if (conditon == "nominate") {
-    return `<h3>Nominate for <span class="blue">${data[0].name}</span> ?</h3>
+    return `<h3>Nominate for <span class="blue">${data.name}</span> ?</h3>
             <p>Choose <span class="blue">the position to nominate</span> this project.</p>
             <select name="position" id="pick-position" required="">
-              <option value="" disabled selected>Select pick position</option>
-              <option value="1">+ 5 votes</option>
-              <option value="2">+ 3 votes</option>
-              <option value="3">+ 1 votes</option>
+              <option value="1">Top 1</option>
+              <option value="2">Top 2</option>
+              <option value="3">Top 3</option>
             </select>
             <button class="btn btn-inverse cancel">Cancel</button>
-            <submit class="btn bg-pink white nominate" data-project-id="${data[0].projectid}">Nominate</submit>`
+            <button class="btn bg-pink white confirm-nomination" data-project-id="${data.projectid}">Nominate</button>`
   }
 }
 
 function alert(data, action) {
-  $(".message-wrap").remove();
   $("body").append(`
     <div class="alert message-wrap">
       <div class="alert-message box box-shadow">
@@ -512,33 +591,37 @@ function alert(data, action) {
   `);
 
   $(".cancel").click(function (e) {
-    $(".message-wrap").remove();
+    $(".alert").remove();
   });
 
   $(".remove").click(function (e) {
     let projectid = $(this).data("project-id");
     unVote(projectid);
-    $(".message-wrap").remove();
+    $(".alert").remove();
   });
 
   $(".vote").click(function (e) {
     let projectid = $(this).data("project-id");
     vote(projectid);
-    $(".message-wrap").remove();
+    $(".alert").remove();
   });
 
-  $(".nominate").click(function (e) {
+  $(".confirm-nomination").click(function (e) {
     let data = {}
     let projectid = $(this).data("project-id");
 
     data.id = projectid
-    data.position = parseInt($( "#pick-position option:selected" ).val());
-
-    console.log(data)
+    data.position = parseInt($( "#pick-position").val());
     nominate(data)
 
-    $(".message-wrap").css("display", "none");
-    $("#nomination").css("display", "block");
+    $(".alert").remove();
+  });
+
+  $(".remove-nominate").click(function (e) {
+    let projectid = $(this).data("project-id");
+    removeNomination(projectid);
+    myNominations()
+    $(".alert").remove();
   });
 }
 
