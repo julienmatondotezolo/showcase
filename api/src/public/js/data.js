@@ -24,7 +24,7 @@ if (query) {
   allProjects();
 }
 
-$(".sidenav li").click(function (e) { 
+$(".sidenav li").click(function (e) {
   e.preventDefault();
   $(this).addClass('active').siblings().removeClass('active');
 });
@@ -101,7 +101,7 @@ function printSlidContent(data) {
     <img src="${data[0].images}" alt="${data[0].name}">
   </article>`);
 
-  $(".detailproject").click(function (e) { 
+  $(".detailproject").click(function (e) {
     detail(data)
   });
 }
@@ -133,7 +133,7 @@ async function myVotes() {
     res.json().then((parsedRes) => {
       printVotes(parsedRes);
 
-      $(".unvote").click(async function (e) { 
+      $(".unvote").click(async function (e) {
         e.preventDefault();
         let idDetail = $(this).data("project-id");
         let data = await getProjectId(idDetail);
@@ -151,7 +151,7 @@ async function vote(projectid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({id: projectid})
+    body: JSON.stringify({ id: projectid })
   }).then((res) => {
     res.json().then((parsedRes) => {
       allVotes();
@@ -168,7 +168,7 @@ async function unVote(projectid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({id: projectid})
+    body: JSON.stringify({ id: projectid })
   }).then((res) => {
     res.json().then((parsedRes) => {
       allVotes();
@@ -273,7 +273,7 @@ function printAllProjects(allData) {
     `);
   }
 
-  $(".detailproject").click(async function (e) { 
+  $(".detailproject").click(async function (e) {
     let idDetail = $(this).data("project-id");
     let data = await getProjectId(idDetail);
     detail(data)
@@ -297,7 +297,7 @@ async function addFavorite(projectid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({id: projectid})
+    body: JSON.stringify({ id: projectid })
   }).then((res) => {
     res.json().then((parsedRes) => {
       notification(parsedRes.customMessage, parsedRes.code)
@@ -307,7 +307,7 @@ async function addFavorite(projectid) {
 
 /* ================= NOMINATIONS ================= */
 
-$(".nominations").click(function (e) { 
+$(".nominations").click(function (e) {
   allVotes()
   $("#nomination").css("display", "block");
 });
@@ -330,9 +330,8 @@ function nominates(data) {
   for (const item of result) {
     $(".vote-slider").append(`
     <div class="project-item" data-projectid="${item.id}">
-    <figure class="project-img" style="background: url('${
-      item.images
-    }') center center / 100% no-repeat;"></figure>
+    <figure class="project-img" style="background: url('${item.images
+      }') center center / 100% no-repeat;"></figure>
     <article class="project-info">
       <p class="bold project-name">${item.name}</p>
       <p class="project-cluster-name">${getTheCluster(item.cluster)}</p>
@@ -381,18 +380,18 @@ function printNominations(data) {
           <p class="votes-count">Votes: ${item.totalVotes}</p>
         </article>
         <img src="${item.images}" alt="${item.name}">
-        <button class="btn bg-pink white confirm-nominations" data-project-id="${item.id}">Nominate</button>
+        <button class="btn bg-pink white confirm-nominations" data-project-id="${item.projectid}">Nominate</button>
       </div>
     `);
   }
 
-  $("#nomination .cancel").click(function (e) { 
+  $("#nomination .cancel").click(function (e) {
     $("#nomination").css("display", "none");
     $(".nominations").removeClass('active');
     $(".sidenav li:nth-child(1)").addClass('active');
   });
 
-  $(".confirm-nominations").click(function (e) { 
+  $(".confirm-nominations").click(function (e) {
     let projectid = $(this).data("project-id");
     nominate(projectid);
   });
@@ -405,7 +404,7 @@ async function nominate(projectid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({id: projectid})
+    body: JSON.stringify({ id: projectid })
   }).then((res) => {
     console.log(res)
     res.json().then((parsedRes) => {
@@ -447,18 +446,18 @@ function detail(data) {
     </div>
   `);
 
-  $(".cancel").click(function (e) { 
+  $(".cancel").click(function (e) {
     $(".detail").remove();
   });
 
-  $(".vote").click(function (e) { 
+  $(".vote").click(function (e) {
     alert(data, "vote");
   });
 }
 
 function message(data, conditon) {
   if (conditon == "unvote") {
-     return `<h3>Remove your vote for <span class="blue">${data[0].name}</span> ?</h3>
+    return `<h3>Remove your vote for <span class="blue">${data[0].name}</span> ?</h3>
               <p>Click <span class="blue">unvote</span> to remove your vote.</p>
               <button class="btn btn-inverse cancel">Cancel</button>
               <button class="btn bg-pink white remove" data-project-id="${data[0].projectid}">Remove</button>`
@@ -482,17 +481,17 @@ function alert(data, action) {
     </div>
   `);
 
-  $(".cancel").click(function (e) { 
+  $(".cancel").click(function (e) {
     $(".message-wrap").remove();
   });
 
-  $(".remove").click(function (e) { 
+  $(".remove").click(function (e) {
     let projectid = $(this).data("project-id");
     unVote(projectid);
     $(".message-wrap").remove();
   });
 
-  $(".vote").click(function (e) { 
+  $(".vote").click(function (e) {
     let projectid = $(this).data("project-id");
     vote(projectid);
     $(".message-wrap").remove();
@@ -502,11 +501,11 @@ function alert(data, action) {
 function notification(msg, statusCode) {
   let statuscolor = "bg-green"
 
-  if(statusCode == 200) {
+  if (statusCode == 200) {
     statuscolor = "bg-green"
   }
 
-  if(statusCode == 403) {
+  if (statusCode == 403) {
     statuscolor = "bg-red"
   }
 
@@ -514,7 +513,7 @@ function notification(msg, statusCode) {
   $(`<div class="notification ${statuscolor}"><span class="bold">${msg}</span></div>`).appendTo('body');
   $('.notification').fadeOut(5000);
 
-  setTimeout(function(){ 
+  setTimeout(function () {
     $('.notification').remove();
   }, 6000);
 }

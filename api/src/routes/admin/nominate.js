@@ -32,6 +32,11 @@ router.post("/", async (req, res) => {
       `SELECT * FROM projects WHERE projectid = ${id}`
     );
 
+
+
+    console.log("here id", id);
+    console.log("here", votedProject.rows[0]);
+
     if (!allDocentNominationList.rows.length) {
       giveCorrectGradeDependingOnPosition(1, 3);
     } else {
@@ -82,6 +87,7 @@ router.post("/", async (req, res) => {
     );
     return gradeToGive;
   }
+
 
   function checkIfDifferentCluster(projectsAlreadyVoted, projectToVoteCluster) {
     let canVote = true;
