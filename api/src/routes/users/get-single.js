@@ -2,12 +2,12 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../../db/db");
 
-router.get("/:username", async (req, res) => {
+router.get("/:userid", async (req, res) => {
   try {
     const selectedUser = req.params;
     console.log(selectedUser);
     const selectedUserSQL = await pool.query(
-      `SELECT * FROM users where username = '${selectedUser.username}'`
+      `SELECT users.userid, users.email, users.username, users.role FROM users where userid = '${selectedUser.userid}'`
     );
 
     res.status(200).json(selectedUserSQL.rows);
