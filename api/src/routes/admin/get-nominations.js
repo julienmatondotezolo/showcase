@@ -4,15 +4,60 @@ const pool = require("../../db/db");
 
 router.get("/", async (req, res) => {
   try {
-    const sortParam = req.params.sort;
-    console.log(sortParam);
-
-    /*     const allFinalWorksSQL = await pool.query(
-      `SELECT projects.name, projects.description, projects.cluster,  projects.images, projects.url from projects`
+    const allVotedProjects = await pool.query(
+      `SELECT projects.projectid, projects.name,projects.cluster, projects.images, users.username FROM votes INNER JOIN projects ON votes.project_id = projects.projectid INNER JOIN users ON votes.user_id = users.userid ORDER BY project_id ASC`
+    );
+    const allNominatedProjects = await pool.query(
+      `SELECT nominations.id,  nominations.points,  projects.projectid, projects.name   FROM nominations INNER JOIN projects ON nominations.project_id = projects.projectid  ORDER BY project_id ASC`
     );
 
-    let nominations = allFinalWorksSQL.rows;
+    addTotalVotesToProjects(allVotedProjects.rows);
+    let result = removeDuplicatedFromArray(allVotedProjects.rows);
 
+    countTotalVotesAndNominationsPoints(result, allNominatedProjects.rows);
+
+    let orderedResult = orderByClusters(result);
+
+    res.send(orderedResult);
+  } catch (err) {
+    console.error(err.message);
+    res.sendCustomStatus(500);
+  }
+
+  function addTotalVotesToProjects(allVotedProjects) {
+    let object = {};
+
+    allVotedProjects.forEach((item) => {
+      object[item.name] = object[item.name] ? object[item.name] + 1 : 1;
+    });
+
+    allVotedProjects.forEach((item) => {
+      item.totalVotes = object[item["name"]];
+    });
+  }
+
+  function removeDuplicatedFromArray(allVotedProjects) {
+    var result = allVotedProjects.reduce((unique, o) => {
+      if (!unique.some((obj) => obj.name === o.name)) {
+        unique.push(o);
+      }
+      return unique;
+    }, []);
+
+    return result;
+  }
+
+  function countTotalVotesAndNominationsPoints(result, allNominatedProjects) {
+    allNominatedProjects.forEach((element) => {
+      result.forEach((item) => {
+        if (element.projectid == item.projectid) {
+          item.totalVotes += element.points;
+        }
+      });
+    });
+  }
+
+  function orderByClusters(result) {
     let object = {
       motion: [],
       web: [],
@@ -21,37 +66,16 @@ router.get("/", async (req, res) => {
       "digital-making": [],
     };
 
-    nominations.forEach((element) => {
-      element.isWinner = false;
-      object[element.cluster].push(element);
-    });
-
-    object["motion"][0].isWinner = true;
-    object["web"][0].isWinner = true;
-    object["ar"][0].isWinner = true;
-    object["mobile"][0].isWinner = true;
-    object["digital-making"][0].isWinner = true;
-
-    res.status(200).json(object); */
-
-    const allVotedProjects = await pool.query(
-      `SELECT votes.id, projects.name,projects.cluster, projects.images, users.username FROM votes INNER JOIN projects ON votes.project_id = projects.projectid INNER JOIN users ON votes.user_id = users.userid ORDER BY project_id ASC`
+    result.sort((a, b) =>
+      a.totalVotes < b.totalVotes ? 1 : b.totalVotes < a.totalVotes ? -1 : 0
     );
-
-    let object = {};
-
-    allVotedProjects.rows.forEach((item) => {
-      object[item.name] = object[item.name] ? object[item.name] + 1 : 1;
+    result.forEach((element) => {
+      if (object[element.cluster].length < 3) {
+        object[element.cluster].push(element);
+      }
     });
 
-    allVotedProjects.rows.forEach((item) => {
-      item.totalVotes = object[item["name"]];
-    });
-
-    res.send(allVotedProjects.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.sendCustomStatus(500);
+    return object;
   }
 });
 module.exports = router;
