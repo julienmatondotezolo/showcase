@@ -620,8 +620,8 @@ function alert(data, action) {
   $(".remove-nominate").click(function (e) {
     let projectid = $(this).data("project-id");
     removeNomination(projectid);
-    myNominations()
     $(".alert").remove();
+    myNominations()
   });
 }
 
