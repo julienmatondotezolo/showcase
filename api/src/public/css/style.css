@@ -621,6 +621,11 @@ form select {
   float: left;
 }
 
+.winners .nomination-list {
+  background: none;
+  height: unset;
+}
+
 .nomination-postion {
   width: 25%;
   padding: 1em;
@@ -666,6 +671,7 @@ form select {
   overflow: hidden;
   margin: 1em;
   border-radius: 10px;
+  background: #dedede;
 }
 
 .nominated-item::after {

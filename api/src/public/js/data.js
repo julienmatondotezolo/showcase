@@ -528,6 +528,11 @@ async function removeNomination(projectid) {
 /* ================= DETAIL & ALERTS & NOTIFICATIONS ================= */
 
 function detail(data) {
+  console.log("here is the data "+data[0].url);
+  var url = data[0].url;
+  var newUrl = url.replace("watch?v=", "embed/");
+  console.log('new url '+ newUrl);
+
   $(".detail").remove();
   $("body").append(`
     <div class="detail message-wrap">
@@ -545,7 +550,7 @@ function detail(data) {
             <p class="cluster">Cluster: <span class="blue">${data[0].cluster}</span></p>
           </section>
           <figure class="project-video">
-            <iframe src="${data[0].url}"></iframe>
+            <iframe src=${newUrl}></iframe>
           </figure>
         </article>
         <article class="cl1">
