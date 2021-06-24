@@ -324,6 +324,7 @@ function nominates(data) {
     a.totalVotes < b.totalVotes ? 1 : b.totalVotes < a.totalVotes ? -1 : 0
   );
 
+  getNominations();
   printNominations(result)
 
   $(".vote-slider").empty();
@@ -410,6 +411,23 @@ async function nominate(projectid) {
     res.json().then((parsedRes) => {
       console.log(parsedRes)
       notification(parsedRes.customMessage, parsedRes.code)
+      if(parsedRes.code == 200) {
+        //
+      }
+    });
+  });
+}
+
+async function getNominations() {
+  await fetch("/admin/get-nominations", {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    res.json().then((parsedRes) => {
+      console.log(parsedRes)
     });
   });
 }
@@ -505,7 +523,7 @@ function notification(msg, statusCode) {
     statuscolor = "bg-green"
   }
 
-  if (statusCode == 403) {
+  if (statusCode == 403 || statusCode == 400) {
     statuscolor = "bg-red"
   }
 
