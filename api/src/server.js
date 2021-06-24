@@ -54,6 +54,7 @@ const searchName = require("./routes/final_work/search-name");
 const filterCluster = require("./routes/final_work/filter-cluster");
 const dashboardDocent = require("./routes/dashboard/dashboard-docent");
 const detailProject = require("./routes/final_work/detail-project");
+const winnersView = require("./routes/nominations/winners");
 const addEmail = require("./routes/mail/add-email");
 const addUser = require("./routes/users/add");
 const deleteUser = require("./routes/users/delete");
@@ -62,6 +63,8 @@ const getSingleUser = require("./routes/users/get-single");
 const forgotPass = require("./routes/auth/forgot");
 
 const updateUser = require("./routes/users/update");
+
+const setWinner = require("./routes/admin/set-winner");
 
 const vote = require("./routes/admin/vote");
 const unvote = require("./routes/admin/unvote");
@@ -146,6 +149,7 @@ app.use("/upload", ensureStudent, uploadGet);
 app.use("/upload", upload.single("image"), uploadPost);
 app.use("/dashboard-docent", ensureDocent, dashboardDocent);
 app.use("/detailproject", ensureDocent, detailProject);
+app.use("/winners", ensureDocent, winnersView);
 app.use("/add-email", addEmail);
 app.use("/admin/vote", ensureDocent, vote);
 app.use("/admin/my-votes", ensureDocent, myVotes);
@@ -157,6 +161,7 @@ app.use("/admin/my-favorites", ensureDocent, myFavorites);
 app.use("/admin/nominate", ensureDocent, nominate);
 app.use("/admin/get-nominations", getNominations);
 app.use("/admin/my-nominations", myNominations);
+app.use("/admin/set-winner", setWinner);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
