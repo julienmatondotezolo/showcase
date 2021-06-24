@@ -24,6 +24,12 @@ if (query) {
   allProjects();
 }
 
+$(".sidenav li").click(function (e) { 
+  e.preventDefault();
+  $(this).addClass('active').siblings().removeClass('active');
+
+});
+
 $("#search").on("keyup", function () {
   let valueText = $("input").val();
 
@@ -148,9 +154,7 @@ async function vote(projectid) {
     },
     body: JSON.stringify({id: projectid})
   }).then((res) => {
-    console.log(res)
     res.json().then((parsedRes) => {
-      console.log(parsedRes)
       allVotes();
       myVotes();
       notification(parsedRes.customMessage, parsedRes.code)
@@ -285,7 +289,29 @@ async function getProjectId(id) {
   return await response.json();
 }
 
+/* ================= FAVORIES ================= */
+
+async function addFavorite(projectid) {
+  await fetch("/admin/favorite", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({id: projectid})
+  }).then((res) => {
+    res.json().then((parsedRes) => {
+      notification(parsedRes.customMessage, parsedRes.code)
+    });
+  });
+}
+
 /* ================= NOMINATIONS ================= */
+
+$(".nominations").click(function (e) { 
+  allVotes()
+  $("#nomination").css("display", "block");
+});
 
 function nominates(data) {
   var result = data.reduce((unique, o) => {
@@ -298,6 +324,8 @@ function nominates(data) {
   result.sort((a, b) =>
     a.totalVotes < b.totalVotes ? 1 : b.totalVotes < a.totalVotes ? -1 : 0
   );
+
+  printNominations(result)
 
   $(".vote-slider").empty();
   for (const item of result) {
@@ -341,13 +369,41 @@ function getTheCluster(cluster) {
   return data;
 }
 
+function printNominations(data) {
+  $(".nomination-lis").remove();
+  for (const item of data) {
+    $(".nomination-list").append(`
+      <div class="nominated-item">
+        <article class="nominated-project cl2">
+          <p class="project-name bold">${item.name}</p>
+          <p class="project-cluster red">${item.cluster}</p>
+        </article>
+        <article class="nominated-votes cl2">
+          <p class="votes-count">Votes: ${item.totalVotes}</p>
+        </article>
+        <img src="${item.images}" alt="${item.name}">
+        <button class="btn bg-pink white confirm-nominations" data-project-id="${item.id}">Nominate</button>
+      </div>
+    `);
+  }
+
+  $("#nomination .cancel").click(function (e) { 
+    $("#nomination").css("display", "none");
+  });
+
+  // $(".vote").click(function (e) { 
+  //   alert(data, "vote");
+  // });
+}
+
+
 /* ================= DETAIL & ALERTS & NOTIFICATIONS ================= */
 
 function detail(data) {
+  console.log(data)
   $(".detail").remove();
   $("body").append(`
     <div class="detail message-wrap">
-      <i class="fas fa-2x fa-times close"></i>
       <div class="detail-content box box-shadow">
         <h3 class="blue">${data[0].name}</h3>
         <figure class="project-img" style="background: url('${data[0].images}') center center / 100% no-repeat;">
@@ -357,7 +413,7 @@ function detail(data) {
           <section class="txt">
             <h3 class="blue">Description</h3>
             <p class="description">${data[0].description}</p>
-            <p class="author">Author: ${data[0].username}</p>
+            <p class="author">Author: <span class="bold">${data[0].username}</span></p>
             <p class="video">Video: <a class="blue" href="${data[0].url}" target="_blank">${data[0].url}</a></p>
             <p class="cluster">Cluster: <span class="blue">${data[0].cluster}</span></p>
           </section>
@@ -368,6 +424,7 @@ function detail(data) {
         <article class="cl1">
           <button class="btn btn-inverse cancel">Close</button>
           <button class="btn bg-pink white vote" data-project-id="${data[0].projectid}">Vote</button>
+          <i class="far fa-2x fa-heart" data-project-id="${data[0].projectid} aria-hidden="true"></i>
         </article>
       </div>
     </div>

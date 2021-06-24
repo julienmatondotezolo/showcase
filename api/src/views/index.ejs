@@ -28,7 +28,7 @@
               ><i class="fas fa-th-large"></i> Dashboard</a
             >
           </li>
-          <li>
+          <li class="nominations">
             <a href=""><i class="fas fa-award"></i> Nominations</a>
           </li>
           <li>
@@ -84,7 +84,7 @@
 
       <div class="votes">
         <article class="bg-pink">
-          <h3>Nominations</h3>
+          <h3>All votes</h3>
           <section class="vote-wrap cl1">
             <figure class="vote-slider cl1">
               <div class="project-item" data-projectid="">
@@ -188,6 +188,24 @@
         </section>
       </div>
     </main>
+
+    <div id="nomination" class="message-wrap">
+      <div class="nomination-content box box-shadow">
+        <h3 class="blue">Nominations</h3>
+        <p>Nominate your top 3 projects</p>
+        <ul class="nomination-system-text">
+          <li>First pick will receive <span class="bold red">5 extra</span> votes.</li>
+          <li>Second pick will receive <span class="bold red">3 extra</span> votes.</li>
+          <li>Third pick will receive <span class="bold red">1 extra</span> votes.</li>
+        </ul>
+        <section class="nomination-list">
+        </section>
+        <article class="cl1">
+          <button class="btn btn-inverse cancel">Close</button>
+          <button class="btn bg-pink white confirm-nominations" data-project-id="${data[0].projectid}">Confirm</button>
+        </article>
+      </div>
+    </div>
 
   </body>
 </html>
