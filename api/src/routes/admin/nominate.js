@@ -37,8 +37,6 @@ router.post("/", async (req, res) => {
       `SELECT * FROM nominations WHERE user_id = ${docentId}`
     );
 
-    console.log("here!!!!", nominatedProjects.rows);
-
     let maxNominations = 3;
 
     function checkIfMoreNominationsThanPossible() {
@@ -51,15 +49,13 @@ router.post("/", async (req, res) => {
     }
 
     function positionToPoints(position) {
-
-      if (position === 1 || position === "1") {
+      if (position === 1) {
         return 5;
-      } else if (position === 2 || position === "2") {
+      } else if (position === 2) {
         return 3;
       } else {
         return 1;
       }
-
     }
 
     function checkIfPositionAlreadyTaken(position) {
