@@ -664,6 +664,7 @@ form select {
   overflow: hidden;
   margin: 1em;
   border-radius: 10px;
+  background: #dedede;
 }
 
 .nominated-item::after {

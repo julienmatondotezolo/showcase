@@ -1,6 +1,7 @@
 console.log("works");
 
 await getNominations();
+getWinners()
 
 async function getNominations() {
   await fetch("/admin/get-nominations", {
@@ -26,22 +27,30 @@ async function getWinners() {
     },
   }).then((res) => {
     res.json().then((parsedRes) => {
-      console.log(parsedRes)
       $(".nomination-list").empty();
-      for (const iterator in parsedRes) {
-        $(".nomination-list").append(
-        `<div class="nominated-item">
-          <article class="nominated-project cl2">
-            <p class="project-name bold">${iterator.name}</p>
-            <p class="project-cluster red">${iterator.cluster}</p>
-          </article>
-          <article class="nominated-votes cl2">
-            <p class="votes-count">Votes: 8</p>
-          </article>
-          <img src="${iterator.images}" alt="Bootz">
-          <button class="btn bg-pink white nominate" data-project-id="112">nominate</button>
-        </div>`
-        );
+      if(parsedRes.length) {
+        for (const iterator of parsedRes) {
+          $(".nomination-list").append(
+          `<div class="nominated-item">
+            <article class="nominated-project cl2">
+              <p class="project-name bold">${iterator.name}</p>
+              <p class="project-cluster red">${iterator.cluster}</p>
+            </article>
+            <article class="nominated-votes cl2">
+              <p class="votes-count">Votes: 8</p>
+            </article>
+            <img src="${iterator.images}" alt="Bootz">
+            <button class="btn bg-green white nominate" data-project-id="112">Winner <i class="fas fa-trophy"></i></button>
+          </div>`
+          );
+        }
+      } else {
+        $(".nomination-list").empty();
+        $(".nomination-list").append(`
+        <section class="box">
+          <p class='red'>No winners selected.</p>
+        </section>
+        `)
       }
       activeBtn();
     });
@@ -59,6 +68,7 @@ async function setWinner(data) {
   }).then((res) => {
     res.json().then((parsedRes) => {
       getNominations();
+      getWinners();
       notification(parsedRes.customMessage, parsedRes.code);
     });
   });
