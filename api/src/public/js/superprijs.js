@@ -1,5 +1,19 @@
-getNominations();
+getSuperPriceNominations();
 //getWinners();
+
+async function getSuperPriceNominations() {
+  await fetch("/admin/get-superprijs-nominations", {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    res.json().then((parsedRes) => {
+      printSuperPriceNominations(parsedRes);
+    });
+  });
+}
 
 async function getNominations() {
   await fetch("/admin/get-nominations", {
@@ -10,75 +24,15 @@ async function getNominations() {
     },
   }).then((res) => {
     res.json().then((parsedRes) => {
-      printProjects(parsedRes);
-      //    activeBtn();
-    });
-  });
-}
-
-/* async function getWinners() {
-  await fetch("/admin/get-winners", {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  }).then((res) => {
-    res.json().then((parsedRes) => {
-      $(".nomination-list").empty();
-      if(parsedRes.length) {
-        for (const iterator of parsedRes) {
-          $(".nomination-list").append(
-          `<div class="nominated-item">
-            <article class="nominated-project cl2">
-              <p class="project-name bold">${iterator.name}</p>
-              <p class="project-cluster red">${iterator.cluster}</p>
-            </article>
-            <article class="nominated-votes cl2">
-              <p class="votes-count">Votes: ${iterator.}</p>
-            </article>
-            <img src="${iterator.images}" alt="Bootz">
-            <button class="btn bg-green white nominate" data-project-id="112">Winner <i class="fas fa-trophy"></i></button>
-          </div>`
-          );
-        }
-      } else {
-        $(".nomination-list").empty();
-        $(".nomination-list").append(`
-        <section class="box">
-          <p class='red'>No winners selected.</p>
-        </section>
-        `)
-      }
-      activeBtn();
-    });
-  });
-} */
-
-async function setWinner(data) {
-  await fetch("/admin/set-winner", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ id: data }),
-  }).then((res) => {
-    res.json().then((parsedRes) => {
-      getNominations();
-      //getWinners();
-      notification(parsedRes.customMessage, parsedRes.code);
+      printProjects(parsedRes)
     });
   });
 }
 
 function printProjects(parsedRes) {
-  let alreadyVotedForCluster = [];
-  let winnerList = [];
-  $(`.table-content`).empty();
-  for (const iterator in parsedRes) {
-    parsedRes[iterator].forEach((data) => {
-      $(`#${iterator}Cluster .table-content`).append(`
+  $(`#nominations  .table-content`).empty();
+  for (const data of parsedRes) {
+    $(`#nominations .table-content`).append(`
             <div class="table-tr">
                 <figure class="table-td">
                    <img src="${data.images}" alt="${data.name}"> 
@@ -100,19 +54,14 @@ function printProjects(parsedRes) {
             </div>
         `);
 
-      if (data.winner) {
-        winnerList.push(data);
-        alreadyVotedForCluster.push(data.cluster);
-      }
-    });
-  }
-
-  printWinners(winnerList);
-  disableButtons(alreadyVotedForCluster);
-  activeBtn();
+    if (data.winner) {
+      winnerList.push(data);
+      alreadyVotedForCluster.push(data.cluster);
+    }
+  };
 }
 
-async function printWinners(parsedRes) {
+async function printSuperPriceNominations(parsedRes) {
   $(".nomination-list").empty();
   if (parsedRes.length) {
     let projectData;
@@ -133,9 +82,12 @@ async function printWinners(parsedRes) {
       );
     }
 
-    $(".nominate-price").click(async function (e) { 
+    $(".nominate-price").click(async function (e) {
       e.preventDefault();
-      alert(projectData, "nominate-superprijs")
+      let data = {}
+      let name = $(this).find(".project-name").text();
+      console.log(name)
+      alert(data, "nominate-superprijs")
     });
 
   } else {
@@ -149,7 +101,6 @@ async function printWinners(parsedRes) {
 }
 
 function message(data, conditon) {
-  console.log(data)
   if (conditon == "nominate-superprijs") {
     return `<h3>Choose <span class="blue">${data.name}</span> as superprice ?</h3>
               <p>Click <span class="blue">confirm</span> to add as superprice.</p>
@@ -159,6 +110,7 @@ function message(data, conditon) {
 }
 
 function alert(data, action) {
+  console.log(data)
   $("body").append(`
     <div class="alert message-wrap">
       <div class="alert-message box box-shadow">
@@ -185,30 +137,13 @@ async function addSuperPrice(projectid) {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id: projectid }),
+    body: JSON.stringify({
+      id: projectid
+    }),
   }).then((res) => {
     res.json().then((parsedRes) => {
       notification(parsedRes.customMessage, parsedRes.code);
     });
-  });
-}
-
-function disableButtons(alreadyVotedForCluster) {
-  console.log(alreadyVotedForCluster);
-  
-  alreadyVotedForCluster.forEach((data) => {
-    $(`.${data}false`)
-      .text("Already voted")
-      .removeClass("bg-blue")
-      .attr("disabled", "disabled")
-      .addClass("bg-darkgrey");
-  });
-}
-
-function activeBtn() {
-  $(".detailproject").click(function (e) {
-    let idDetail = $(this).data("project-id");
-    setWinner(idDetail);
   });
 }
 
