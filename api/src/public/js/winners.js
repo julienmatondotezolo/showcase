@@ -68,7 +68,7 @@ async function setWinner(data) {
   }).then((res) => {
     res.json().then((parsedRes) => {
       getNominations();
-      getWinners();
+      //getWinners();
       notification(parsedRes.customMessage, parsedRes.code);
     });
   });
@@ -184,3 +184,20 @@ function notification(msg, statusCode) {
     $(".notification").remove();
   }, 6000);
 }
+
+/* ================= SCROLL TO ID ================= */
+
+// function goToByScroll(id) {
+//   // Remove "link" from the ID
+//   id = id.replace("link-", "");
+//   // Scroll
+//   let posY = $("main #" + id).offset().top;
+//   console.log("#" + id);
+//   console.log(posY);
+//   $("main").animate(
+//     {
+//       scrollTop: $("#" + id).offset().top,
+//     },
+//     "slow"
+//   );
+// }

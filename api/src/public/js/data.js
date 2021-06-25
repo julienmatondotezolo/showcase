@@ -32,14 +32,15 @@ $(".sidenav li").click(function (e) {
   console.log(this.className);
   if (
     this.className === "nominations" ||
-    this.className === "home" ||
-    this.className === "winners"
+    this.className === "home"
   ) {
     e.preventDefault();
     // goToByScroll(this.className);
   }
   $(this).addClass("active").siblings().removeClass("active");
 });
+
+
 
 $(".nominations").click(function (e) {
   allVotes();
@@ -786,21 +787,4 @@ async function favorite(projectid) {
       notification(parsedRes.customMessage, parsedRes.code);
     });
   });
-}
-
-/* ================= SCROLL TO ID ================= */
-
-function goToByScroll(id) {
-  // Remove "link" from the ID
-  id = id.replace("link-", "");
-  // Scroll
-  let posY = $("main #" + id).offset().top;
-  console.log("#" + id);
-  console.log(posY);
-  $("main").animate(
-    {
-      scrollTop: $("#" + id).offset().top,
-    },
-    "slow"
-  );
 }
