@@ -30,17 +30,12 @@ if (query) {
 $(".sidenav li").click(function (e) {
   console.log("clicked");
   console.log(this.className);
-  if (
-    this.className === "nominations" ||
-    this.className === "home"
-  ) {
+  if (this.className === "nominations" || this.className === "home") {
     e.preventDefault();
     // goToByScroll(this.className);
   }
   $(this).addClass("active").siblings().removeClass("active");
 });
-
-
 
 $(".nominations").click(function (e) {
   allVotes();
@@ -692,7 +687,7 @@ function alert(data, action) {
       .removeClass("bold");
 
     $(".alert").remove();
-    myNominations();
+    //  myNominations();
   });
 }
 

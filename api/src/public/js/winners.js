@@ -1,6 +1,4 @@
-console.log("works");
-
-await getNominations();
+getNominations();
 //getWinners();
 
 async function getNominations() {
@@ -13,7 +11,7 @@ async function getNominations() {
   }).then((res) => {
     res.json().then((parsedRes) => {
       printProjects(parsedRes);
-      activeBtn();
+      //    activeBtn();
     });
   });
 }
@@ -112,10 +110,10 @@ function printProjects(parsedRes) {
 
   printWinners(winnerList);
   disableButtons(alreadyVotedForCluster);
+  activeBtn();
 }
 
 function printWinners(parsedRes) {
-  console.log(parsedRes);
   $(".nomination-list").empty();
   if (parsedRes.length) {
     for (const iterator of parsedRes) {
@@ -141,12 +139,11 @@ function printWinners(parsedRes) {
     </section>
     `);
   }
-  activeBtn();
 }
 
 function disableButtons(alreadyVotedForCluster) {
   console.log(alreadyVotedForCluster);
-
+  
   alreadyVotedForCluster.forEach((data) => {
     $(`.${data}false`)
       .text("Already voted")
