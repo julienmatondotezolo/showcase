@@ -56,6 +56,10 @@ const dashboardDocent = require("./routes/dashboard/dashboard-docent");
 const detailProject = require("./routes/final_work/detail-project");
 const winnersView = require("./routes/nominations/winners");
 const superprijsView = require("./routes/nominations/superprijs");
+const getSuperprijs = require("./routes/admin/get-superprijs");
+const nominateSuperprijs = require("./routes/admin/nominate-superprijs");
+const getSuperprijsWinner = require("./routes/admin/get-winner-superprijs");
+const setSuperprijs = require("./routes/admin/set-superprijs");
 const getWinners = require("./routes/admin/get-winners");
 const addEmail = require("./routes/mail/add-email");
 const getEmails = require("./routes/mail/get-emails");
@@ -170,6 +174,10 @@ app.use("/admin/my-nominations", myNominations);
 app.use("/admin/remove-nomination", removeNominations);
 app.use("/admin/set-winner", setWinner);
 app.use("/admin/get-winners", getWinners);
+app.use("/admin/get-superprijs-nominations", getSuperprijs);
+app.use("/admin/get-superprijs-winner", getSuperprijsWinner);
+app.use("/admin/nominate-superprijs", nominateSuperprijs);
+app.use("/admin/set-superprijs", setSuperprijs);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
