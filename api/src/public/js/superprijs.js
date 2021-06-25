@@ -73,21 +73,21 @@ async function printSuperPriceNominations(parsedRes) {
           <p class="project-name bold">${iterator.name}</p>
           <p class="project-cluster red">${iterator.cluster}</p>
         </article>
-        <article class="nominated-votes cl2">
-          <p class="votes-count">Votes: ${iterator.totalVotes}</p>
-        </article>
+
         <img src="${iterator.images}" alt="Bootz">
         <button class="btn bg-green white nominate-price" data-project-id="${iterator.projectid}">Nominate <i class="fas fa-trophy"></i></button>
       </div>`
       );
+
+    //   <article class="nominated-votes cl2">
+    //   <p class="votes-count">Votes: ${iterator.totalVotes}</p>
+    // </article>
     }
 
     $(".nominate-price").click(async function (e) {
       e.preventDefault();
-      let data = {}
-      let name = $(this).find(".project-name").text();
-      console.log(name)
-      alert(data, "nominate-superprijs")
+      let projectid = $(this).data("project-id");
+      alert(projectid, "nominate-superprijs")
     });
 
   } else {
@@ -100,17 +100,16 @@ async function printSuperPriceNominations(parsedRes) {
   }
 }
 
-function message(data, conditon) {
+function message(projectid, conditon) {
   if (conditon == "nominate-superprijs") {
-    return `<h3>Choose <span class="blue">${data.name}</span> as superprice ?</h3>
+    return `<h3>Choose <span class="blue">this project</span> as superprice ?</h3>
               <p>Click <span class="blue">confirm</span> to add as superprice.</p>
               <button class="btn btn-inverse cancel">Cancel</button>
-              <button class="btn bg-pink white add-superprice" data-project-id="${data.projectid}">Confirm</button>`;
+              <button class="btn bg-pink white add-superprice" data-project-id="${projectid}">Confirm</button>`;
   }
 }
 
 function alert(data, action) {
-  console.log(data)
   $("body").append(`
     <div class="alert message-wrap">
       <div class="alert-message box box-shadow">
@@ -125,13 +124,13 @@ function alert(data, action) {
 
   $(".add-superprice").click(function (e) {
     let projectid = $(this).data("project-id");
-    // addSuperPrice(projectid)
+    addSuperPrice(projectid)
     $(".alert").remove();
   });
 }
 
 async function addSuperPrice(projectid) {
-  await fetch("/admin/vote", {
+  await fetch("/admin/set-superprijs", {
     method: "POST",
     headers: {
       Accept: "application/json",

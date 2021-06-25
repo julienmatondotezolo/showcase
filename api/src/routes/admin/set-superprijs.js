@@ -7,7 +7,7 @@ router.post("/", async (req, res) => {
     let { id } = req.body;
 
     const allWinners = await pool.query(
-      `SELECT projects.name, projects.cluster, projects.winner, projects.projectid from projects where superprijs = TRUE`
+      `SELECT projects.name, projects.cluster, projects.winner, projects.projectid from projects WHERE superprijs = TRUE`
     );
 
     if (!allWinners.rows.length) {
