@@ -78,7 +78,6 @@ function printProjects(parsedRes) {
   $(`.table-content`).empty();
   for (const iterator in parsedRes) {
     parsedRes[iterator].forEach((data) => {
-      console.log(data.winner);
       $(`#${iterator}Cluster .table-content`).append(`
             <div class="table-tr">
                 <figure class="table-td">
@@ -115,10 +114,10 @@ function printProjects(parsedRes) {
 
 async function printWinners(parsedRes) {
   $(".nomination-list").empty();
-  let projectData;
   if (parsedRes.length) {
+    let projectData;
     for (const iterator of parsedRes) {
-      projectData = iterator;
+      projectData = iterator
       $(".nomination-list").append(
         `<div class="nominated-item">
         <article class="nominated-project cl2">
@@ -133,21 +132,24 @@ async function printWinners(parsedRes) {
       </div>`
       );
     }
+
+    $(".nominate-price").click(async function (e) { 
+      e.preventDefault();
+      alert(projectData, "nominate-superprijs")
+    });
+
   } else {
     $(".nomination-list").empty();
     $(".nomination-list").append(`
     <section class="box">
-      <p class='red'>No winners selected.</p>
+      <p class='red'>0 nominated projects for the superprice.</p>
     </section>
     `);
   }
-  $(".nominate-price").click(function (e) { 
-    e.preventDefault();
-    alert(projectData, "nominate-superprijs")
-  });
 }
 
 function message(data, conditon) {
+  console.log(data)
   if (conditon == "nominate-superprijs") {
     return `<h3>Choose <span class="blue">${data.name}</span> as superprice ?</h3>
               <p>Click <span class="blue">confirm</span> to add as superprice.</p>
