@@ -1,32 +1,28 @@
-# Pa.ino
-<h3>Play, Enjoy, Make friends or catch feelings for our A.I.</h3>
+# Finalshow API
 
 <img src="https://firebasestorage.googleapis.com/v0/b/play-paino.appspot.com/o/paino-images.jpg?alt=media&token=f802e76f-edfa-4449-b5a5-52e95a2093ce" alt="drawing" width="300" style="background: #202020; padding: 0 2em"/>
 </br>
 
-[Pa.i.no](https://play-paino.web.app/) is an web app where you'll be able to not only play solo but also with an amazing 
-virtuoso (read as AI). Furthermore you have the option to join other people in a private room to compose something great.
+[Finalshow API](https://api-finalshow.be/) is an web app where backend that contains all the routes for the maintenance of the frontend websites. 
+
+It also contains two frontends for a student to upload a project and a docent dashboard to vote and nominate a project.
 
 </br>
 ## Requirements
 
-You can use this app to play with your friends or duet with an A.I bot
+You can use this API to communicate with the showcase_db. 
 
 Use the package manager [yarn](https://yarnpkg.com/) or [npm](https://www.npmjs.com/) to install all the requirements.
--   Music packages
-    - [magenta](https://magenta.github.io/magenta-js/music/index.html)
-    - [tone.js](https://tonejs.github.io/)
-    - [midi-note](https://www.npmjs.com/package/midi-note)
--   Serving packages
-    - [express](https://classic.yarnpkg.com/en/package/exrpress)
-    - [heroku](https://dashboard.heroku.com/)
-    - [firebase](https://firebase.google.com/)
-    - [socket](https://socket.io/)
-    - [peer.js](https://peerjs.com/)
--   Packages
-    - [body-parser](https://yarnpkg.com/package/body-parser)
-    - [http](https://yarnpkg.com/package/http)
 
+ 
+-   Packages
+    - [express](https://expressjs.com/fr/)
+    - [passportjs](http://www.passportjs.org/)
+    - [nodemailer](https://nodemailer.com/about/)
+    - [multer](https://github.com/expressjs/multer)
+    - [swagger](https://www.npmjs.com/package/swagger-ui)
+    - [bcrypt](https://github.com/kelektiv/node.bcrypt.js#readme)
+    - [body-parser](http://expressjs.com/en/resources/middleware/body-parser.html)
 
 ## Install packages
 Run terminal on the API folder.
@@ -38,16 +34,16 @@ npm install
 ## Start API
 Run terminal on the API folder.
 ```
-npm start
+npm restart
 ```
 
 
 ## Endpoints
-Run terminal on the BACKEND folder.
+For the endpoints see the following documentations:
 
-[/socket](http://localhost:3000/shop/) Socket connection [ POST ]</br>
-[/emotion-to-notes](http://localhost:3000/shop/id) Convert emotions to notes [ POST ]</br>
-[/notes-to-midi](http://localhost:3000/shop/id) Convert user notes  to MIDI [ POST ] </br>
+    - API showcase frontend: [https://api-finalshow.be/]
+
+    - API Admin showcase: [https://api-finalshow.be/page/]
 
 
 ## Contributing
