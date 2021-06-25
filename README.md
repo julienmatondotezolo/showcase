@@ -1,14 +1,12 @@
 # Finalshow API
 
-<img src="https://firebasestorage.googleapis.com/v0/b/play-paino.appspot.com/o/paino-images.jpg?alt=media&token=f802e76f-edfa-4449-b5a5-52e95a2093ce" alt="drawing" width="300" style="background: #202020; padding: 0 2em"/>
-</br>
-
 [Finalshow API](https://api-finalshow.be/) is an web app where backend that contains all the routes for the maintenance of the frontend websites. 
 
 It also contains two frontends for a student to upload a project and a docent dashboard to vote and nominate a project.
 
 </br>
 ## Requirements
+</br>
 
 You can use this API to communicate with the showcase_db. 
 
