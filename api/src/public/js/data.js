@@ -28,8 +28,6 @@ if (query) {
 /* ================= NAVIGATIE ================= */
 
 $(".sidenav li").click(function (e) {
-  console.log("clicked");
-  console.log(this.className);
   if (this.className === "nominations" || this.className === "home") {
     e.preventDefault();
     // goToByScroll(this.className);
